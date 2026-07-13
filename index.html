@@ -105,7 +105,8 @@
         }
       }
     </script>
-<link href="./src/css/styles.css" rel="stylesheet">
+<link href="./assets/css/global.css" rel="stylesheet">
+<link href="./assets/css/home.css" rel="stylesheet">
 </head>
 <body class="bg-background text-on-surface font-body-md antialiased overflow-x-hidden selection:bg-energy-red selection:text-white">
 <section class="xz-topbar">
@@ -131,21 +132,22 @@
 <!-- TopNavBar -->
 <nav class="xz-header">
 <div class="xz-header__inner">
-<a class="xz-header__brand" href="#">
+<a class="xz-header__brand" href="./index.html">
 <img src="./src/media/xinzhou-logo.png" alt="Xinzhou Automation">
 </a>
 <div class="xz-header__nav">
-<a href="#">Home</a>
-<a href="#">About</a>
-<a href="#">Services</a>
-<a href="#">Cases</a>
-<a href="#">Contact</a>
+<a href="./index.html">Home</a>
+<a href="./about.html">About</a>
+<a href="./services.html">Services</a>
+<a href="./products.html">Products</a>
+<a href="./news.html">News</a>
+<a href="./contact.html">Contact</a>
 </div>
 <div class="xz-header__actions">
-<button class="xz-header__cta" type="button">Get Your Line Proposal</button>
+<a class="xz-header__cta" href="./contact.html#inquiry">Get Your Line Proposal</a>
 </div>
 <div class="xz-header__mobile">
-<button class="xz-header__mobile-btn" type="button" aria-label="Open menu">
+<button class="xz-header__mobile-btn" type="button" aria-label="Open menu" aria-expanded="false" data-mobile-menu-toggle>
 <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
 <path d="M4 7H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
 <path d="M4 12H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
@@ -155,6 +157,16 @@
 </div>
 </div>
 </nav>
+<div class="xz-mobile-drawer" data-mobile-menu>
+<div class="xz-mobile-drawer__inner">
+<a href="./index.html">Home</a>
+<a href="./about.html">About</a>
+<a href="./services.html">Services</a>
+<a href="./products.html">Products</a>
+<a href="./news.html">News</a>
+<a href="./contact.html">Contact</a>
+</div>
+</div>
 <main class="main-content-1850 pt-[118px] md:pt-[118px]">
 <!-- 1. Hero Section -->
 <section class="no-widen relative min-h-[90vh] flex items-center bg-deep-navy">
@@ -176,7 +188,7 @@
                         With flagship expertise in steel grating lines, we also support wire mesh, truss, fence and custom automation projects.
                     </p>
 <div class="flex flex-col sm:flex-row gap-4 pt-4">
-<button class="bg-energy-red text-white px-8 py-4 rounded font-label-sm text-center uppercase tracking-wider hover:bg-primary transition-all active:scale-95 shadow-lg shadow-energy-red/20 flex items-center justify-center gap-2">
+<button class="bg-energy-red text-white px-8 py-4 rounded font-label-sm text-center uppercase tracking-wider hover:bg-primary transition-all active:scale-95 shadow-lg shadow-energy-red/20 flex items-center justify-center gap-2" type="button" data-inquiry-open>
                             Get Your Line Proposal
                             <span class="material-symbols-outlined">arrow_forward</span>
 </button>
@@ -1075,10 +1087,10 @@ View More
                     Share your product, output target and factory condition. Our engineering team can recommend the right main line, layout concept and auxiliary equipment integration for your project.
                 </p>
 <div class="flex flex-col sm:flex-row justify-center gap-4 mb-8">
-<button class="bg-energy-red text-white px-8 py-4 rounded font-label-sm uppercase tracking-wider hover:bg-primary transition-all shadow-lg active:scale-95">
+<a class="bg-energy-red text-white px-8 py-4 rounded font-label-sm uppercase tracking-wider hover:bg-primary transition-all shadow-lg active:scale-95" href="./contact.html#inquiry" data-inquiry-open>
                         Request a Quote
-                    </button>
-<button class="bg-surface/10 border border-slate-border/30 text-white px-8 py-4 rounded font-label-sm uppercase tracking-wider hover:bg-primary hover:border-primary transition-all backdrop-blur-sm active:scale-95"><div class="flex items-center justify-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg><span class="">sales@xinzhou-welder.com</span></div></button>
+                    </a>
+<a class="bg-surface/10 border border-slate-border/30 text-white px-8 py-4 rounded font-label-sm uppercase tracking-wider hover:bg-primary hover:border-primary transition-all backdrop-blur-sm active:scale-95" href="mailto:xinzhou@weldercn.com"><div class="flex items-center justify-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg><span class="">xinzhou@weldercn.com</span></div></a>
 </div>
 <div class="flex flex-wrap justify-center gap-6 text-surface-dim font-mono-data text-sm">
 <div class="flex items-center gap-2">
@@ -1099,7 +1111,8 @@ View More
 </main>
 <!-- Footer -->
 
-<script src="./src/js/main.js"></script>
+<script src="./assets/js/global.js"></script>
+<script src="./assets/js/home.js"></script>
 
 
 
