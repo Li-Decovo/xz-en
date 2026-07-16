@@ -1,4 +1,24 @@
 (function () {
+    const currentName = window.location.pathname.split("/").pop() || "index.html";
+    const sectionName = currentName === "product-detail.html"
+        ? "products.html"
+        : currentName === "news-detail.html"
+            ? "news.html"
+            : currentName;
+
+    document.querySelectorAll(".xz-header__nav a, .xz-mobile-drawer a").forEach((link) => {
+        const linkName = new URL(link.href, window.location.href).pathname.split("/").pop() || "index.html";
+        const isActive = linkName === sectionName;
+        link.classList.toggle("is-active", isActive);
+        if (isActive) {
+            link.setAttribute("aria-current", "page");
+        } else {
+            link.removeAttribute("aria-current");
+        }
+    });
+})();
+
+(function () {
     const toggle = document.querySelector("[data-mobile-menu-toggle]");
     const drawer = document.querySelector("[data-mobile-menu]");
 

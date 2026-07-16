@@ -274,9 +274,10 @@ select {
 }
 
 .xz-header__nav a {
+    position: relative;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    padding: 10px 0;
     color: rgba(255, 255, 255, 0.9);
     font-size: 14px;
     line-height: 1;
@@ -290,14 +291,16 @@ select {
 
 .xz-header__nav a:hover,
 .xz-header__nav a.is-active {
-    color: var(--xz-white);
+    color: var(--xz-red);
 }
 
 .xz-header__nav a.is-active::after {
     content: "";
-    width: 6px;
-    height: 6px;
-    border-radius: 999px;
+    position: absolute;
+    right: 0;
+    bottom: 2px;
+    left: 0;
+    height: 2px;
     background: var(--xz-red);
 }
 
@@ -378,6 +381,8 @@ select {
 }
 
 .xz-mobile-drawer a {
+    position: relative;
+    justify-self: start;
     padding: 15px 0;
     color: rgba(255, 255, 255, 0.9);
     font-size: 14px;
@@ -385,6 +390,21 @@ select {
     text-transform: uppercase;
     letter-spacing: 0.04em;
     text-decoration: none;
+}
+
+.xz-mobile-drawer a:hover,
+.xz-mobile-drawer a.is-active {
+    color: var(--xz-red);
+}
+
+.xz-mobile-drawer a.is-active::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 9px;
+    left: 0;
+    height: 2px;
+    background: var(--xz-red);
 }
 
 .xz-site-footer {
