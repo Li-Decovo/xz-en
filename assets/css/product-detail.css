@@ -292,12 +292,13 @@
     line-height: 1.25;
     cursor: pointer;
     text-transform: uppercase;
+    transition: color 0.2s ease, border-color 0.2s ease;
 }
 
 .product-tabs__list button:hover,
 .product-tabs__list button.is-active {
     border-bottom-color: var(--xz-red);
-    color: var(--xz-navy);
+    color: var(--xz-red);
 }
 
 .product-tabs__panel {
