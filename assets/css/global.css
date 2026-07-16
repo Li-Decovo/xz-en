@@ -157,12 +157,12 @@ select {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 12px;
+    gap: 10px;
 }
 
 .xz-topbar__label {
     color: rgba(255, 255, 255, 0.52);
-    font-size: 11px;
+    font-size: 12px;
     line-height: 1;
     white-space: nowrap;
 }
@@ -171,8 +171,8 @@ select {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 22px;
-    height: 22px;
+    width: 26px;
+    height: 26px;
     color: rgba(255, 255, 255, 0.82);
     text-decoration: none;
     transition: color 0.2s ease, transform 0.2s ease;
@@ -184,8 +184,8 @@ select {
 }
 
 .xz-topbar__social svg {
-    width: 14px;
-    height: 14px;
+    width: 17px;
+    height: 17px;
     fill: currentColor;
 }
 
@@ -204,7 +204,7 @@ select {
 }
 
 .xz-header__inner {
-    --brand-width: clamp(320px, 28vw, 430px);
+    --brand-width: clamp(270px, 23vw, 360px);
     --brand-bleed: max(24px, calc((100vw - var(--xz-container)) / 2 + 24px));
     max-width: var(--xz-container);
     height: 88px;
@@ -213,7 +213,7 @@ select {
     display: grid;
     grid-template-columns: var(--brand-width) minmax(0, 1fr) auto;
     align-items: center;
-    column-gap: clamp(22px, 2.4vw, 42px);
+    column-gap: clamp(16px, 1.7vw, 28px);
 }
 
 .xz-header__brand {
@@ -223,7 +223,7 @@ select {
     margin-top: -12px;
     display: flex;
     align-items: center;
-    padding-right: 82px;
+    padding-right: 64px;
     z-index: 2;
     text-decoration: none;
 }
@@ -242,7 +242,7 @@ select {
         linear-gradient(145deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.05) 28%, rgba(0, 0, 0, 0.10) 100%),
         linear-gradient(120deg, rgba(255, 255, 255, 0.09) 0%, rgba(255, 255, 255, 0) 35%),
         linear-gradient(135deg, #ee6a33 0%, #d84120 42%, #a92d14 100%);
-    clip-path: polygon(0 0, 100% 0, calc(100% - 96px) 100%, 0 100%);
+    clip-path: polygon(0 0, 100% 0, calc(100% - 80px) 100%, 0 100%);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.32);
 }
 
@@ -254,7 +254,7 @@ select {
     width: calc(100% + var(--brand-bleed));
     z-index: -1;
     pointer-events: none;
-    clip-path: polygon(0 0, 100% 0, calc(100% - 96px) 100%, 0 100%);
+    clip-path: polygon(0 0, 100% 0, calc(100% - 80px) 100%, 0 100%);
     background:
         linear-gradient(155deg, transparent 0 18%, rgba(255, 255, 255, 0.12) 18% 19%, transparent 19% 100%),
         linear-gradient(155deg, transparent 0 50%, rgba(255, 255, 255, 0.08) 50% 51%, transparent 51% 100%),
@@ -264,7 +264,7 @@ select {
 .xz-header__brand img {
     height: 42px;
     width: auto;
-    max-width: 220px;
+    max-width: 205px;
     object-fit: contain;
     filter: brightness(0) invert(1);
     position: relative;
@@ -277,7 +277,7 @@ select {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: clamp(18px, 2vw, 30px);
+    gap: clamp(14px, 1.45vw, 22px);
     transform: translateY(-2px);
 }
 
@@ -289,7 +289,7 @@ select {
     color: rgba(255, 255, 255, 0.9);
     font-size: 14px;
     line-height: 1;
-    font-weight: 800;
+    font-weight: 700;
     letter-spacing: 0.04em;
     text-transform: uppercase;
     text-decoration: none;
@@ -328,9 +328,9 @@ select {
     background: var(--xz-red);
     color: var(--xz-white);
     border: 0;
-    padding: 12px 22px;
+    padding: 12px 18px;
     font-size: 13px;
-    font-weight: 800;
+    font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     white-space: nowrap;
@@ -945,12 +945,12 @@ body.xz-inquiry-open {
 
 @media (max-width: 1180px) {
     .xz-header__inner {
-        --brand-width: 300px;
-        column-gap: 22px;
+        --brand-width: 260px;
+        column-gap: 16px;
     }
 
     .xz-header__nav {
-        gap: 16px;
+        gap: 13px;
     }
 
     .xz-header__nav a {
@@ -960,16 +960,21 @@ body.xz-inquiry-open {
 
 @media (max-width: 1024px) {
     .xz-header__inner {
-        --brand-width: 270px;
+        --brand-width: 235px;
     }
 
     .xz-header__nav {
-        gap: 14px;
+        gap: 11px;
     }
 
     .xz-header__nav a {
         font-size: 12px;
         letter-spacing: 0.03em;
+    }
+
+    .xz-header__cta {
+        padding-inline: 14px;
+        font-size: 12px;
     }
 }
 
