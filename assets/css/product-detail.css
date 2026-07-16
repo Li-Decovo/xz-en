@@ -568,6 +568,11 @@
 }
 
 .related-products__grid a {
+    display: block;
+    height: 100%;
+    padding-bottom: 20px;
+    border: 1px solid var(--xz-line);
+    background: var(--xz-white);
     color: inherit;
     text-decoration: none;
 }
@@ -578,7 +583,7 @@
     margin-bottom: 17px;
     overflow: hidden;
     background: var(--xz-surface-soft);
-    border: 1px solid var(--xz-line);
+    border-bottom: 1px solid var(--xz-line);
 }
 
 .related-products__grid img {
