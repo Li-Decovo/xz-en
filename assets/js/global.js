@@ -19,6 +19,53 @@
 })();
 
 (function () {
+    const productsLink = document.querySelector('.xz-header__nav > a[href$="products.html"]');
+    if (!productsLink) return;
+
+    const categories = [
+        ["ibc-tank", "IBC Tank Production Lines", "./assets/images/about/product-ibc-production-line.jpg"],
+        ["steel-grating", "Steel Grating Welding Lines", "./assets/images/about/product-steel-grating.jpg"],
+        ["reinforcing-mesh", "Reinforcing Mesh Welding Lines", "./assets/images/about/product-reinforcing-mesh.jpg"],
+        ["lattice-girder", "Lattice Girder Welding Lines", "./assets/images/about/product-lattice-girder.jpg"],
+        ["cable-tray", "Cable Tray Mesh Welding Lines", "./assets/images/about/product-cable-tray.jpg"],
+        ["fence-panel", "3D Fence Panel Lines", "./assets/images/about/product-fence-panel.jpg"],
+        ["resistance-welding", "Resistance Welding Machines", "./assets/images/about/product-resistance-spot-welder.jpg"]
+    ];
+
+    const item = document.createElement("div");
+    item.className = "xz-header__products";
+    productsLink.parentNode.insertBefore(item, productsLink);
+    item.appendChild(productsLink);
+
+    productsLink.setAttribute("aria-haspopup", "true");
+    productsLink.setAttribute("aria-expanded", "false");
+
+    const mega = document.createElement("div");
+    mega.className = "xz-header__mega";
+    mega.setAttribute("aria-label", "Product categories");
+    mega.innerHTML = categories.map(([slug, label, image]) => `
+        <a class="xz-header__mega-card" href="./products.html?category=${slug}">
+            <img src="${image}" alt="" loading="lazy">
+            <span>${label}</span>
+        </a>
+    `).join("") + `
+        <a class="xz-header__mega-card xz-header__mega-card--contact" href="./contact.html#inquiry">
+            <span>Discuss Your Project</span>
+            <small>Share your product, output and factory requirements with Xinzhou.</small>
+        </a>
+    `;
+    item.appendChild(mega);
+
+    const setExpanded = (expanded) => productsLink.setAttribute("aria-expanded", String(expanded));
+    item.addEventListener("mouseenter", () => setExpanded(true));
+    item.addEventListener("mouseleave", () => setExpanded(false));
+    item.addEventListener("focusin", () => setExpanded(true));
+    item.addEventListener("focusout", (event) => {
+        if (!item.contains(event.relatedTarget)) setExpanded(false);
+    });
+})();
+
+(function () {
     const toggle = document.querySelector("[data-mobile-menu-toggle]");
     const drawer = document.querySelector("[data-mobile-menu]");
 
