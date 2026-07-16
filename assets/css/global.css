@@ -13,6 +13,7 @@
     --xz-red-soft: #ffb59c;
     --xz-white: #ffffff;
     --xz-container: 1280px;
+    --xz-header-container: 1850px;
     --xz-gutter: 24px;
     --xz-radius: 6px;
     --xz-font-display: "Hanken Grotesk", "Inter", system-ui, sans-serif;
@@ -150,7 +151,7 @@ select {
 }
 
 .xz-topbar__inner {
-    max-width: var(--xz-container);
+    max-width: var(--xz-header-container);
     height: 30px;
     margin: 0 auto;
     padding: 0 var(--xz-gutter);
@@ -205,8 +206,8 @@ select {
 
 .xz-header__inner {
     --brand-width: clamp(270px, 23vw, 360px);
-    --brand-bleed: max(24px, calc((100vw - var(--xz-container)) / 2 + 24px));
-    max-width: var(--xz-container);
+    --brand-bleed: max(24px, calc((100vw - var(--xz-header-container)) / 2 + 24px));
+    max-width: var(--xz-header-container);
     height: 88px;
     margin: 0 auto;
     padding: 0 var(--xz-gutter);
@@ -327,7 +328,7 @@ select {
     top: 118px;
     left: 50%;
     z-index: 49;
-    width: min(1040px, calc(100vw - 48px));
+    width: min(1280px, calc(100vw - 48px));
     padding: 18px;
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -352,12 +353,12 @@ select {
 
 .xz-header__mega-card {
     min-width: 0;
-    min-height: 94px;
-    padding: 10px;
-    display: grid;
-    grid-template-columns: 86px minmax(0, 1fr);
-    align-items: center;
-    gap: 12px;
+    min-height: 154px;
+    padding: 10px 10px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
     border: 1px solid var(--xz-line);
     background: var(--xz-surface);
     color: var(--xz-navy);
@@ -372,10 +373,11 @@ select {
 }
 
 .xz-header__mega-card img {
-    width: 86px;
-    height: 72px;
+    width: 100%;
+    height: 108px;
     object-fit: contain;
     background: var(--xz-surface-soft);
+    border: 1px solid var(--xz-line);
 }
 
 .xz-header__mega-card span {
@@ -383,12 +385,13 @@ select {
     font-size: 13px;
     font-weight: 700;
     line-height: 1.35;
+    text-align: center;
     text-transform: uppercase;
 }
 
 .xz-header__mega-card--contact {
-    grid-template-columns: 1fr;
-    align-content: center;
+    justify-content: center;
+    align-items: center;
     padding: 18px;
     border-color: transparent;
     background: linear-gradient(135deg, #ee6a33 0%, #d84120 52%, #a92d14 100%);
@@ -406,6 +409,7 @@ select {
     color: rgba(255, 255, 255, 0.82);
     font-size: 11px;
     line-height: 1.45;
+    text-align: center;
 }
 
 .xz-header__actions {
