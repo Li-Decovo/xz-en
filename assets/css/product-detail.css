@@ -124,7 +124,7 @@
     margin-bottom: 21px;
     color: var(--xz-navy);
     font-family: var(--xz-font-display);
-    font-size: clamp(27px, 2.35vw, 36px);
+    font-size: var(--xz-type-section);
     font-weight: 800;
     line-height: 1.12;
 }
@@ -267,7 +267,7 @@
     margin-bottom: 0;
     color: var(--xz-navy);
     font-family: var(--xz-font-display);
-    font-size: clamp(28px, 2.8vw, 40px);
+    font-size: var(--xz-type-section);
     font-weight: 800;
     line-height: 1.15;
 }

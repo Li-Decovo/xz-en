@@ -78,7 +78,7 @@
     margin: 0;
     color: var(--xz-navy);
     font-family: var(--xz-font-display);
-    font-size: clamp(32px, 3.05vw, 44px);
+    font-size: var(--xz-type-display);
     font-weight: 800;
     line-height: 1.12;
 }
@@ -136,7 +136,7 @@
 .contact-information h2,
 .contact-form-panel h2 {
     margin-bottom: 18px;
-    font-size: clamp(28px, 2.8vw, 40px);
+    font-size: var(--xz-type-section);
     line-height: 1.16;
 }
 
@@ -352,7 +352,7 @@
 
 .contact-process__head h2 {
     margin-bottom: 0;
-    font-size: clamp(28px, 2.8vw, 40px);
+    font-size: var(--xz-type-section);
     line-height: 1.15;
 }
 
@@ -448,7 +448,7 @@
 .contact-location h2 {
     margin-bottom: 20px;
     color: var(--xz-white);
-    font-size: clamp(28px, 3vw, 42px);
+    font-size: var(--xz-type-section);
     line-height: 1.16;
 }
 

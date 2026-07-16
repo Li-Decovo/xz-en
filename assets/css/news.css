@@ -83,7 +83,7 @@
     max-width: 760px;
     margin-bottom: 16px;
     font-family: var(--xz-font-display);
-    font-size: clamp(38px, 4.5vw, 64px);
+    font-size: var(--xz-type-display);
     font-weight: 800;
     line-height: 1.05;
 }
@@ -114,7 +114,7 @@
     margin-bottom: 0;
     color: var(--xz-navy);
     font-family: var(--xz-font-display);
-    font-size: clamp(28px, 2.8vw, 40px);
+    font-size: var(--xz-type-section);
     font-weight: 800;
     line-height: 1.15;
 }
@@ -190,7 +190,7 @@
     margin-bottom: 18px;
     color: var(--xz-navy);
     font-family: var(--xz-font-display);
-    font-size: clamp(25px, 2.4vw, 36px);
+    font-size: var(--xz-type-subsection);
     font-weight: 800;
     line-height: 1.2;
     display: -webkit-box;

@@ -67,7 +67,7 @@
     margin: 0 auto;
     color: var(--xz-white);
     font-family: var(--xz-font-display);
-    font-size: clamp(38px, 4.4vw, 62px);
+    font-size: var(--xz-type-display);
     font-weight: 800;
     line-height: 1.08;
     text-align: center;
@@ -156,7 +156,7 @@
     margin-bottom: 16px;
     color: var(--xz-navy);
     font-family: var(--xz-font-display);
-    font-size: clamp(24px, 2.2vw, 32px);
+    font-size: var(--xz-type-subsection);
     font-weight: 800;
     line-height: 1.25;
     scroll-margin-top: 150px;
@@ -341,7 +341,7 @@
     margin-bottom: 0;
     color: var(--xz-navy);
     font-family: var(--xz-font-display);
-    font-size: clamp(28px, 2.8vw, 40px);
+    font-size: var(--xz-type-section);
     font-weight: 800;
     line-height: 1.15;
 }
