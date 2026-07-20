@@ -449,7 +449,7 @@
             display: inline-block;
             width: 26px;
             height: 29px;
-            background: url("../media/a-right.png") center / contain no-repeat;
+            background: url("../../src/media/a-right.webp") center / contain no-repeat;
         }
         button.news-card__button:hover,
         button.news-card__button:active {

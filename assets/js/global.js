@@ -23,13 +23,13 @@
     if (!productsLink) return;
 
     const categories = [
-        ["ibc-tank", "IBC Tank Production Lines", "./assets/images/about/product-ibc-production-line.jpg"],
-        ["steel-grating", "Steel Grating Welding Lines", "./assets/images/about/product-steel-grating.jpg"],
-        ["reinforcing-mesh", "Reinforcing Mesh Welding Lines", "./assets/images/about/product-reinforcing-mesh.jpg"],
-        ["lattice-girder", "Lattice Girder Welding Lines", "./assets/images/about/product-lattice-girder.jpg"],
-        ["cable-tray", "Cable Tray Mesh Welding Lines", "./assets/images/about/product-cable-tray.jpg"],
-        ["fence-panel", "3D Fence Panel Lines", "./assets/images/about/product-fence-panel.jpg"],
-        ["resistance-welding", "Resistance Welding Machines", "./assets/images/about/product-resistance-spot-welder.jpg"]
+        ["ibc-tank", "IBC Tank Production Lines", "./assets/images/about/product-ibc-production-line.webp"],
+        ["steel-grating", "Steel Grating Welding Lines", "./assets/images/about/product-steel-grating.webp"],
+        ["reinforcing-mesh", "Reinforcing Mesh Welding Lines", "./assets/images/about/product-reinforcing-mesh.webp"],
+        ["lattice-girder", "Lattice Girder Welding Lines", "./assets/images/about/product-lattice-girder.webp"],
+        ["cable-tray", "Cable Tray Mesh Welding Lines", "./assets/images/about/product-cable-tray.webp"],
+        ["fence-panel", "3D Fence Panel Lines", "./assets/images/about/product-fence-panel.webp"],
+        ["resistance-welding", "Resistance Welding Machines", "./assets/images/about/product-resistance-spot-welder.webp"]
     ];
 
     const item = document.createElement("div");
@@ -207,7 +207,7 @@
     footer.innerHTML = `
         <div class="xz-global-footer__inner">
             <div class="xz-global-footer__brand">
-                <img class="xz-global-footer__brand-logo" src="./src/media/xinzhou-logo.png" alt="Xinzhou Welding Equipment">
+                <img class="xz-global-footer__brand-logo" src="./src/media/xinzhou-logo.webp" alt="Xinzhou Welding Equipment">
                 <p class="xz-global-footer__brand-copy">Xinzhou provides automated resistance welding equipment and complete production line solutions, supported by engineering, manufacturing and global technical service.</p>
                 <button class="xz-button xz-button--primary xz-global-footer__inquiry" type="button" data-inquiry-open>Send an Inquiry<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
             </div>
