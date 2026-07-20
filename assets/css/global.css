@@ -14,6 +14,8 @@
     --xz-white: #ffffff;
     --xz-container: 1280px;
     --xz-header-container: 1440px;
+    --xz-topbar-height: 30px;
+    --xz-header-height: 88px;
     --xz-gutter: 24px;
     --xz-radius: 6px;
     --xz-font-display: "Hanken Grotesk", "Inter", system-ui, sans-serif;
@@ -143,7 +145,7 @@ select {
     left: 0;
     right: 0;
     z-index: 60;
-    height: 30px;
+    height: var(--xz-topbar-height);
     background:
         linear-gradient(135deg, rgba(255, 255, 255, 0.04), transparent 34%),
         linear-gradient(90deg, #171717 0%, #0f0f0f 100%);
@@ -152,7 +154,7 @@ select {
 
 .xz-topbar__inner {
     max-width: var(--xz-header-container);
-    height: 30px;
+    height: var(--xz-topbar-height);
     margin: 0 auto;
     padding: 0 var(--xz-gutter);
     display: flex;
@@ -194,11 +196,11 @@ select {
 
 .xz-header {
     position: fixed;
-    top: 30px;
+    top: var(--xz-topbar-height);
     left: 0;
     right: 0;
     z-index: 50;
-    height: 88px;
+    height: var(--xz-header-height);
     background:
         linear-gradient(135deg, rgba(255, 255, 255, 0.04), transparent 34%),
         linear-gradient(90deg, #171717 0%, #0f0f0f 100%);
@@ -210,7 +212,7 @@ select {
     --brand-width: clamp(270px, 23vw, 360px);
     --brand-bleed: max(24px, calc((100vw - var(--xz-header-container)) / 2 + 24px));
     max-width: var(--xz-header-container);
-    height: 88px;
+    height: var(--xz-header-height);
     margin: 0 auto;
     padding: 0 var(--xz-gutter);
     display: grid;
@@ -276,12 +278,13 @@ select {
 }
 
 .xz-header__nav {
+    position: relative;
+    top: -2px;
     min-width: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: clamp(14px, 1.45vw, 22px);
-    transform: translateY(-2px);
 }
 
 .xz-header__nav > a,
@@ -327,7 +330,7 @@ select {
 
 .xz-header__mega {
     position: fixed;
-    top: 118px;
+    top: calc(var(--xz-topbar-height) + var(--xz-header-height));
     left: 50%;
     z-index: 49;
     width: min(1280px, calc(100vw - 48px));
@@ -375,9 +378,10 @@ select {
 }
 
 .xz-header__mega-card img {
-    width: 100%;
-    height: 108px;
-    object-fit: contain;
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
     background: var(--xz-surface-soft);
     border: 1px solid var(--xz-line);
 }
@@ -415,12 +419,13 @@ select {
 }
 
 .xz-header__actions {
+    position: relative;
+    top: -2px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
     gap: 14px;
     min-width: max-content;
-    transform: translateY(-2px);
 }
 
 .xz-header__cta {
