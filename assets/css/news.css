@@ -131,6 +131,12 @@
     grid-template-columns: minmax(0, 1.18fr) minmax(0, 0.82fr);
     background: var(--xz-surface-soft);
     border: 1px solid var(--xz-line);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.news-featured:hover {
+    border-color: rgba(216, 65, 32, 0.34);
+    box-shadow: 0 16px 34px rgba(15, 23, 42, 0.09);
 }
 
 .news-featured__media {
@@ -260,6 +266,11 @@
 
 .news-card {
     min-width: 0;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.news-card:hover {
+    transform: translateY(-3px);
 }
 
 .news-card__media {

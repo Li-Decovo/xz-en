@@ -369,13 +369,15 @@ select {
     background: var(--xz-surface);
     color: var(--xz-navy);
     text-decoration: none;
-    transition: border-color 0.2s ease, background-color 0.2s ease;
+    transition: border-color 0.28s ease, background-color 0.28s ease, transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s ease;
 }
 
 .xz-header__mega-card:hover,
 .xz-header__mega-card:focus-visible {
     border-color: rgba(216, 65, 32, 0.55);
     background: var(--xz-white);
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.1);
+    transform: translateY(-2px);
 }
 
 .xz-header__mega-card img {
@@ -397,18 +399,41 @@ select {
 }
 
 .xz-header__mega-card--contact {
+    position: relative;
     justify-content: center;
     align-items: center;
     padding: 18px;
+    overflow: hidden;
     border-color: transparent;
     background: linear-gradient(135deg, #ee6a33 0%, #d84120 52%, #a92d14 100%);
     color: var(--xz-white);
+    isolation: isolate;
+}
+
+.xz-header__mega-card--contact::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: linear-gradient(135deg, #1a368e 0%, #001f6f 100%);
+    opacity: 0;
+    transition: opacity 0.32s ease;
+}
+
+.xz-header__mega-card--contact > * {
+    position: relative;
+    z-index: 1;
 }
 
 .xz-header__mega-card--contact:hover,
 .xz-header__mega-card--contact:focus-visible {
     border-color: transparent;
-    background: linear-gradient(135deg, #1a368e 0%, #001f6f 100%);
+    background: linear-gradient(135deg, #ee6a33 0%, #d84120 52%, #a92d14 100%);
+}
+
+.xz-header__mega-card--contact:hover::before,
+.xz-header__mega-card--contact:focus-visible::before {
+    opacity: 1;
 }
 
 .xz-header__mega-card--contact small {
@@ -449,6 +474,8 @@ select {
 
 .xz-header__cta:hover {
     background: var(--xz-primary-strong);
+    box-shadow: 0 14px 28px rgba(0, 31, 111, 0.28);
+    transform: translateY(-2px);
 }
 
 .xz-header__mobile {
@@ -803,12 +830,13 @@ select {
     border: 1px solid rgba(255, 255, 255, 0.25);
     color: var(--xz-white);
     text-decoration: none;
-    transition: border-color 0.2s ease, background-color 0.2s ease;
+    transition: border-color 0.25s ease, background-color 0.25s ease, transform 0.25s ease;
 }
 
 .xz-global-footer__socials a:hover {
     border-color: var(--xz-red);
     background: var(--xz-red);
+    transform: translateY(-2px);
 }
 
 .xz-global-footer__socials svg {

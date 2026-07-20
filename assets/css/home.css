@@ -15,7 +15,7 @@
             -webkit-backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        button:not(.xz-header__mobile-btn) {
+        button:not(.xz-header__mobile-btn):not(.product-tab):not(.news-carousel-button):not(.news-card__button):not(.about-video-trigger__button) {
             transition:
                 background-color 0.28s ease,
                 color 0.28s ease,
@@ -24,19 +24,19 @@
                 transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
             will-change: transform, box-shadow;
         }
-        button:not(.xz-header__mobile-btn):hover {
+        button:not(.xz-header__mobile-btn):not(.product-tab):not(.news-carousel-button):not(.news-card__button):not(.about-video-trigger__button):hover {
             transform: translateY(-2px);
             box-shadow: 0 14px 28px rgba(15, 23, 42, 0.18);
         }
-        button:not(.xz-header__mobile-btn):active {
+        button:not(.xz-header__mobile-btn):not(.product-tab):not(.news-carousel-button):not(.news-card__button):not(.about-video-trigger__button):active {
             transform: translateY(0);
         }
-        button:not(.xz-header__mobile-btn) .material-symbols-outlined,
-        button:not(.xz-header__mobile-btn) svg {
+        button:not(.xz-header__mobile-btn):not(.product-tab):not(.news-carousel-button):not(.news-card__button):not(.about-video-trigger__button) .material-symbols-outlined,
+        button:not(.xz-header__mobile-btn):not(.product-tab):not(.news-carousel-button):not(.news-card__button):not(.about-video-trigger__button) svg {
             transition: transform 0.28s ease, opacity 0.28s ease;
         }
-        button:not(.xz-header__mobile-btn):hover .material-symbols-outlined,
-        button:not(.xz-header__mobile-btn):hover svg {
+        button:not(.xz-header__mobile-btn):not(.product-tab):not(.news-carousel-button):not(.news-card__button):not(.about-video-trigger__button):hover .material-symbols-outlined,
+        button:not(.xz-header__mobile-btn):not(.product-tab):not(.news-carousel-button):not(.news-card__button):not(.about-video-trigger__button):hover svg {
             transform: translateX(3px);
         }
         .product-tabs {
@@ -357,6 +357,8 @@
         }
         .news-carousel-button:hover {
             color: #d84120;
+            box-shadow: none;
+            transform: none;
         }
         .news-carousel-button .material-symbols-outlined {
             font-size: 34px;
@@ -375,6 +377,11 @@
             flex: 0 0 calc((100% - 90px) / 4);
             border: 1px solid #e2e8f0;
             background: #ffffff;
+            transition: border-color 0.28s ease, box-shadow 0.28s ease;
+        }
+        .news-card:hover {
+            border-color: rgba(216, 65, 32, 0.38);
+            box-shadow: 0 14px 30px rgba(15, 23, 42, 0.09);
         }
         .news-card__media {
             aspect-ratio: 4 / 3;
