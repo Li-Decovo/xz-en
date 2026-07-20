@@ -583,7 +583,7 @@ select {
     margin: 0 0 16px;
     color: var(--xz-navy);
     font-family: var(--xz-font-display);
-    font-size: clamp(21px, 1.55vw, 32px);
+    font-size: clamp(19px, 1.25vw, 24px);
     font-weight: 700;
     line-height: 1;
     text-transform: uppercase;
