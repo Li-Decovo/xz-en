@@ -574,9 +574,12 @@
         }
         .project-showcase-card {
             position: relative;
+            display: block;
             aspect-ratio: 4 / 3;
             overflow: hidden;
             background: #0f172a;
+            color: inherit;
+            text-decoration: none;
         }
         .project-showcase-card img {
             width: 100%;

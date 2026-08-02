@@ -71,6 +71,66 @@
             imageAlt: "Xinzhou representatives speaking with an exhibition visitor",
             caption: "Xinzhou representatives explaining complete production line capabilities to a visitor.",
             body: '<p>At the Russia exhibition, Xinzhou presented its ability to provide more than a standalone welding machine.</p><h2>Integrated equipment for complete workflows</h2><p>Depending on the project, a production line can include material preparation, automatic feeding, resistance welding, cutting, finishing, discharge and stacking equipment.</p><h2>Planning before manufacturing</h2><p>Xinzhou\'s engineering team prepares equipment configurations and production line layouts according to the customer\'s product and factory conditions.</p><blockquote>A turnkey line connects machine performance, material flow and operator workflow into one coordinated production system.</blockquote><h2>Service through production startup</h2><p>Technical support can continue through installation, commissioning, production testing, operator training and maintenance guidance.</p>'
+        },
+        "case-steel-grating-line": {
+            title: "High-Output Steel Grating Welding Line Project",
+            date: "July 14, 2026",
+            datetime: "2026-07-14",
+            category: "Case Study",
+            location: "International Project",
+            excerpt: "An integrated steel grating welding line planned around stable weld quality, continuous material flow and practical production startup.",
+            image: "./src/media/steel-grid-welding-machine-1.webp",
+            imageAlt: "Automated steel grating welding production line",
+            caption: "Steel grating welding equipment configured as an integrated production line.",
+            body: '<p>This project was developed for a manufacturer preparing to expand automated steel grating production with a coordinated welding and material-handling workflow.</p><h2>Project requirements</h2><p>The solution needed to support consistent bearing bar and cross bar positioning, reliable resistance welding and a practical operating flow for daily production.</p><h2>Line configuration</h2><p>Xinzhou combined the main press welding machine with material preparation, feeding and discharge equipment according to the finished grating specifications and factory layout.</p><blockquote>The production plan was built around the customer\'s product dimensions, material range and target workflow.</blockquote><h2>Startup and technical support</h2><p>The project scope included layout planning, equipment commissioning guidance, production testing and operator training to support an orderly production startup.</p>'
+        },
+        "case-reinforcing-mesh-line": {
+            title: "Automated Reinforcing Mesh Production Line Project",
+            date: "July 15, 2026",
+            datetime: "2026-07-15",
+            category: "Case Study",
+            location: "International Project",
+            excerpt: "A reinforcing mesh welding solution configured for repeatable spacing, stable welding and efficient mesh handling.",
+            image: "./src/media/reinforcing-mesh-line.webp",
+            imageAlt: "Automated reinforcing mesh welding line",
+            caption: "Reinforcing mesh production line prepared for an international manufacturing project.",
+            body: '<p>This reinforcing mesh project focused on creating a stable automated process from wire feeding and positioning through welding and finished mesh discharge.</p><h2>Project requirements</h2><p>The customer required repeatable wire spacing, dependable weld consistency and a line arrangement suitable for the available workshop space.</p><h2>Line configuration</h2><p>The engineering team matched the welding system, feeding arrangement and mesh handling equipment to the required product range and production process.</p><blockquote>Machine configuration and factory layout were reviewed together before manufacturing began.</blockquote><h2>Startup and technical support</h2><p>Xinzhou provided commissioning guidance, production testing support and operator instruction covering normal operation and routine maintenance.</p>'
+        },
+        "case-cable-tray-line": {
+            title: "Wire Mesh Cable Tray Manufacturing Line Project",
+            date: "July 16, 2026",
+            datetime: "2026-07-16",
+            category: "Case Study",
+            location: "International Project",
+            excerpt: "A coordinated welding and forming solution for manufacturers producing wire mesh cable tray products in multiple specifications.",
+            image: "./src/media/wire-mesh-cable-tray-line.webp",
+            imageAlt: "Wire mesh cable tray production line",
+            caption: "Cable tray mesh welding equipment integrated with the required downstream process.",
+            body: '<p>This project connected mesh welding with the supporting processes needed to manufacture wire mesh cable tray products in an organized production flow.</p><h2>Project requirements</h2><p>The production plan needed to accommodate different tray specifications while maintaining accurate wire positioning and a consistent welding process.</p><h2>Line configuration</h2><p>Xinzhou planned the main mesh welding machine and supporting equipment around the customer\'s material, tray sizes and workshop arrangement.</p><blockquote>The layout was prepared to keep material movement clear between welding, cutting and forming operations.</blockquote><h2>Startup and technical support</h2><p>Technical support covered equipment setup, trial production, operator training and practical maintenance guidance for the complete workflow.</p>'
+        },
+        "case-lattice-girder-line": {
+            title: "Steel Bar Truss Lattice Girder Line Project",
+            date: "July 17, 2026",
+            datetime: "2026-07-17",
+            category: "Case Study",
+            location: "International Project",
+            excerpt: "An automated lattice girder line designed around wire preparation, accurate assembly and continuous resistance welding.",
+            image: "./src/media/truss-girder-line.webp",
+            imageAlt: "Steel bar truss lattice girder production line",
+            caption: "Automated lattice girder welding line for construction component manufacturing.",
+            body: '<p>This project was planned for a construction component manufacturer seeking a coordinated process for steel bar truss lattice girder production.</p><h2>Project requirements</h2><p>The line needed to maintain accurate component positioning while coordinating wire preparation, assembly, welding and product discharge.</p><h2>Line configuration</h2><p>Xinzhou prepared the equipment configuration according to the required girder specifications, raw material range and available production area.</p><blockquote>Each section of the line was reviewed as part of one continuous manufacturing workflow.</blockquote><h2>Startup and technical support</h2><p>The service scope included layout confirmation, commissioning guidance, production trials and training for operators and maintenance personnel.</p>'
+        },
+        "case-ibc-tank-line": {
+            title: "IBC Tank Cage Production Line Project",
+            date: "July 18, 2026",
+            datetime: "2026-07-18",
+            category: "Case Study",
+            location: "International Project",
+            excerpt: "A complete IBC cage production solution integrating mesh welding and downstream forming around the required container specification.",
+            image: "./assets/images/about/product-ibc-production-line.webp",
+            imageAlt: "IBC tank cage production line",
+            caption: "IBC tank cage production equipment arranged as a complete manufacturing line.",
+            body: '<p>This project brought together the main processes required to manufacture welded steel cages for intermediate bulk containers.</p><h2>Project requirements</h2><p>The customer required a coordinated line capable of producing repeatable cage dimensions with reliable welding and an efficient downstream workflow.</p><h2>Line configuration</h2><p>Xinzhou planned the welding, cutting, forming and handling stages according to the cage specification, production process and factory layout.</p><blockquote>The complete solution was organized around the finished cage rather than a standalone welding machine.</blockquote><h2>Startup and technical support</h2><p>Support included line layout, installation and commissioning guidance, production testing, operator training and ongoing technical assistance.</p>'
         }
     };
 
@@ -120,5 +180,5 @@
         });
     }
 
-    document.title = `${article.title} | Xinzhou News`;
+    document.title = `${article.title} | Xinzhou ${article.category === "Case Study" ? "Cases" : "News"}`;
 })();
