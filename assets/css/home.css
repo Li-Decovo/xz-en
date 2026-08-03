@@ -157,6 +157,19 @@
         .main-content-1850 .max-w-container-max {
             max-width: 1850px;
         }
+        body.home-page {
+            --xz-header-container: 1850px;
+        }
+        body.home-page .site-link-container {
+            max-width: 1850px;
+        }
+        body.home-page .inquiry-strip-container,
+        body.home-page .xz-global-footer__inner,
+        body.home-page .xz-global-footer__bottom p {
+            width: min(100%, 1850px);
+            padding-left: 24px;
+            padding-right: 24px;
+        }
         .main-content-1850 .no-widen .max-w-container-max {
             max-width: 1280px;
         }
@@ -709,6 +722,12 @@
             }
         }
         @media (max-width: 640px) {
+            body.home-page .inquiry-strip-container,
+            body.home-page .xz-global-footer__inner,
+            body.home-page .xz-global-footer__bottom p {
+                padding-left: 16px;
+                padding-right: 16px;
+            }
             .project-showcase-grid {
                 grid-template-columns: 1fr;
             }
