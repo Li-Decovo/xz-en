@@ -11,6 +11,14 @@
     --xz-container: 1850px;
 }
 
+.about-history-hero__grid,
+.about-factory__layout,
+.about-quality__grid,
+.about-customers__grid {
+    padding-left: 0;
+    padding-right: 0;
+}
+
 .about-history-hero {
     position: relative;
     min-height: 0;

@@ -4,6 +4,11 @@
     background: var(--xz-white);
 }
 
+.product-detail-hero__grid {
+    padding-left: 0;
+    padding-right: 0;
+}
+
 .product-detail-main h1,
 .product-detail-main h2,
 .product-detail-main h3,

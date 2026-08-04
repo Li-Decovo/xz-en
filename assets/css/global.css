@@ -12,8 +12,8 @@
     --xz-red-dark: #a92d14;
     --xz-red-soft: #ffb59c;
     --xz-white: #ffffff;
-    --xz-container: 1280px;
-    --xz-header-container: 1440px;
+    --xz-container: 1850px;
+    --xz-header-container: 1850px;
     --xz-topbar-height: 30px;
     --xz-header-height: 88px;
     --xz-gutter: 24px;
@@ -73,8 +73,10 @@ select {
 }
 
 .xz-container {
-    width: min(100% - 48px, var(--xz-container));
+    width: min(100%, var(--xz-container));
     margin-inline: auto;
+    padding-left: var(--xz-gutter);
+    padding-right: var(--xz-gutter);
 }
 
 .xz-eyebrow {
@@ -586,8 +588,10 @@ select {
 }
 
 .inquiry-strip-container {
-    width: min(100% - 48px, 1440px);
+    width: min(100%, var(--xz-container));
     margin-inline: auto;
+    padding-left: var(--xz-gutter);
+    padding-right: var(--xz-gutter);
 }
 
 .inquiry-strip-grid {
@@ -730,12 +734,12 @@ select {
 }
 
 .xz-global-footer__inner {
-    width: min(100% - 48px, 1440px);
+    width: min(100%, var(--xz-container));
     margin-inline: auto;
     display: grid;
     grid-template-columns: 1.25fr 0.72fr 1fr 1.2fr;
     gap: clamp(40px, 5vw, 76px);
-    padding: 70px 0 58px;
+    padding: 70px var(--xz-gutter) 58px;
 }
 
 .xz-global-footer__brand-logo {
@@ -850,9 +854,9 @@ select {
 }
 
 .xz-global-footer__bottom p {
-    width: min(100% - 48px, 1440px);
+    width: min(100%, var(--xz-container));
     margin: 0 auto;
-    padding: 20px 0;
+    padding: 20px var(--xz-gutter);
     color: rgba(255, 255, 255, 0.56);
     font-size: 12px;
     line-height: 1.5;
@@ -878,7 +882,8 @@ select {
 
 @media (max-width: 640px) {
     .inquiry-strip-container {
-        width: min(100% - 32px, 1440px);
+        padding-left: 16px;
+        padding-right: 16px;
     }
 
     .inquiry-strip-grid {
@@ -898,14 +903,13 @@ select {
     }
 
     .xz-global-footer__inner {
-        width: min(100% - 32px, 1440px);
         grid-template-columns: 1fr;
-        padding-top: 54px;
-        padding-bottom: 46px;
+        padding: 54px 16px 46px;
     }
 
     .xz-global-footer__bottom p {
-        width: min(100% - 32px, 1440px);
+        padding-left: 16px;
+        padding-right: 16px;
     }
 }
 
@@ -1163,7 +1167,8 @@ body.xz-inquiry-open {
 
 @media (max-width: 640px) {
     .xz-container {
-        width: min(100% - 32px, var(--xz-container));
+        padding-left: 16px;
+        padding-right: 16px;
     }
 
     .xz-button {

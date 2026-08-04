@@ -4,6 +4,12 @@
     background: var(--xz-white);
 }
 
+.contact-hero__grid,
+.contact-location__grid {
+    padding-left: 0;
+    padding-right: 0;
+}
+
 .contact-main h1,
 .contact-main h2,
 .contact-main h3,
