@@ -15,16 +15,17 @@ function xz_content_asset_version(string $relative_path): string {
 }
 
 add_action('wp_enqueue_scripts', static function (): void {
-    if (!is_singular(['product', 'post']) && !is_post_type_archive('product') && !is_tax('product_category') && !is_home()) {
-        return;
-    }
-
     wp_enqueue_style(
         'xinzhou-content',
         WPMU_PLUGIN_URL . '/xinzhou-content/assets/xinzhou-content.css',
         [],
         xz_content_asset_version('assets/xinzhou-content.css')
     );
+
+    if (!is_singular(['product', 'post']) && !is_post_type_archive('product') && !is_tax('product_category') && !is_home()) {
+        return;
+    }
+
     wp_enqueue_script(
         'xinzhou-content',
         WPMU_PLUGIN_URL . '/xinzhou-content/assets/xinzhou-content.js',
@@ -32,6 +33,24 @@ add_action('wp_enqueue_scripts', static function (): void {
         xz_content_asset_version('assets/xinzhou-content.js'),
         true
     );
+});
+
+add_action('template_redirect', static function (): void {
+    if (!is_post_type_archive('product') || empty($_GET['category']) || !taxonomy_exists('product_category')) {
+        return;
+    }
+
+    $slug = sanitize_title(wp_unslash($_GET['category']));
+    $term = get_term_by('slug', $slug, 'product_category');
+    if (!$term instanceof WP_Term) {
+        return;
+    }
+
+    $url = get_term_link($term);
+    if (!is_wp_error($url)) {
+        wp_safe_redirect($url, 301);
+        exit;
+    }
 });
 
 function xz_acf_image_id($value): int {
@@ -59,7 +78,8 @@ add_shortcode('xinzhou_product_archive_nav', static function (): string {
     $terms = get_terms([
         'taxonomy' => 'product_category',
         'hide_empty' => false,
-        'orderby' => 'menu_order',
+        'meta_key' => 'category_display_order',
+        'orderby' => 'meta_value_num',
         'order' => 'ASC',
     ]);
     if (is_wp_error($terms) || !$terms) {

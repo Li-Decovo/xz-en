@@ -7,6 +7,66 @@
     --xz-content-soft: #f6f7f9;
 }
 
+@media (min-width: 1181px) {
+    .elementor-location-header .xz-el-main-inner {
+        position: relative;
+    }
+
+    .elementor-location-header .xz-el-nav-wrap,
+    .elementor-location-header .xz-el-nav,
+    .elementor-location-header .xz-el-nav > .elementor-widget-container,
+    .elementor-location-header .xz-el-nav .elementor-nav-menu--main,
+    .elementor-location-header .xz-el-nav .elementor-nav-menu--main > ul,
+    .elementor-location-header .xz-el-nav .elementor-nav-menu--main > ul > .xz-mega-menu {
+        position: static !important;
+    }
+
+    .elementor-location-header .xz-el-nav .xz-mega-menu > .sub-menu {
+        top: 88px !important;
+        right: 24px !important;
+        left: 24px !important;
+        width: auto !important;
+        min-width: 0 !important;
+        padding: 22px !important;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 1px;
+        border-top: 3px solid #d84120;
+        background: #fff !important;
+        box-shadow: 0 18px 42px rgba(15, 23, 42, 0.2);
+    }
+
+    .elementor-location-header .xz-el-nav .xz-mega-menu:hover > .sub-menu,
+    .elementor-location-header .xz-el-nav .xz-mega-menu:focus-within > .sub-menu,
+    .elementor-location-header .xz-el-nav .xz-mega-menu > .sub-menu[aria-hidden="false"] {
+        display: grid !important;
+    }
+
+    .elementor-location-header .xz-el-nav .xz-mega-menu > .sub-menu > li {
+        width: auto !important;
+        min-width: 0 !important;
+        background: #f6f7f9;
+    }
+
+    .elementor-location-header .xz-el-nav .xz-mega-menu > .sub-menu > li > a {
+        min-height: 68px;
+        padding: 16px 18px !important;
+        color: #111827 !important;
+        background: #f6f7f9 !important;
+        font-family: Inter, Arial, sans-serif;
+        font-size: 13px;
+        font-weight: 700;
+        line-height: 1.35;
+        text-transform: uppercase;
+        white-space: normal !important;
+    }
+
+    .elementor-location-header .xz-el-nav .xz-mega-menu > .sub-menu > li > a:hover,
+    .elementor-location-header .xz-el-nav .xz-mega-menu > .sub-menu > li > a:focus-visible {
+        color: #fff !important;
+        background: #d84120 !important;
+    }
+}
+
 .xz-product-category-nav,
 .xz-product-single,
 .xz-article-sidebar {
