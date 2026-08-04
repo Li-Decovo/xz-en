@@ -211,7 +211,7 @@ select {
 }
 
 .xz-header__inner {
-    --brand-width: clamp(270px, 23vw, 360px);
+    --brand-width: clamp(300px, 20vw, 340px);
     --brand-bleed: max(24px, calc((100vw - var(--xz-header-container)) / 2 + 24px));
     max-width: var(--xz-header-container);
     height: var(--xz-header-height);
