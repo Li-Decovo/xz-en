@@ -47,6 +47,10 @@ The following widgets appear in the normal Elementor widget panel:
 - Xinzhou News Detail Hero
 - Xinzhou News Article Body
 - Xinzhou Related News
+- Xinzhou Contact Hero
+- Xinzhou Contact Inquiry
+- Xinzhou Contact Process
+- Xinzhou Contact Location
 - Xinzhou Article Meta
 - Xinzhou Article Contents
 
