@@ -73,6 +73,15 @@ final class Product_Categories_Widget extends Xinzhou_Widget {
 
     protected function register_controls(): void {
         $this->start_controls_section('content', ['label' => 'Categories']);
+        $this->add_control('layout', [
+            'label' => 'Layout',
+            'type' => Controls_Manager::SELECT,
+            'default' => 'archive',
+            'options' => [
+                'archive' => 'Archive Navigation',
+                'homepage' => 'Homepage Tiles',
+            ],
+        ]);
         $this->add_control('hide_empty', [
             'label' => 'Hide Empty Categories',
             'type' => Controls_Manager::SWITCHER,
@@ -119,7 +128,7 @@ final class Product_Categories_Widget extends Xinzhou_Widget {
         $current = is_tax('product_category') ? current_product_term() : null;
         $image_size = $settings['image_size'] ?? 'large';
         ?>
-        <nav class="xz-product-category-nav" aria-label="Product categories">
+        <nav class="xz-product-category-nav xz-product-category-nav--<?php echo esc_attr($settings['layout'] ?? 'archive'); ?>" aria-label="Product categories">
             <div class="xz-product-category-nav__grid">
                 <?php foreach ($terms as $term) :
                     $image_id = \xz_product_term_image((int) $term->term_id);

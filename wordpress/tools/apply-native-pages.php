@@ -54,6 +54,13 @@ function xznp_image(string $id, string $url, string $class = ''): array {
     ]);
 }
 
+function xznp_media_setting(string $url): array {
+    return [
+        'id' => attachment_url_to_postid($url),
+        'url' => $url,
+    ];
+}
+
 function xznp_button(string $id, string $text, string $url, string $class = '', bool $inquiry = false): array {
     return xznp_widget($id, 'button', [
         'text' => $text,
@@ -130,99 +137,75 @@ $home = [
     xznp_container('hroot001', 'xz-native-home', [
         xznp_container('hcat0001', 'xz-native-category-section', [
             xznp_widget('hcat0002', 'xinzhou-product-categories', [
+                'layout' => 'homepage',
                 'hide_empty' => '',
                 'show_description' => '',
                 'image_size' => 'large',
             ]),
         ]),
-        xznp_container('hint0001', 'xz-native-section xz-native-split xz-native-home-intro', [
-            xznp_container('hint0002', 'xz-native-split-media', [
-                xznp_image('hint0003', $home_asset('factory-smart.webp')),
-            ]),
-            xznp_container('hint0004', 'xz-native-split-copy', [
-                xznp_heading('hint0005', 'Smart Factory Solutions', 'div', 'xz-native-kicker'),
-                xznp_heading('hint0006', 'Xinzhou Smart Welding Systems for Modern Production', 'h1', 'xz-native-section-title'),
-                xznp_text('hint0007', '<p><strong>27+ years of R&amp;D, in-house manufacturing and turnkey automation for steel grating, wire mesh and custom resistance welding lines.</strong></p><p>From factory layout planning to equipment manufacturing, commissioning and long-term remote support, Xinzhou helps global manufacturers build stable, efficient and scalable welding production systems.</p>'),
-                xznp_button('hint0008', 'About Xinzhou', '/about-xinzhou/', 'xz-native-button'),
-            ]),
+        xznp_widget('hsplit01', 'xinzhou-home-split', [
+            'eyebrow' => 'Smart Factory Solutions',
+            'title' => 'Xinzhou Smart Welding Systems for Modern Production',
+            'lead' => '27+ years of R&D, in-house manufacturing and turnkey automation for steel grating, wire mesh and custom resistance welding lines.',
+            'description' => '<p>From factory layout planning to equipment manufacturing, commissioning and long-term remote support, Xinzhou helps global manufacturers build stable, efficient and scalable welding production systems.</p>',
+            'button_text' => 'View More',
+            'button_link' => ['url' => '/about-xinzhou/'],
+            'image' => xznp_media_setting($home_asset('factory-smart.webp')),
+            'image_position' => 'left',
+            'show_play' => 'yes',
+            'video_link' => ['url' => '#'],
         ]),
-        xznp_container('hprd0001', 'xz-native-section xz-native-muted xz-native-query-section', [
-            xznp_section_head('hphd0', 'Featured Equipment', 'Automated Welding Machines for Real Production Requirements', 'Browse current machines and complete production-line equipment managed directly in the Products section.'),
-            xznp_posts('hprd0002', 'xinzhou_home_products', 6, 'xz-native-post-grid'),
+        xznp_widget('hcarousel01', 'xinzhou-home-carousel', [
+            'source' => 'products',
+            'count' => 6,
+            'autoplay' => 'yes',
+            'autoplay_speed' => 4200,
+            'button_text' => 'View More',
         ]),
-        xznp_container('hstr0001', 'xz-native-section xz-native-story-section', [
-            xznp_container('hstr0002', 'xz-native-story-row', [
-                xznp_container('hstr0003', 'xz-native-story-media', [xznp_image('hstr0004', $home_asset('factory-fabrication.webp'))]),
-                xznp_container('hstr0005', 'xz-native-story-copy', [
-                    xznp_heading('hstr0006', 'Built on Real In-House Fabrication Capacity', 'h2'),
-                    xznp_text('hstr0007', '<p><strong>From steel structure processing to complete line assembly, Xinzhou keeps core manufacturing inside its own factory.</strong></p><p>A 16,000 m2 production base, heavy-duty fabrication capability and experienced assembly teams allow us to control welding line quality from frame machining to final equipment testing.</p>'),
-                    xznp_button('hstr0008', 'View Our Factory', '/about-xinzhou/', 'xz-native-button'),
-                ]),
-            ]),
-            xznp_container('hstr0009', 'xz-native-story-row xz-native-story-row--reverse', [
-                xznp_container('hstr0010', 'xz-native-story-copy', [
-                    xznp_heading('hstr0011', 'Engineering Support from Layout to Commissioning', 'h2'),
-                    xznp_text('hstr0012', '<p><strong>We help manufacturers plan complete welding production systems around output targets, factory space and product specifications.</strong></p><p>Xinzhou combines HMI + PLC control, auxiliary equipment integration, on-site commissioning guidance, operator training and long-term remote service into one practical project workflow.</p>'),
-                    xznp_button('hstr0013', 'Explore Services', '/services/', 'xz-native-button'),
-                ]),
-                xznp_container('hstr0014', 'xz-native-story-media', [xznp_image('hstr0015', $home_asset('factory-assembly.webp'))]),
-            ]),
+        xznp_widget('hstories01', 'xinzhou-home-stories', [
+            'stories' => [
+                [
+                    '_id' => 'story001',
+                    'image' => xznp_media_setting($home_asset('factory-fabrication.webp')),
+                    'image_position' => 'left',
+                    'title' => 'Built on Real In-House Fabrication Capacity',
+                    'lead' => 'From steel structure processing to complete line assembly, Xinzhou keeps core manufacturing inside its own factory.',
+                    'description' => '<p>A 16,000 m2 production base, heavy-duty fabrication capability and experienced assembly teams allow us to control welding line quality from frame machining to final equipment testing.</p>',
+                    'button_text' => 'View More',
+                    'button_link' => ['url' => '/about-xinzhou/'],
+                ],
+                [
+                    '_id' => 'story002',
+                    'image' => xznp_media_setting($home_asset('factory-assembly.webp')),
+                    'image_position' => 'right',
+                    'title' => 'Engineering Support from Layout to Commissioning',
+                    'lead' => 'We help manufacturers plan complete welding production systems around output targets, factory space and product specifications.',
+                    'description' => '<p>Xinzhou combines HMI + PLC control, auxiliary equipment integration, on-site commissioning guidance, operator training and long-term remote service into one practical project workflow.</p>',
+                    'button_text' => 'View More',
+                    'button_link' => ['url' => '/services/'],
+                ],
+            ],
         ]),
-        xznp_container('hcas0001', 'xz-native-section xz-native-query-section', [
-            xznp_section_head('hchd0', 'Customer Cases', 'Production Lines Delivered for Global Manufacturing Projects', 'Cases are managed as normal WordPress articles in the Cases category.'),
-            xznp_posts('hcas0002', 'xinzhou_home_cases', 5, 'xz-native-post-grid xz-native-case-grid'),
+        xznp_widget('hcases001', 'xinzhou-home-cases', [
+            'count' => 5,
+            'label' => 'Case',
         ]),
-        xznp_container('hnew0001', 'xz-native-section xz-native-muted xz-native-query-section', [
-            xznp_section_head('hnhd0', 'News & Exhibitions', 'Latest Updates from Xinzhou', 'Follow product developments, international exhibitions and manufacturing updates.'),
-            xznp_posts('hnew0002', 'xinzhou_home_news', 3, 'xz-native-post-grid'),
-            xznp_button('hnew0003', 'View All News', '/news/', 'xz-native-button xz-native-center-button'),
-        ]),
-        xznp_container('hnet0001', 'xz-native-section xz-native-network-section', [
-            xznp_section_head('hnth0', 'Global Network', 'Xinzhou Worldwide'),
-            xznp_container('hnet0002', 'xz-native-logo-grid', [
-                xznp_image('hnet0003', $home_asset('site-logo.webp')),
-                xznp_image('hnet0004', $home_asset('site-logo.webp')),
-                xznp_image('hnet0005', $home_asset('site-logo.webp')),
-                xznp_image('hnet0006', $home_asset('site-logo.webp')),
-            ]),
+        xznp_widget('hworld001', 'xinzhou-home-worldwide', [
+            'title' => 'Xinzhou Worldwide',
+            'logos' => [
+                ['_id' => 'logo001', 'image' => xznp_media_setting($home_asset('site-logo.webp')), 'link' => ['url' => '#'], 'alt' => 'Xinzhou Resistance Welder'],
+                ['_id' => 'logo002', 'image' => xznp_media_setting($home_asset('site-logo.webp')), 'link' => ['url' => '#'], 'alt' => 'Xinzhou Resistance Welder'],
+                ['_id' => 'logo003', 'image' => xznp_media_setting($home_asset('site-logo.webp')), 'link' => ['url' => '#'], 'alt' => 'Xinzhou Resistance Welder'],
+                ['_id' => 'logo004', 'image' => xznp_media_setting($home_asset('site-logo.webp')), 'link' => ['url' => '#'], 'alt' => 'Xinzhou Resistance Welder'],
+            ],
         ]),
     ], [], false),
 ];
 
 $home_css = <<<'CSS'
-selector .xz-native-home{font-family:Inter,Arial,sans-serif;color:#111827;}
+selector .xz-native-home{font-family:Inter,Arial,sans-serif;color:#111827;padding:0!important;}
 selector .xz-native-category-section{padding:32px 0 40px;border-bottom:1px solid #e2e8f0;}
-selector .xz-native-section{width:min(100%,1850px);margin:0 auto;padding:84px 24px;}
-selector .xz-native-muted{width:100%;max-width:none;background:#f6f7f9;}
-selector .xz-native-muted>.e-con-inner{width:min(100%,1850px);margin:0 auto;}
-selector .xz-native-split,selector .xz-native-story-row{display:flex;flex-direction:row;align-items:stretch;gap:0;}
-selector .xz-native-split-media,selector .xz-native-split-copy,selector .xz-native-story-media,selector .xz-native-story-copy{width:50%;}
-selector .xz-native-split-media img,selector .xz-native-story-media img{width:100%;height:100%;min-height:500px;object-fit:cover;}
-selector .xz-native-split-copy,selector .xz-native-story-copy{justify-content:center;padding:clamp(42px,5vw,90px);}
-selector .xz-native-kicker .elementor-heading-title{color:#d84120;font-size:13px;font-weight:800;text-transform:uppercase;}
-selector .xz-native-section-title .elementor-heading-title,selector .xz-native-story-copy h2{color:#0f172a;font-size:clamp(30px,2.5vw,42px);line-height:1.15;}
-selector .xz-native-section-head{max-width:900px;margin-bottom:34px;gap:10px;}
-selector .xz-native-section-copy{color:#64748b;font-size:16px;line-height:1.7;}
-selector .xz-native-split-copy .elementor-widget-text-editor,selector .xz-native-story-copy .elementor-widget-text-editor{color:#475569;font-size:17px;line-height:1.75;}
-selector .xz-native-button .elementor-button{border:2px solid #111827;border-radius:0;color:#111827;background:transparent;font-size:13px;font-weight:800;text-transform:uppercase;}
-selector .xz-native-button .elementor-button:hover{border-color:#d84120;color:#fff;background:#d84120;}
-selector .xz-native-post-grid .elementor-post{overflow:hidden;border:1px solid #e2e8f0;background:#fff;}
-selector .xz-native-post-grid .elementor-post__thumbnail__link{margin-bottom:0;}
-selector .xz-native-post-grid .elementor-post__thumbnail{padding-bottom:75%!important;}
-selector .xz-native-post-grid .elementor-post__thumbnail img{width:100%;height:100%;object-fit:cover;}
-selector .xz-native-post-grid .elementor-post__text{padding:20px 22px 24px;}
-selector .xz-native-post-grid .elementor-post__title{font-size:19px;line-height:1.4;}
-selector .xz-native-post-grid .elementor-post__title a{color:#111827;}
-selector .xz-native-post-grid .elementor-post__excerpt{color:#64748b;line-height:1.65;}
-selector .xz-native-post-grid .elementor-post__read-more{color:#d84120;font-weight:800;text-transform:uppercase;}
-selector .xz-native-story-section{gap:0;padding-top:0;padding-bottom:0;}
-selector .xz-native-story-row{width:100%;}
-selector .xz-native-logo-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;}
-selector .xz-native-logo-grid .elementor-widget-image{padding:24px;border:1px solid #e2e8f0;background:#fff;}
-selector .xz-native-logo-grid img{width:100%;height:90px;object-fit:contain;}
-selector .xz-native-center-button{align-self:center;margin-top:26px;}
-@media(max-width:900px){selector .xz-native-split,selector .xz-native-story-row{flex-direction:column!important;}selector .xz-native-split-media,selector .xz-native-split-copy,selector .xz-native-story-media,selector .xz-native-story-copy{width:100%!important;}selector .xz-native-story-row--reverse .xz-native-story-copy{order:2;}selector .xz-native-story-row--reverse .xz-native-story-media{order:1;}selector .xz-native-logo-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
-@media(max-width:640px){selector .xz-native-section{padding:58px 16px;}selector .xz-native-split-copy,selector .xz-native-story-copy{padding:38px 16px;}selector .xz-native-split-media img,selector .xz-native-story-media img{min-height:0;aspect-ratio:4/3;}selector .xz-native-logo-grid{grid-template-columns:1fr;}}
+@media(max-width:640px){selector .xz-native-category-section{padding:24px 0 32px;}}
 CSS;
 
 $factory_cards = [
