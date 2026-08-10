@@ -203,9 +203,9 @@ $home = [
 ];
 
 $home_css = <<<'CSS'
-selector .xz-native-home{font-family:Inter,Arial,sans-serif;color:#111827;padding:0!important;}
-selector .xz-native-category-section{padding:32px 0 40px;border-bottom:1px solid #e2e8f0;}
-@media(max-width:640px){selector .xz-native-category-section{padding:24px 0 32px;}}
+selector .xz-native-home{font-family:Inter,Arial,sans-serif;color:#111827;padding:0!important;gap:0!important;}
+selector .xz-native-category-section{padding:40px 0;border-bottom:1px solid #e2e8f0;}
+@media(max-width:640px){selector .xz-native-category-section{padding:32px 0;}}
 CSS;
 
 $factory_cards = [
@@ -735,6 +735,14 @@ if (is_array($header_data)) {
     selector .xz-el-cta,
     selector .xz-el-cta .elementor-button {
         height: 44px !important;
+    }
+}
+@media (max-width: 1180px) {
+    selector .xz-el-nav .elementor-menu-toggle.elementor-active + .elementor-nav-menu__container {
+        max-height: calc(100vh - 118px) !important;
+        overflow-y: auto !important;
+        animation: none !important;
+        transform: scaleY(1) !important;
     }
 }
 /* XZ HEADER GRID FIX END */

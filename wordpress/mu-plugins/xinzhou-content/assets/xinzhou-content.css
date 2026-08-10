@@ -468,8 +468,9 @@
     gap: 32px;
     margin: 0 0 clamp(36px, 4vw, 64px);
     color: #0f172a;
-    font-size: clamp(30px, 2.4vw, 44px);
-    font-weight: 700;
+    font-size: clamp(30px, 2.4vw, 44px) !important;
+    font-weight: 700 !important;
+    line-height: 1.15 !important;
     text-align: center;
     white-space: nowrap;
 }
