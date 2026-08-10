@@ -513,6 +513,70 @@ selector .xz-native-service-assurance-item:first-child:after{content:"";position
 @media(max-width:640px){selector .xz-native-service-copy,selector .xz-native-service-assurance-item{padding:46px 16px;}selector .xz-native-service-media img{min-height:0;aspect-ratio:4/3;}}
 CSS;
 
+$services = [
+    xznp_container('sroot002', 'xz-services-page services-main', [
+        xznp_widget('svhero01', 'xinzhou-service-content', [
+            'variant' => 'hero',
+            'breadcrumb_label' => 'Services',
+            'title' => 'Professional Sales Consultation',
+            'description' => '<p>Our experienced sales managers provide one-to-one consultation throughout the entire purchasing process.</p><p>From product selection to technical discussions and project planning, we ensure fast communication and efficient support for every customer.</p>',
+            'image' => xznp_media_setting($service_asset('sales-consultation.webp')),
+        ]),
+        xznp_widget('svcustom01', 'xinzhou-service-content', [
+            'variant' => 'custom',
+            'title' => 'Free Customized Solution',
+            'description' => '<p>Every factory has different production requirements.</p><p>Our engineering team offers free customized production solutions based on your product specifications, production capacity, factory layout and investment budget, ensuring the most cost-effective solution for your business.</p>',
+            'image' => xznp_media_setting($service_asset('custom-solution.webp')),
+        ]),
+        xznp_widget('svlayout01', 'xinzhou-service-content', [
+            'variant' => 'layout',
+            'title' => 'Free Production Line Layout Design',
+            'description' => '<p>Before manufacturing begins, we provide a professional production line layout to help customers optimize factory space and improve production efficiency.</p>',
+            'list_label' => 'Our layout includes:',
+            'items' => [
+                ['_id' => 'layout001', 'text' => 'Machine Arrangement'],
+                ['_id' => 'layout002', 'text' => 'Material Flow'],
+                ['_id' => 'layout003', 'text' => 'Utility Requirements'],
+                ['_id' => 'layout004', 'text' => 'Production Workflow Optimization'],
+            ],
+            'image' => xznp_media_setting($service_asset('production-line-layout.webp')),
+        ]),
+        xznp_widget('svassurance01', 'xinzhou-service-assurance', [
+            'items' => [
+                [
+                    '_id' => 'assurance001',
+                    'title' => '7×24 Online Support',
+                    'description' => '<p>Our international support team is available 24 hours a day, 7 days a week.</p><p>Whether you have technical questions, project inquiries or after-sales needs, we are always ready to respond promptly.</p>',
+                ],
+                [
+                    '_id' => 'assurance002',
+                    'title' => 'One-Year Warranty',
+                    'description' => '<p>All Xinzhou machines are supplied with a one-year warranty.</p><p>During the warranty period, we provide free replacement of defective parts caused by manufacturing issues, together with professional technical assistance.</p>',
+                ],
+            ],
+        ]),
+        xznp_widget('svonsite01', 'xinzhou-service-content', [
+            'variant' => 'onsite',
+            'title' => 'On-site Installation & Training',
+            'description' => '<p>Our experienced engineers can travel to your factory for:</p>',
+            'items' => [
+                ['_id' => 'onsite001', 'text' => 'Machine Installation'],
+                ['_id' => 'onsite002', 'text' => 'Equipment Commissioning'],
+                ['_id' => 'onsite003', 'text' => 'Production Testing'],
+                ['_id' => 'onsite004', 'text' => 'Operator Training'],
+                ['_id' => 'onsite005', 'text' => 'Maintenance Guidance'],
+            ],
+            'result' => 'This ensures your production line starts running smoothly in the shortest possible time.',
+            'image' => xznp_media_setting($service_asset('onsite-installation-training.webp')),
+        ]),
+    ], [], false),
+];
+
+$services_css = <<<'CSS'
+selector .xz-services-page{padding:0!important;gap:0!important;}
+selector .xz-services-page>.elementor-element{width:100%;}
+CSS;
+
 xznp_save_page(19, $home, $home_css);
 xznp_save_page(20, $about, $about_css);
 xznp_save_page(21, $services, $services_css);

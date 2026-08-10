@@ -45,6 +45,13 @@ add_action('wp_enqueue_scripts', static function (): void {
         true
     );
 
+    wp_register_style(
+        'xinzhou-service-widgets',
+        WPMU_PLUGIN_URL . '/xinzhou-content/assets/service-widgets.css',
+        ['xinzhou-content'],
+        xz_content_asset_version('assets/service-widgets.css')
+    );
+
     if (is_front_page() || is_singular(['product', 'post']) || is_post_type_archive('product') || is_tax('product_category') || is_home()) {
         wp_enqueue_script('xinzhou-content');
     }
@@ -111,9 +118,11 @@ add_action('elementor/widgets/register', static function ($widgets_manager): voi
     require_once $widget_file;
     require_once WPMU_PLUGIN_DIR . '/xinzhou-content/homepage-widgets.php';
     require_once WPMU_PLUGIN_DIR . '/xinzhou-content/about-widgets.php';
+    require_once WPMU_PLUGIN_DIR . '/xinzhou-content/service-widgets.php';
     \Xinzhou\Elementor\register_widgets($widgets_manager);
     \Xinzhou\Elementor\register_homepage_widgets($widgets_manager);
     \Xinzhou\Elementor\register_about_widgets($widgets_manager);
+    \Xinzhou\Elementor\register_service_widgets($widgets_manager);
 });
 
 add_action('elementor/query/xinzhou_related_products', static function (WP_Query $query): void {
