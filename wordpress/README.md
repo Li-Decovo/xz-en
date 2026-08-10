@@ -12,7 +12,7 @@ The WordPress build uses native content objects, ACF-managed fields, and Element
 - Native WordPress Posts provide News, Exhibitions, Customer Exchange, Product Showcase, Company News, and Cases.
 - Native WordPress Categories provide article and case archives.
 
-The post type, taxonomy, and field groups are registered through ACF's admin UI. The must-use plugin does not register or hide those objects in PHP.
+The post type, taxonomy, and field groups are registered through ACF's admin UI. Deployment utilities may idempotently add a missing field to an existing ACF field group, but the must-use plugin does not hide or replace ACF objects.
 
 ## Elementor Templates
 
@@ -23,7 +23,7 @@ The post type, taxonomy, and field groups are registered through ACF's admin UI.
 - `13`: Global Header - Xinzhou
 - `32`: Global Footer - Xinzhou
 
-The archive templates use Elementor Archive Posts with native WordPress pagination. The single templates use separate native and Xinzhou widgets for title, excerpt, image, content, gallery, structured ACF data, related content, article contents, and Fluent Forms.
+Product archive and single templates use dedicated Xinzhou section widgets with native WordPress queries and pagination. Article templates use native and Xinzhou widgets for structured content, related content, article contents, and Fluent Forms.
 
 ## Xinzhou Widgets
 
@@ -36,6 +36,11 @@ The following widgets appear in the normal Elementor widget panel:
 - Xinzhou Product Gallery
 - Xinzhou Product Summary Data
 - Xinzhou Product Information
+- Xinzhou Product Archive Grid
+- Xinzhou Product Worldwide
+- Xinzhou Product Detail Hero
+- Xinzhou Product Information Tabs
+- Xinzhou Related Products
 - Xinzhou Article Meta
 - Xinzhou Article Contents
 
@@ -60,9 +65,9 @@ To publish an article or case:
 
 ## Deployment Tools
 
-The scripts in `wordpress/tools` are idempotent deployment utilities for the current server documents. They are not content-entry tools and do not register ACF objects.
+The scripts in `wordpress/tools` are idempotent deployment utilities for the current server documents. They are not routine content-entry tools.
 
-- `apply-maintainable-templates.php` updates the four Theme Builder archive/single templates.
+- `apply-maintainable-templates.php` updates the four Theme Builder archive/single templates and ensures the small set of required ACF display fields exists once in the existing field groups.
 - `apply-native-pages.php` updates Home, About, Services, Contact form widgets, and the global pre-footer.
 
 After deploying plugin or Elementor document changes, run:

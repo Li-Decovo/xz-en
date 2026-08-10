@@ -82,108 +82,15 @@ $product_single = [
         'content_width' => 'full',
         'flex_direction' => 'column',
         'gap' => ['unit' => 'px', 'size' => 0, 'sizes' => []],
-        'css_classes' => 'xz-wp-product-single',
+        'css_classes' => 'xz-product-detail-page product-detail-main',
     ], [
-        xz_el_container('xps00002', [
-            'width' => ['unit' => 'px', 'size' => 1850, 'sizes' => []],
-            'flex_direction' => 'row',
-            'gap' => ['unit' => 'px', 'size' => 0, 'sizes' => []],
-            'css_classes' => 'xz-wp-product-single-hero',
-        ], [
-            xz_el_container('xps00003', [
-                'content_width' => 'full',
-                'width' => ['unit' => '%', 'size' => 54, 'sizes' => []],
-                'css_classes' => 'xz-wp-product-gallery-column',
-            ], [
-                xz_el_widget('xps00004', 'xinzhou-product-gallery'),
-            ]),
-            xz_el_container('xps00005', [
-                'content_width' => 'full',
-                'width' => ['unit' => '%', 'size' => 46, 'sizes' => []],
-                'flex_direction' => 'column',
-                'gap' => ['unit' => 'px', 'size' => 18, 'sizes' => []],
-                'css_classes' => 'xz-wp-product-summary',
-            ], [
-                xz_el_widget('xps00006', 'xinzhou-breadcrumbs'),
-                xz_el_widget('xps00007', 'theme-post-title', [
-                    'header_size' => 'h1',
-                ]),
-                xz_el_widget('xps00008', 'theme-post-excerpt'),
-                xz_el_widget('xps00009', 'xinzhou-product-summary-data', [
-                    'parameter_limit' => 4,
-                    'finished_limit' => 2,
-                ]),
-                xz_el_widget('xps00010', 'button', [
-                    'text' => 'Send an Inquiry',
-                    'link' => ['url' => '/contact/#inquiry', 'is_external' => '', 'nofollow' => '', 'custom_attributes' => 'data-inquiry-open|true'],
-                    '_css_classes' => 'xz-product-inquiry-widget',
-                ]),
-            ]),
-        ]),
-        xz_el_container('xps00011', [
-            'content_width' => 'full',
-            'background_background' => 'classic',
-            'background_color' => '#F6F7F9',
-            'padding' => ['unit' => 'px', 'top' => '66', 'right' => '24', 'bottom' => '76', 'left' => '24', 'isLinked' => false],
-            'css_classes' => 'xz-wp-product-information-section',
-        ], [
-            xz_el_widget('xps00012', 'xinzhou-product-information'),
-        ]),
-        xz_el_container('xps00013', [
-            'width' => ['unit' => 'px', 'size' => 1850, 'sizes' => []],
-            'padding' => ['unit' => 'px', 'top' => '70', 'right' => '24', 'bottom' => '86', 'left' => '24', 'isLinked' => false],
-            'flex_direction' => 'column',
-            'gap' => ['unit' => 'px', 'size' => 28, 'sizes' => []],
-            'css_classes' => 'xz-wp-related-products',
-        ], [
-            xz_el_widget('xps00014', 'heading', [
-                'title' => 'Related Products',
-                'header_size' => 'h2',
-            ]),
-            xz_el_widget('xps00015', 'posts', [
-                '_skin' => 'classic',
-                'classic_columns' => 3,
-                'classic_columns_tablet' => 2,
-                'classic_columns_mobile' => 1,
-                'posts_per_page' => 3,
-                'show_image' => 'yes',
-                'image_size' => 'large',
-                'show_title' => 'yes',
-                'show_excerpt' => 'yes',
-                'excerpt_length' => 18,
-                'show_read_more' => 'yes',
-                'read_more_text' => 'View Details',
-                'pagination_type' => '',
-                'posts_post_type' => 'product',
-                'posts_query_id' => 'xinzhou_related_products',
-                '_css_classes' => 'xz-native-related-posts',
-            ]),
-        ]),
+        xz_el_widget('xps00002', 'xinzhou-product-detail-hero', ['parameter_limit' => 3, 'finished_limit' => 2, 'finished_title' => 'Finished Products', 'view_all_text' => 'View All', 'button_text' => 'Send an Inquiry']),
+        xz_el_widget('xps00003', 'xinzhou-product-detail-information', ['eyebrow' => 'Product Information', 'title' => 'Engineering Details', 'overview_label' => 'Overview', 'specifications_label' => 'Technical Specifications', 'finished_label' => 'Finished Products', 'workflow_label' => 'Configuration & Workflow', 'faq_label' => 'FAQ']),
+        xz_el_widget('xps00004', 'xinzhou-product-detail-related', ['eyebrow' => 'Related Products', 'title' => 'Complete Your Production Line', 'count' => 3]),
     ], false),
 ];
 
-$product_single_css = <<<'CSS'
-selector .xz-wp-product-single{font-family:Inter,Arial,sans-serif;color:#111827;}
-selector .xz-wp-product-single-hero{margin:0 auto;align-items:stretch;}
-selector .xz-wp-product-gallery-column{padding-right:24px;padding-bottom:42px;}
-selector .xz-wp-product-summary{padding:54px clamp(34px,4vw,72px);justify-content:center;}
-selector .xz-wp-product-summary .elementor-widget-theme-post-title .elementor-heading-title{max-width:760px;margin:0;font-size:clamp(30px,2.5vw,42px);line-height:1.14;color:#111827;}
-selector .xz-wp-product-summary .elementor-widget-theme-post-excerpt{color:#64748b;font-size:16px;line-height:1.75;}
-selector .xz-product-inquiry-widget .elementor-button{min-height:48px;padding:15px 24px;border-radius:0;background:#d84120;font-weight:700;text-transform:uppercase;}
-selector .xz-wp-product-information-section>.e-con-inner{width:min(100%,1850px);margin:0 auto;}
-selector .xz-wp-related-products{margin:0 auto;}
-selector .xz-wp-related-products>.elementor-widget-heading .elementor-heading-title{font-size:32px;color:#111827;}
-selector .xz-native-related-posts .elementor-post{overflow:hidden;border:1px solid #e2e8f0;background:#fff;}
-selector .xz-native-related-posts .elementor-post__thumbnail__link{margin-bottom:0;}
-selector .xz-native-related-posts .elementor-post__thumbnail{padding-bottom:75%!important;}
-selector .xz-native-related-posts .elementor-post__thumbnail img{width:100%;height:100%;object-fit:cover;}
-selector .xz-native-related-posts .elementor-post__text{padding:18px 20px 22px;text-align:center;}
-selector .xz-native-related-posts .elementor-post__title{font-size:18px;line-height:1.45;}
-selector .xz-native-related-posts .elementor-post__title a{color:#111827;}
-selector .xz-native-related-posts .elementor-post__read-more{color:#d84120;font-weight:700;text-transform:uppercase;}
-@media(max-width:900px){selector .xz-wp-product-single-hero{flex-direction:column!important;}selector .xz-wp-product-gallery-column,selector .xz-wp-product-summary{width:100%!important;}selector .xz-wp-product-gallery-column{padding-right:0;}selector .xz-wp-product-summary{padding:34px 24px 48px;}}
-@media(max-width:640px){selector .xz-wp-product-summary{padding-left:16px;padding-right:16px;}selector .xz-wp-product-information-section,selector .xz-wp-related-products{padding-left:16px!important;padding-right:16px!important;}}
-CSS;
+$product_single_css = '';
 
 $news_archive = [
     xz_el_container('xna00001', [
@@ -488,6 +395,12 @@ if (function_exists('update_field')) {
             update_field('field_xz_product_card_label', $label, $product_id);
         }
     }
+}
+
+$overview_image_url = wp_get_attachment_image_url(181, 'full');
+if ($overview_image_url && get_post_type(158) === 'product' && function_exists('update_field')) {
+    $overview_html = '<div class="product-overview-grid"><div><h3>Fully Integrated Steel Grating Production</h3><p>The GGV Series is Xinzhou\'s heavy-duty engineering system for the high-volume production of industrial steel gratings. It integrates flat load bars with automatically fed twisted cross bars using transformer technology and microcomputer controls.</p><p>The line is managed through an HMI + PLC system and driven by high-precision servo pulling. Standard and customized configurations are available according to grating specifications, output targets, factory layout and required automation level.</p></div><figure><img src="' . esc_url($overview_image_url) . '" alt="Complete GGV steel grating line installed in a manufacturing workshop"></figure></div><div class="product-overview-description"><h3>Performance, Feeding and Intelligent Control</h3><p>The water-cooled transformer delivers high welding current, efficient cooling and long service life. During production, a heavy-duty hydraulic correction mechanism realigns the steel grating panel to maintain a flat and uniform finished result.</p><p>Automatic servo cross bar feeding, dual-rod stocking and the load bar pre-feeding system reduce waiting time between welding cycles. HMI + PLC control provides clear visual operation, while servo pulling allows the cross bar pitch to be adjusted through the touch screen according to the required product specification.</p><p>Integrated IoT functions support remote monitoring, fault diagnosis and program updates, helping Xinzhou\'s technical team respond efficiently to overseas service requirements.</p></div>';
+    update_field('field_xz_product_overview', $overview_html, 158);
 }
 
 xz_update_elementor_document(193, $product_archive, $product_archive_css, [

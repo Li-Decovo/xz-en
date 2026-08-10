@@ -124,6 +124,9 @@
             button.addEventListener("click", function () {
                 if (!mainImage) return;
                 mainImage.src = button.dataset.fullSrc;
+                mainImage.alt = button.dataset.fullAlt || "";
+                mainImage.removeAttribute("srcset");
+                mainImage.removeAttribute("sizes");
                 gallery.querySelectorAll("[data-xz-gallery-thumb]").forEach(function (item) {
                     var active = item === button;
                     item.classList.toggle("is-active", active);
@@ -142,6 +145,7 @@
                 var active = button.dataset.xzTab === name;
                 button.classList.toggle("is-active", active);
                 button.setAttribute("aria-selected", active ? "true" : "false");
+                button.tabIndex = active ? 0 : -1;
             });
             panels.forEach(function (panel) {
                 var active = panel.dataset.xzTabPanel === name;
@@ -153,6 +157,19 @@
         buttons.forEach(function (button) {
             button.addEventListener("click", function () {
                 activate(button.dataset.xzTab);
+            });
+            button.addEventListener("keydown", function (event) {
+                var index = buttons.indexOf(button);
+                var nextIndex = index;
+                if (event.key === "ArrowRight") nextIndex = (index + 1) % buttons.length;
+                if (event.key === "ArrowLeft") nextIndex = (index - 1 + buttons.length) % buttons.length;
+                if (event.key === "Home") nextIndex = 0;
+                if (event.key === "End") nextIndex = buttons.length - 1;
+                if (nextIndex !== index) {
+                    event.preventDefault();
+                    activate(buttons[nextIndex].dataset.xzTab);
+                    buttons[nextIndex].focus();
+                }
             });
         });
 
