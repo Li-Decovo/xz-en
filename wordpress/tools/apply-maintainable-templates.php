@@ -38,9 +38,10 @@ $product_archive = [
         'content_width' => 'full',
         'flex_direction' => 'column',
         'gap' => ['unit' => 'px', 'size' => 0, 'sizes' => []],
-        'css_classes' => 'xz-wp-product-archive',
+        'css_classes' => 'xz-products-page products-main',
     ], [
         xz_el_widget('xpa00002', 'xinzhou-product-categories', [
+            'layout' => 'archive',
             'hide_empty' => '',
             'show_description' => '',
             'image_size' => 'large',
@@ -48,71 +49,33 @@ $product_archive = [
         xz_el_widget('xpa00003', 'xinzhou-product-category-content', [
             'content_type' => 'short',
             'show_title' => 'yes',
-            'all_products_link' => 'yes',
+            'all_products_link' => '',
             'fallback_content' => '<p>Explore Xinzhou automated resistance welding machines and complete production lines for steel grating, reinforcing mesh, IBC tanks, lattice girders, cable trays, fence panels and custom welding applications.</p>',
         ]),
-        xz_el_container('xpa00004', [
-            'width' => ['unit' => 'px', 'size' => 1850, 'sizes' => []],
-            'padding' => ['unit' => 'px', 'top' => '34', 'right' => '24', 'bottom' => '72', 'left' => '24', 'isLinked' => false],
-            'flex_direction' => 'column',
-            'gap' => ['unit' => 'px', 'size' => 26, 'sizes' => []],
-            'css_classes' => 'xz-wp-archive-list',
-        ], [
-            xz_el_widget('xpa00005', 'heading', [
-                'title' => 'Machines in This Category',
-                'header_size' => 'h2',
-            ]),
-            xz_el_widget('xpa00006', 'archive-posts', [
-                '_skin' => 'archive_classic',
-                'archive_classic_columns' => 3,
-                'archive_classic_columns_tablet' => 2,
-                'archive_classic_columns_mobile' => 1,
-                'archive_classic_show_image' => 'yes',
-                'archive_classic_image_size' => 'large',
-                'archive_classic_show_title' => 'yes',
-                'archive_classic_show_excerpt' => 'yes',
-                'archive_classic_excerpt_length' => 24,
-                'archive_classic_show_read_more' => 'yes',
-                'archive_classic_read_more_text' => 'View Details',
-                'pagination_type' => 'numbers_and_prev_next',
-                'pagination_prev_label' => 'Previous',
-                'pagination_next_label' => 'Next',
-                '_css_classes' => 'xz-native-archive-posts',
-            ]),
+        xz_el_widget('xpa00004', 'xinzhou-product-archive-grid', [
+            'title' => 'Machines in This Category',
+            'show_label' => 'yes',
         ]),
-        xz_el_container('xpa00007', [
-            'content_width' => 'full',
-            'background_background' => 'classic',
-            'background_color' => '#F6F7F9',
-            'css_classes' => 'xz-product-category-detail-section',
-        ], [
-            xz_el_widget('xpa00008', 'xinzhou-product-category-content', [
-                'content_type' => 'detailed',
-                'show_title' => '',
-                'all_products_link' => '',
-                'fallback_content' => '<p>Xinzhou combines welding engineering, automation, tooling and production-line integration to support both standard machine configurations and customized manufacturing projects. Each system can be planned around product specifications, target output, available factory space and the required automation level.</p>',
-            ]),
+        xz_el_widget('xpa00005', 'xinzhou-product-category-content', [
+            'content_type' => 'detailed',
+            'show_title' => 'yes',
+            'eyebrow' => 'Category Description',
+            'all_products_link' => '',
+            'fallback_content' => '<p>Xinzhou combines welding engineering, automation, tooling and production-line integration to support both standard machine configurations and customized manufacturing projects. Each system can be planned around product specifications, target output, available factory space and the required automation level.</p>',
+        ]),
+        xz_el_widget('xpa00006', 'xinzhou-product-worldwide', [
+            'title' => 'Xinzhou Worldwide',
+            'logos' => [
+                ['image' => ['url' => 'https://darkturquoise-camel-554606.hostingersite.com/wp-content/uploads/xinzhou-home-assets/site-logo.webp'], 'alt' => 'Xinzhou Resistance Welder', 'link' => ['url' => '#']],
+                ['image' => ['url' => 'https://darkturquoise-camel-554606.hostingersite.com/wp-content/uploads/xinzhou-home-assets/site-logo.webp'], 'alt' => 'Xinzhou Automated Welding Lines', 'link' => ['url' => '#']],
+                ['image' => ['url' => 'https://darkturquoise-camel-554606.hostingersite.com/wp-content/uploads/xinzhou-home-assets/site-logo.webp'], 'alt' => 'Xinzhou Mesh Welding Systems', 'link' => ['url' => '#']],
+                ['image' => ['url' => 'https://darkturquoise-camel-554606.hostingersite.com/wp-content/uploads/xinzhou-home-assets/site-logo.webp'], 'alt' => 'Xinzhou Global Service', 'link' => ['url' => '#']],
+            ],
         ]),
     ], false),
 ];
 
-$product_archive_css = <<<'CSS'
-selector .xz-wp-product-archive{padding-top:28px;}
-selector .xz-wp-archive-list{margin:0 auto;}
-selector .xz-wp-archive-list>.elementor-widget-heading .elementor-heading-title{font-family:Inter,Arial,sans-serif;font-size:32px;font-weight:700;color:#111827;}
-selector .xz-native-archive-posts .elementor-posts-container{column-gap:22px;row-gap:32px;}
-selector .xz-native-archive-posts .elementor-post{overflow:hidden;border:1px solid #e2e8f0;background:#fff;}
-selector .xz-native-archive-posts .elementor-post__thumbnail__link{margin-bottom:0;}
-selector .xz-native-archive-posts .elementor-post__thumbnail{padding-bottom:75%!important;}
-selector .xz-native-archive-posts .elementor-post__thumbnail img{width:100%;height:100%;object-fit:cover;}
-selector .xz-native-archive-posts .elementor-post__text{padding:20px 22px 24px;text-align:center;}
-selector .xz-native-archive-posts .elementor-post__title{font-family:Inter,Arial,sans-serif;font-size:18px;line-height:1.45;}
-selector .xz-native-archive-posts .elementor-post__title a{color:#111827;}
-selector .xz-native-archive-posts .elementor-post__excerpt{color:#64748b;line-height:1.65;}
-selector .xz-native-archive-posts .elementor-post__read-more{color:#d84120;font-weight:700;text-transform:uppercase;}
-selector .elementor-pagination{margin-top:38px;}
-@media(max-width:767px){selector .xz-wp-product-archive{padding-top:18px;}selector .xz-wp-archive-list{padding-left:16px!important;padding-right:16px!important;}}
-CSS;
+$product_archive_css = '';
 
 $product_single = [
     xz_el_container('xps00001', [
@@ -424,6 +387,108 @@ selector .xz-native-related-posts .elementor-post__title a{color:#111827;}
 selector .xz-native-related-posts .elementor-post__read-more{color:#d84120;font-weight:700;text-transform:uppercase;}
 @media(max-width:900px){selector .xz-wp-news-single-body{flex-direction:column!important;padding-left:16px!important;padding-right:16px!important;}selector .xz-wp-news-single-content,selector .xz-wp-news-single-aside{width:100%!important;}selector .xz-wp-news-single-aside{position:static;margin-top:20px;}}
 CSS;
+
+function xz_ensure_acf_field(int $group_id, array $field): void {
+    if (!function_exists('acf_get_field_group') || !function_exists('acf_update_field')) {
+        return;
+    }
+
+    foreach ((array) acf_get_fields($group_id) as $existing) {
+        if (($existing['name'] ?? '') === ($field['name'] ?? '')) {
+            return;
+        }
+    }
+
+    $group = acf_get_field_group($group_id);
+    if (!$group || empty($group['key'])) {
+        return;
+    }
+
+    acf_update_field(array_merge([
+        'type' => 'text',
+        'instructions' => '',
+        'required' => 0,
+        'conditional_logic' => 0,
+        'wrapper' => ['width' => '', 'class' => '', 'id' => ''],
+        'default_value' => '',
+        'maxlength' => '',
+        'placeholder' => '',
+        'prepend' => '',
+        'append' => '',
+    ], $field, ['parent' => $group_id]));
+}
+
+$managed_acf_fields = [
+    'category_archive_title',
+    'category_detailed_title',
+    'product_card_label',
+];
+foreach (get_posts([
+    'post_type' => 'acf-field',
+    'post_status' => 'any',
+    'posts_per_page' => -1,
+    'post_parent' => 0,
+]) as $orphan_field) {
+    if (in_array($orphan_field->post_excerpt, $managed_acf_fields, true)) {
+        wp_delete_post($orphan_field->ID, true);
+    }
+}
+
+xz_ensure_acf_field(151, [
+    'key' => 'field_xz_category_archive_title',
+    'label' => 'Archive Display Title',
+    'name' => 'category_archive_title',
+    'instructions' => 'Optional heading shown above the products. Falls back to the category name.',
+    'menu_order' => 4,
+]);
+xz_ensure_acf_field(151, [
+    'key' => 'field_xz_category_detailed_title',
+    'label' => 'Detailed Description Title',
+    'name' => 'category_detailed_title',
+    'instructions' => 'Optional heading shown with the detailed category description.',
+    'menu_order' => 5,
+]);
+xz_ensure_acf_field(124, [
+    'key' => 'field_xz_product_card_label',
+    'label' => 'Product Card Label',
+    'name' => 'product_card_label',
+    'instructions' => 'Short label displayed over the product image in archive and related-product cards.',
+    'menu_order' => 16,
+]);
+
+$steel_grating = get_term_by('slug', 'steel-grating', 'product_category');
+if ($steel_grating instanceof WP_Term && function_exists('update_field')) {
+    $term_context = 'product_category_' . $steel_grating->term_id;
+    update_field('field_xz_category_archive_title', 'Steel Grating Production Lines', $term_context);
+    update_field('field_xz_category_detailed_title', 'Intelligent Steel Grating Production Lines & Integrated Systems', $term_context);
+    update_field('field_xz_category_long_description', implode("\n\n", [
+        "The GGV Series is Xinzhou's heavy-duty engineering system for the high-volume production of industrial steel gratings. The production line integrates flat load bars with automatically fed twisted cross bars using transformer technology, microcomputer controls and a high-precision servo pulling system.",
+        'HMI + PLC control supports visual operation and flexible cross bar pitch adjustment. Auxiliary equipment can be integrated for twisted bar forming, edge trimming, panel cutting, binding bar welding, side discharge and heavy-duty stacking.',
+        'Standard and customized configurations are available according to grating specifications, output targets, factory layout and required automation level.',
+    ]), $term_context);
+}
+
+$product_card_labels = [
+    158 => 'Steel Grating Lines',
+    160 => 'Steel Grating Lines',
+    162 => 'Auxiliary Equipment',
+    164 => 'Finishing Equipment',
+    166 => 'Handling Systems',
+    168 => 'Cutting Equipment',
+    170 => 'Finishing Equipment',
+    172 => 'Material Preparation',
+    174 => 'Material Preparation',
+    176 => 'Feeding Systems',
+    178 => 'Press-Lock Grating',
+    180 => 'Turnkey Systems',
+];
+if (function_exists('update_field')) {
+    foreach ($product_card_labels as $product_id => $label) {
+        if (get_post_type($product_id) === 'product') {
+            update_field('field_xz_product_card_label', $label, $product_id);
+        }
+    }
+}
 
 xz_update_elementor_document(193, $product_archive, $product_archive_css, [
     'include/archive/product_archive',

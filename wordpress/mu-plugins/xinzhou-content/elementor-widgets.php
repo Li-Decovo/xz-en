@@ -71,6 +71,10 @@ final class Product_Categories_Widget extends Xinzhou_Widget {
         return 'eicon-gallery-grid';
     }
 
+    public function get_style_depends(): array {
+        return ['xinzhou-content', 'xinzhou-product-archive-widgets'];
+    }
+
     protected function register_controls(): void {
         $this->start_controls_section('content', ['label' => 'Categories']);
         $this->add_control('layout', [
@@ -128,8 +132,9 @@ final class Product_Categories_Widget extends Xinzhou_Widget {
         $current = is_tax('product_category') ? current_product_term() : null;
         $image_size = $settings['image_size'] ?? 'large';
         ?>
-        <nav class="xz-product-category-nav xz-product-category-nav--<?php echo esc_attr($settings['layout'] ?? 'archive'); ?>" aria-label="Product categories">
-            <div class="xz-product-category-nav__grid">
+        <?php $archive_layout = ($settings['layout'] ?? 'archive') === 'archive'; ?>
+        <<?php echo $archive_layout ? 'section' : 'nav'; ?> class="<?php echo $archive_layout ? 'product-category-nav' : 'xz-product-category-nav xz-product-category-nav--' . esc_attr($settings['layout'] ?? 'archive'); ?>" aria-label="Product categories">
+            <div class="<?php echo $archive_layout ? 'product-category-nav__grid' : 'xz-product-category-nav__grid'; ?>">
                 <?php foreach ($terms as $term) :
                     $image_id = \xz_product_term_image((int) $term->term_id);
                     $active = $current && (int) $current->term_id === (int) $term->term_id;
@@ -137,7 +142,7 @@ final class Product_Categories_Widget extends Xinzhou_Widget {
                         ? get_field('category_short_description', 'product_category_' . $term->term_id)
                         : '';
                     ?>
-                    <a class="xz-product-category-tile<?php echo $active ? ' is-active' : ''; ?>" href="<?php echo esc_url(get_term_link($term)); ?>">
+                    <a class="<?php echo $archive_layout ? 'product-category-tile' : 'xz-product-category-tile'; ?><?php echo $active ? ' is-active' : ''; ?>" href="<?php echo esc_url(get_term_link($term)); ?>"<?php echo $active ? ' aria-current="page"' : ''; ?>>
                         <?php echo $image_id ? wp_get_attachment_image($image_id, $image_size, false, ['loading' => 'lazy']) : ''; ?>
                         <span><?php echo esc_html($term->name); ?></span>
                         <?php if (($settings['show_description'] ?? '') === 'yes' && $short) : ?>
@@ -146,7 +151,7 @@ final class Product_Categories_Widget extends Xinzhou_Widget {
                     </a>
                 <?php endforeach; ?>
             </div>
-        </nav>
+        </<?php echo $archive_layout ? 'section' : 'nav'; ?>>
         <?php
     }
 }
@@ -162,6 +167,10 @@ final class Product_Category_Content_Widget extends Xinzhou_Widget {
 
     public function get_icon(): string {
         return 'eicon-archive-title';
+    }
+
+    public function get_style_depends(): array {
+        return ['xinzhou-content', 'xinzhou-product-archive-widgets'];
     }
 
     protected function register_controls(): void {
@@ -181,6 +190,12 @@ final class Product_Category_Content_Widget extends Xinzhou_Widget {
             'return_value' => 'yes',
             'default' => 'yes',
         ]);
+        $this->add_control('eyebrow', [
+            'label' => 'Detailed Section Label',
+            'type' => Controls_Manager::TEXT,
+            'default' => 'Category Description',
+            'condition' => ['content_type' => 'detailed'],
+        ]);
         $this->add_control('all_products_link', [
             'label' => 'Show All Products Link',
             'type' => Controls_Manager::SWITCHER,
@@ -199,8 +214,14 @@ final class Product_Category_Content_Widget extends Xinzhou_Widget {
         $settings = $this->get_settings_for_display();
         $term = current_product_term();
         $is_archive = is_tax('product_category');
+        $content_type = $settings['content_type'] ?? 'short';
         $name = $is_archive && $term ? $term->name : 'Products';
-        $field = ($settings['content_type'] ?? 'short') === 'detailed'
+        if ($is_archive && $term && function_exists('get_field')) {
+            $title_field = $content_type === 'detailed' ? 'category_detailed_title' : 'category_archive_title';
+            $field_title = (string) get_field($title_field, 'product_category_' . $term->term_id);
+            if ($field_title) { $name = $field_title; }
+        }
+        $field = $content_type === 'detailed'
             ? 'category_long_description'
             : 'category_short_description';
         $content = '';
@@ -214,13 +235,18 @@ final class Product_Category_Content_Widget extends Xinzhou_Widget {
             $content = (string) ($settings['fallback_content'] ?? '');
         }
         ?>
-        <div class="xz-product-category-intro xz-product-category-intro--<?php echo esc_attr($settings['content_type'] ?? 'short'); ?>">
-            <?php if (($settings['show_title'] ?? '') === 'yes') : ?><h1><?php echo esc_html($name); ?></h1><?php endif; ?>
-            <?php if ($content) : ?><div class="xz-product-category-copy"><?php echo wp_kses_post(wpautop($content)); ?></div><?php endif; ?>
-            <?php if (($settings['all_products_link'] ?? '') === 'yes' && $is_archive) : ?>
-                <a class="xz-product-category-intro__all" href="<?php echo esc_url(get_post_type_archive_link('product')); ?>">View All Products</a>
-            <?php endif; ?>
-        </div>
+        <?php if ($content_type === 'short') : ?>
+            <section class="product-category-intro"><div class="xz-container product-category-intro__inner">
+                <?php if (($settings['show_title'] ?? '') === 'yes') : ?><h2><?php echo esc_html($name); ?></h2><?php endif; ?>
+                <?php if ($content) : ?><div class="xz-product-category-copy"><?php echo wp_kses_post(wpautop($content)); ?></div><?php endif; ?>
+                <?php if (($settings['all_products_link'] ?? '') === 'yes' && $is_archive) : ?><a class="xz-product-category-intro__all" href="<?php echo esc_url(get_post_type_archive_link('product')); ?>">View All Products</a><?php endif; ?>
+            </div></section>
+        <?php else : ?>
+            <section class="product-category-detail" aria-labelledby="category-detail-title"><div class="xz-container product-category-detail__grid">
+                <div><?php if (!empty($settings['eyebrow'])) : ?><p class="products-eyebrow"><?php echo esc_html($settings['eyebrow']); ?></p><?php endif; ?><?php if ($name) : ?><h2 id="category-detail-title"><?php echo esc_html($name); ?></h2><?php endif; ?></div>
+                <?php if ($content) : ?><div class="product-category-detail__copy"><?php echo wp_kses_post(wpautop($content)); ?></div><?php endif; ?>
+            </div></section>
+        <?php endif; ?>
         <?php
     }
 }
