@@ -7,6 +7,28 @@
     --xz-content-soft: #f6f7f9;
 }
 
+.xz-button {
+    display: inline-flex;
+    min-height: 52px;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px 24px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.xz-button:hover { transform: translateY(-2px); }
+.xz-button--primary { background: #d84120; color: #fff; box-shadow: 0 14px 28px rgba(216, 65, 32, 0.24); }
+.xz-button--primary:hover { background: #b93318; color: #fff; }
+
 /* Editable homepage sections */
 .xz-home-split,
 .xz-home-carousel,

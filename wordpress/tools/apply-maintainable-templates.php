@@ -112,138 +112,15 @@ $news_single = [
         'content_width' => 'full',
         'flex_direction' => 'column',
         'gap' => ['unit' => 'px', 'size' => 0, 'sizes' => []],
-        'css_classes' => 'xz-wp-news-single',
+        'css_classes' => 'xz-news-detail-page news-detail-main',
     ], [
-        xz_el_container('xns00002', [
-            'content_width' => 'full',
-            'min_height' => ['unit' => 'px', 'size' => 410, 'sizes' => []],
-            'padding' => ['unit' => 'px', 'top' => '60', 'right' => '24', 'bottom' => '60', 'left' => '24', 'isLinked' => false],
-            'flex_direction' => 'column',
-            'flex_justify_content' => 'center',
-            'flex_align_items' => 'center',
-            'gap' => ['unit' => 'px', 'size' => 18, 'sizes' => []],
-            'css_classes' => 'xz-wp-news-single-hero',
-        ], [
-            xz_el_widget('xns00003', 'xinzhou-breadcrumbs'),
-            xz_el_widget('xns00004', 'theme-post-title', [
-                'header_size' => 'h1',
-                'align' => 'center',
-                'title_color' => '#FFFFFF',
-            ]),
-            xz_el_widget('xns00005', 'xinzhou-article-meta'),
-        ]),
-        xz_el_container('xns00006', [
-            'width' => ['unit' => 'px', 'size' => 1850, 'sizes' => []],
-            'flex_direction' => 'row',
-            'gap' => ['unit' => 'px', 'size' => 48, 'sizes' => []],
-            'padding' => ['unit' => 'px', 'top' => '68', 'right' => '24', 'bottom' => '92', 'left' => '24', 'isLinked' => false],
-            'css_classes' => 'xz-wp-news-single-body',
-        ], [
-            xz_el_container('xns00007', [
-                'content_width' => 'full',
-                'width' => ['unit' => '%', 'size' => 70, 'sizes' => []],
-                'flex_direction' => 'column',
-                'gap' => ['unit' => 'px', 'size' => 30, 'sizes' => []],
-                'css_classes' => 'xz-wp-news-single-content',
-            ], [
-                xz_el_widget('xns00008', 'theme-post-featured-image', ['image_size' => 'full']),
-                xz_el_widget('xns00009', 'theme-post-content'),
-            ]),
-            xz_el_container('xns00010', [
-                'content_width' => 'full',
-                'width' => ['unit' => '%', 'size' => 30, 'sizes' => []],
-                'flex_direction' => 'column',
-                'gap' => ['unit' => 'px', 'size' => 18, 'sizes' => []],
-                'css_classes' => 'xz-wp-news-single-aside',
-            ], [
-                xz_el_widget('xns00011', 'xinzhou-article-toc', ['title' => 'Contents']),
-                xz_el_container('xns00012', [
-                    'content_width' => 'full',
-                    'padding' => ['unit' => 'px', 'top' => '26', 'right' => '26', 'bottom' => '26', 'left' => '26', 'isLinked' => true],
-                    'background_background' => 'classic',
-                    'background_color' => '#111827',
-                    'flex_direction' => 'column',
-                    'gap' => ['unit' => 'px', 'size' => 12, 'sizes' => []],
-                    'css_classes' => 'xz-wp-news-inquiry',
-                ], [
-                    xz_el_widget('xns00013', 'heading', [
-                        'title' => 'Discuss Your Project',
-                        'header_size' => 'h2',
-                        'title_color' => '#FFFFFF',
-                    ]),
-                    xz_el_widget('xns00014', 'text-editor', [
-                        'editor' => '<p>Share your product specifications, target output and factory requirements with Xinzhou.</p>',
-                    ]),
-                    xz_el_widget('xns00015', 'fluent-form-widget', [
-                        'form_list' => '1',
-                        'theme_style' => '',
-                        '_css_classes' => 'xz-news-inquiry-form',
-                    ]),
-                ]),
-            ]),
-        ]),
-        xz_el_container('xns00016', [
-            'content_width' => 'full',
-            'background_background' => 'classic',
-            'background_color' => '#F6F7F9',
-            'css_classes' => 'xz-wp-related-news-section',
-        ], [
-            xz_el_container('xns00017', [
-                'width' => ['unit' => 'px', 'size' => 1850, 'sizes' => []],
-                'padding' => ['unit' => 'px', 'top' => '68', 'right' => '24', 'bottom' => '84', 'left' => '24', 'isLinked' => false],
-                'flex_direction' => 'column',
-                'gap' => ['unit' => 'px', 'size' => 28, 'sizes' => []],
-            ], [
-                xz_el_widget('xns00018', 'heading', ['title' => 'Related News', 'header_size' => 'h2']),
-                xz_el_widget('xns00019', 'posts', [
-                    '_skin' => 'classic',
-                    'classic_columns' => 3,
-                    'classic_columns_tablet' => 2,
-                    'classic_columns_mobile' => 1,
-                    'posts_per_page' => 3,
-                    'show_image' => 'yes',
-                    'image_size' => 'large',
-                    'show_title' => 'yes',
-                    'show_excerpt' => 'yes',
-                    'excerpt_length' => 18,
-                    'show_read_more' => 'yes',
-                    'read_more_text' => 'Read More',
-                    'pagination_type' => '',
-                    'posts_post_type' => 'post',
-                    'posts_query_id' => 'xinzhou_related_news',
-                    '_css_classes' => 'xz-native-related-posts',
-                ]),
-            ]),
-        ]),
+        xz_el_widget('xns00002', 'xinzhou-news-detail-hero', ['background' => ['url' => 'https://darkturquoise-camel-554606.hostingersite.com/wp-content/uploads/2026/08/news-detail-hero.webp'], 'news_label' => 'News']),
+        xz_el_widget('xns00003', 'xinzhou-news-detail-body', ['toc_title' => 'Article Contents', 'back_text' => 'Back to All News', 'inquiry_label' => 'Equipment Inquiry', 'inquiry_title' => 'Planning an Automated Welding Project?', 'inquiry_copy' => 'Share your finished product, production target and factory conditions with the Xinzhou team.', 'button_text' => 'Send an Inquiry', 'email' => 'xinzhou@weldercn.com']),
+        xz_el_widget('xns00004', 'xinzhou-news-detail-related', ['eyebrow' => 'More Updates', 'title' => 'Related News', 'view_all_text' => 'View All News', 'count' => 3]),
     ], false),
 ];
 
-$news_single_css = <<<'CSS'
-selector .xz-wp-news-single-hero{background:linear-gradient(rgba(5,10,18,.68),rgba(5,10,18,.68)),url('https://darkturquoise-camel-554606.hostingersite.com/wp-content/uploads/2026/07/news-hero-factory.webp') center/cover no-repeat;color:#fff;}
-selector .xz-wp-news-single-hero .xz-breadcrumbs,selector .xz-wp-news-single-hero .xz-article-meta{justify-content:center;color:rgba(255,255,255,.82);}
-selector .xz-wp-news-single-hero .elementor-heading-title{max-width:1180px;margin:0 auto;font-family:Inter,Arial,sans-serif;font-size:clamp(34px,3.7vw,58px);line-height:1.12;text-align:center;color:#fff;}
-selector .xz-wp-news-single-body{margin:0 auto;align-items:flex-start;}
-selector .xz-wp-news-single-content .elementor-widget-theme-post-featured-image img{width:100%;aspect-ratio:4/3;object-fit:cover;}
-selector .xz-wp-news-single-content .elementor-widget-theme-post-content{color:#374151;font-family:Inter,Arial,sans-serif;font-size:17px;line-height:1.85;}
-selector .xz-wp-news-single-content h2{margin:44px 0 18px;color:#111827;font-size:30px;line-height:1.25;scroll-margin-top:150px;}
-selector .xz-wp-news-single-content blockquote{margin:30px 0;padding:22px 26px;border-left:4px solid #d84120;background:#f6f7f9;}
-selector .xz-wp-news-inquiry .elementor-heading-title{font-size:22px;color:#fff;}
-selector .xz-wp-news-inquiry .elementor-widget-text-editor{color:rgba(255,255,255,.72);line-height:1.65;}
-selector .xz-news-inquiry-form label{color:#fff;}
-selector .xz-news-inquiry-form input,selector .xz-news-inquiry-form textarea{border-radius:0!important;}
-selector .xz-news-inquiry-form .ff-btn-submit{width:100%;border-radius:0!important;background:#d84120!important;color:#fff!important;font-weight:700;text-transform:uppercase;}
-selector .xz-wp-related-news-section>.e-con-inner{width:100%;}
-selector .xz-wp-related-news-section .e-con-boxed{margin:0 auto;}
-selector .xz-native-related-posts .elementor-post{overflow:hidden;border:1px solid #e2e8f0;background:#fff;}
-selector .xz-native-related-posts .elementor-post__thumbnail__link{margin-bottom:0;}
-selector .xz-native-related-posts .elementor-post__thumbnail{padding-bottom:75%!important;}
-selector .xz-native-related-posts .elementor-post__thumbnail img{width:100%;height:100%;object-fit:cover;}
-selector .xz-native-related-posts .elementor-post__text{padding:18px 20px 22px;}
-selector .xz-native-related-posts .elementor-post__title{font-size:18px;line-height:1.45;}
-selector .xz-native-related-posts .elementor-post__title a{color:#111827;}
-selector .xz-native-related-posts .elementor-post__read-more{color:#d84120;font-weight:700;text-transform:uppercase;}
-@media(max-width:900px){selector .xz-wp-news-single-body{flex-direction:column!important;padding-left:16px!important;padding-right:16px!important;}selector .xz-wp-news-single-content,selector .xz-wp-news-single-aside{width:100%!important;}selector .xz-wp-news-single-aside{position:static;margin-top:20px;}}
-CSS;
+$news_single_css = '';
 
 function xz_ensure_acf_field(int $group_id, array $field): void {
     if (!function_exists('acf_get_field_group') || !function_exists('acf_update_field')) {
