@@ -41,6 +41,9 @@ The following widgets appear in the normal Elementor widget panel:
 - Xinzhou Product Detail Hero
 - Xinzhou Product Information Tabs
 - Xinzhou Related Products
+- Xinzhou News Hero
+- Xinzhou Featured News
+- Xinzhou News Archive Grid
 - Xinzhou Article Meta
 - Xinzhou Article Contents
 

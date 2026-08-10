@@ -97,65 +97,15 @@ $news_archive = [
         'content_width' => 'full',
         'flex_direction' => 'column',
         'gap' => ['unit' => 'px', 'size' => 0, 'sizes' => []],
-        'css_classes' => 'xz-wp-news-archive',
+        'css_classes' => 'xz-news-page news-main',
     ], [
-        xz_el_container('xna00002', [
-            'content_width' => 'full',
-            'min_height' => ['unit' => 'px', 'size' => 330, 'sizes' => []],
-            'flex_direction' => 'column',
-            'flex_justify_content' => 'center',
-            'flex_align_items' => 'center',
-            'css_classes' => 'xz-wp-news-hero',
-        ], [
-            xz_el_widget('xna00003', 'theme-archive-title', [
-                'header_size' => 'h1',
-                'align' => 'center',
-                'title_color' => '#FFFFFF',
-            ]),
-        ]),
-        xz_el_widget('xna00004', 'xinzhou-news-categories'),
-        xz_el_container('xna00005', [
-            'width' => ['unit' => 'px', 'size' => 1850, 'sizes' => []],
-            'padding' => ['unit' => 'px', 'top' => '42', 'right' => '24', 'bottom' => '86', 'left' => '24', 'isLinked' => false],
-            'css_classes' => 'xz-wp-archive-list',
-        ], [
-            xz_el_widget('xna00006', 'archive-posts', [
-                '_skin' => 'archive_classic',
-                'archive_classic_columns' => 3,
-                'archive_classic_columns_tablet' => 2,
-                'archive_classic_columns_mobile' => 1,
-                'archive_classic_show_image' => 'yes',
-                'archive_classic_image_size' => 'large',
-                'archive_classic_show_title' => 'yes',
-                'archive_classic_show_excerpt' => 'yes',
-                'archive_classic_excerpt_length' => 24,
-                'archive_classic_show_read_more' => 'yes',
-                'archive_classic_read_more_text' => 'Read More',
-                'pagination_type' => 'numbers_and_prev_next',
-                'pagination_prev_label' => 'Previous',
-                'pagination_next_label' => 'Next',
-                '_css_classes' => 'xz-native-archive-posts',
-            ]),
-        ]),
+        xz_el_widget('xna00002', 'xinzhou-news-archive-hero', ['background' => ['url' => 'https://darkturquoise-camel-554606.hostingersite.com/wp-content/uploads/2026/07/news-hero-factory.webp'], 'title' => 'Updates from Xinzhou', 'description' => "Follow international exhibitions, customer exchanges and the latest developments in Xinzhou's automated welding equipment business."]),
+        xz_el_widget('xna00003', 'xinzhou-news-archive-featured', ['eyebrow' => 'Latest Update', 'title' => 'Exhibitions and Industry Connections', 'description' => 'See how Xinzhou presents production line capabilities and discusses real manufacturing requirements with customers around the world.', 'featured_post' => 187, 'link_text' => 'Read Full Story']),
+        xz_el_widget('xna00004', 'xinzhou-news-archive-grid', ['eyebrow' => 'News Archive', 'title' => 'More Xinzhou Updates', 'posts_per_page' => 9, 'link_text' => 'Read More', 'featured_post' => 187]),
     ], false),
 ];
 
-$news_archive_css = <<<'CSS'
-selector .xz-wp-news-hero{position:relative;background:linear-gradient(rgba(5,10,18,.62),rgba(5,10,18,.62)),url('https://darkturquoise-camel-554606.hostingersite.com/wp-content/uploads/2026/07/news-hero-factory.webp') center/cover no-repeat;}
-selector .xz-wp-news-hero .elementor-heading-title{max-width:1100px;font-family:Inter,Arial,sans-serif;font-size:clamp(38px,4vw,64px);line-height:1.08;text-align:center;color:#fff;}
-selector .xz-wp-archive-list{margin:0 auto;}
-selector .xz-native-archive-posts .elementor-posts-container{column-gap:24px;row-gap:34px;}
-selector .xz-native-archive-posts .elementor-post{overflow:hidden;border:1px solid #e2e8f0;background:#fff;}
-selector .xz-native-archive-posts .elementor-post__thumbnail__link{margin-bottom:0;}
-selector .xz-native-archive-posts .elementor-post__thumbnail{padding-bottom:75%!important;}
-selector .xz-native-archive-posts .elementor-post__thumbnail img{width:100%;height:100%;object-fit:cover;}
-selector .xz-native-archive-posts .elementor-post__text{padding:22px 22px 26px;}
-selector .xz-native-archive-posts .elementor-post__title{font-family:Inter,Arial,sans-serif;font-size:20px;line-height:1.4;}
-selector .xz-native-archive-posts .elementor-post__title a{color:#111827;}
-selector .xz-native-archive-posts .elementor-post__excerpt{display:-webkit-box;overflow:hidden;color:#64748b;line-height:1.7;-webkit-box-orient:vertical;-webkit-line-clamp:3;}
-selector .xz-native-archive-posts .elementor-post__read-more{color:#d84120;font-weight:700;text-transform:uppercase;}
-@media(max-width:640px){selector .xz-wp-archive-list{padding-left:16px!important;padding-right:16px!important;}}
-CSS;
+$news_archive_css = '';
 
 $news_single = [
     xz_el_container('xns00001', [
