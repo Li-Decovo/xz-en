@@ -628,64 +628,121 @@ if (is_array($contact_data)) {
     delete_post_meta(24, '_elementor_css');
 }
 
-$prefooter = xznp_container('gpre0001', 'xz-global-prefooter', [
-    xznp_container('gpre0002', 'xz-global-prefooter-inner', [
-        xznp_container('gpre0003', 'xz-global-prefooter-card', [
-            xznp_heading('gpre0004', 'Subscribe to Our Updates', 'h2'),
-            xznp_widget('gpre0005', 'fluent-form-widget', ['form_list' => '2', 'theme_style' => '', '_css_classes' => 'xz-global-subscribe-form']),
-            xznp_text('gpre0006', '<p>Receive product updates, exhibition news and automation insights from Xinzhou.</p>'),
-        ]),
-        xznp_container('gpre0007', 'xz-global-prefooter-card', [
-            xznp_heading('gpre0008', 'Sales & Project Team', 'h2'),
-            xznp_text('gpre0009', '<p>Tell us your product size, output target and factory layout. Our engineers will match a practical welding-line plan.</p>'),
-            xznp_button('gpre0010', 'Find Now', '/contact/#inquiry', 'xz-global-prefooter-button', true),
-        ]),
-        xznp_container('gpre0011', 'xz-global-prefooter-card', [
-            xznp_heading('gpre0012', 'Technical Support', 'h2'),
-            xznp_text('gpre0013', '<p>Need help with line configuration, commissioning or after-sales service? Connect with Xinzhou.</p>'),
-            xznp_button('gpre0014', 'Find Out More', '/services/', 'xz-global-prefooter-button'),
-        ]),
-        xznp_container('gpre0015', 'xz-global-prefooter-card xz-global-prefooter-card--highlight', [
-            xznp_heading('gpre0016', 'Share Your Requirement', 'h2'),
-            xznp_text('gpre0017', '<p>From steel grating and reinforcing mesh to custom resistance welding automation, Xinzhou builds solutions around real production needs.</p>'),
-            xznp_button('gpre0018', 'Send an Inquiry', '/contact/#inquiry', 'xz-global-prefooter-button xz-global-prefooter-button--light', true),
-        ]),
-    ]),
+$prefooter = xznp_widget('gpre0001', 'xinzhou-global-prefooter', [
+    'subscribe_title' => 'Subscribe to Our Updates',
+    'subscribe_copy' => 'Receive product updates, exhibition news and automation insights from Xinzhou.',
+    'subscribe_form_id' => 2,
+    'sales_title' => 'Sales & Project Team',
+    'sales_copy' => 'Tell us your product size, output target and factory layout. Our engineers will match a practical welding line plan for your production.',
+    'sales_button_text' => 'Find Now',
+    'support_title' => 'Technical Support',
+    'support_copy' => 'Need help with line configuration, commissioning or after-sales service? Connect with Xinzhou for reliable technical assistance.',
+    'support_button_text' => 'Find Out More',
+    'support_button_link' => ['url' => '/services/'],
+    'highlight_title' => 'Share Your Requirement',
+    'highlight_copy' => 'From steel grating and reinforcing mesh to custom resistance welding automation, Xinzhou builds solutions around real production needs.',
+]);
+
+$inquiry_modal = xznp_widget('gmodal01', 'xinzhou-global-inquiry-modal', [
+    'label' => 'Equipment Inquiry',
+    'title' => 'Get Your Line Proposal',
+    'form_id' => 1,
 ]);
 
 $footer_data = json_decode((string) get_post_meta(32, '_elementor_data', true), true);
 if (is_array($footer_data) && isset($footer_data[0]['elements'])) {
     $footer_data[0]['elements'] = array_values(array_filter($footer_data[0]['elements'], static function (array $element): bool {
-        return !str_contains((string) ($element['settings']['css_classes'] ?? ''), 'xz-global-prefooter');
+        $classes = (string) ($element['settings']['css_classes'] ?? '');
+        $widget_type = (string) ($element['widgetType'] ?? '');
+        return !str_contains($classes, 'xz-global-prefooter')
+            && !in_array($widget_type, ['xinzhou-global-prefooter', 'xinzhou-global-inquiry-modal'], true);
     }));
     array_unshift($footer_data[0]['elements'], $prefooter);
+    $footer_data[0]['elements'][] = $inquiry_modal;
     update_post_meta(32, '_elementor_data', wp_slash(wp_json_encode($footer_data)));
     $footer_settings = (array) get_post_meta(32, '_elementor_page_settings', true);
     $footer_css = preg_replace('/\/\* XZ GLOBAL PREFOOTER START \*\/.*?\/\* XZ GLOBAL PREFOOTER END \*\//s', '', (string) ($footer_settings['custom_css'] ?? ''));
-    $footer_settings['custom_css'] = rtrim((string) $footer_css) . <<<'CSS'
-
-/* XZ GLOBAL PREFOOTER START */
-selector .xz-global-prefooter{width:100%;padding:66px 24px;background:#e5e7eb;color:#111827;font-family:Inter,Arial,sans-serif;}
-selector .xz-global-prefooter-inner{display:grid;width:min(100%,1440px);margin:0 auto;grid-template-columns:1.05fr 1fr 1fr 1.2fr;gap:clamp(30px,4vw,70px);}
-selector .xz-global-prefooter-card{align-items:flex-start;min-height:250px;}
-selector .xz-global-prefooter-card .elementor-heading-title{color:#0f172a;font-size:20px;line-height:1.15;text-transform:uppercase;}
-selector .xz-global-prefooter-card .elementor-widget-text-editor{color:#111827;font-size:15px;line-height:1.6;}
-selector .xz-global-prefooter-button{margin-top:auto;}
-selector .xz-global-prefooter-button .elementor-button{border:2px solid #111827;border-radius:0;color:#111827;background:transparent;font-size:13px;font-weight:800;text-transform:uppercase;}
-selector .xz-global-prefooter-button .elementor-button:hover{border-color:#d84120;color:#fff;background:#d84120;}
-selector .xz-global-prefooter-card--highlight{padding:34px;background:#d84120;color:#fff;}
-selector .xz-global-prefooter-card--highlight .elementor-heading-title,selector .xz-global-prefooter-card--highlight .elementor-widget-text-editor{color:#fff;}
-selector .xz-global-prefooter-button--light .elementor-button{border-color:#fff;color:#fff;}
-selector .xz-global-subscribe-form .ff-el-form-control{border-radius:0!important;}
-selector .xz-global-subscribe-form .ff-btn-submit{border-radius:0!important;background:#d84120!important;color:#fff!important;}
-@media(max-width:1000px){selector .xz-global-prefooter-inner{grid-template-columns:repeat(2,minmax(0,1fr));}selector .xz-global-prefooter-card{min-height:220px;}}
-@media(max-width:640px){selector .xz-global-prefooter{padding:52px 16px;}selector .xz-global-prefooter-inner{grid-template-columns:1fr;}selector .xz-global-prefooter-card{min-height:0;}selector .xz-global-prefooter-button{margin-top:18px;}}
-/* XZ GLOBAL PREFOOTER END */
-CSS;
+    $footer_settings['custom_css'] = rtrim((string) $footer_css);
     update_post_meta(32, '_elementor_page_settings', $footer_settings);
     delete_post_meta(32, '_elementor_element_cache');
     delete_post_meta(32, '_elementor_page_assets');
     delete_post_meta(32, '_elementor_css');
 }
 
-echo "Updated Home, About, Services, Contact forms and Global Footer.\n";
+$header_data = json_decode((string) get_post_meta(13, '_elementor_data', true), true);
+if (is_array($header_data)) {
+    $update_header_button = static function (array $elements) use (&$update_header_button): array {
+        foreach ($elements as &$element) {
+            if (($element['id'] ?? '') === 'hcta001') {
+                $element['settings']['link'] = [
+                    'url' => '#inquiry',
+                    'custom_attributes' => 'data-inquiry-open|true',
+                ];
+            }
+            if (!empty($element['elements'])) {
+                $element['elements'] = $update_header_button($element['elements']);
+            }
+        }
+        unset($element);
+        return $elements;
+    };
+    update_post_meta(13, '_elementor_data', wp_slash(wp_json_encode($update_header_button($header_data))));
+
+    $header_settings = (array) get_post_meta(13, '_elementor_page_settings', true);
+    $header_css = preg_replace('/\/\* XZ HEADER GRID FIX START \*\/.*?\/\* XZ HEADER GRID FIX END \*\//s', '', (string) ($header_settings['custom_css'] ?? ''));
+    $header_settings['custom_css'] = rtrim((string) $header_css) . <<<'CSS'
+
+/* XZ HEADER GRID FIX START */
+@media (min-width: 1181px) {
+    body .elementor-location-header .elementor-element-hbrand1.elementor-element,
+    body .elementor-location-header .xz-el-brand.elementor-element {
+        --width: 300px !important;
+        --flex-grow: 0 !important;
+        --flex-shrink: 0 !important;
+        width: 300px !important;
+        max-width: 300px !important;
+        min-width: 300px !important;
+        flex: 0 0 300px !important;
+    }
+    selector .xz-el-main-inner > .e-con-inner {
+        display: grid !important;
+        grid-template-columns: 300px minmax(0, 1fr) 225px !important;
+        gap: 22px !important;
+        align-items: center !important;
+    }
+    selector .xz-el-brand {
+        width: 300px !important;
+        max-width: 300px !important;
+        min-width: 300px !important;
+        flex: none !important;
+        gap: 0 !important;
+        padding: 0 64px 0 0 !important;
+    }
+    selector .xz-el-nav-wrap {
+        width: auto !important;
+        min-width: 0 !important;
+        height: 88px !important;
+        gap: 0 !important;
+        padding: 0 !important;
+    }
+    selector .xz-el-action {
+        width: 225px !important;
+        min-width: 225px !important;
+        height: 44px !important;
+        gap: 14px !important;
+        padding: 0 !important;
+    }
+    selector .xz-el-cta,
+    selector .xz-el-cta .elementor-button {
+        height: 44px !important;
+    }
+}
+/* XZ HEADER GRID FIX END */
+CSS;
+    update_post_meta(13, '_elementor_page_settings', $header_settings);
+    delete_post_meta(13, '_elementor_element_cache');
+    delete_post_meta(13, '_elementor_page_assets');
+    delete_post_meta(13, '_elementor_css');
+}
+
+echo "Updated Home, About, Services, Contact and global Elementor components.\n";

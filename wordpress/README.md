@@ -51,6 +51,8 @@ The following widgets appear in the normal Elementor widget panel:
 - Xinzhou Contact Inquiry
 - Xinzhou Contact Process
 - Xinzhou Contact Location
+- Xinzhou Global Pre-Footer
+- Xinzhou Inquiry Modal
 - Xinzhou Article Meta
 - Xinzhou Article Contents
 
