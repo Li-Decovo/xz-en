@@ -223,9 +223,9 @@ foreach ($factory_cards as $index => $card) {
 
 $team_cards = [
     ['team-sales.webp', 'Experienced Sales Team', "Our international sales engineers understand customers' production requirements and provide prompt, professional communication throughout every project."],
-    ['team-engineering.webp', 'Professional Engineering Team', "Our mechanical, electrical and automation engineers develop customized solutions around factory layout, production capacity and budget."],
-    ['team-after-sales.webp', 'Dedicated After-sales Team', 'We provide comprehensive technical support after delivery so every production line operates efficiently and reliably.'],
-    ['team-overseas-service.webp', 'Overseas Service Team', 'Our engineers support on-site installation, commissioning, operator training and technical service worldwide.'],
+    ['team-engineering.webp', 'Professional Engineering Team', "Our experienced mechanical, electrical and automation engineers develop customized solutions according to customers' factory layout, production capacity and budget."],
+    ['team-after-sales.webp', 'Dedicated After-sales Team', 'We provide comprehensive technical support after delivery, ensuring every production line operates efficiently and reliably.'],
+    ['team-overseas-service.webp', 'Overseas Service Team', 'Our overseas service engineers are available for on-site installation, commissioning, operator training and technical support worldwide, helping customers start production quickly.'],
 ];
 $team_elements = [];
 foreach ($team_cards as $index => $card) {
@@ -234,12 +234,12 @@ foreach ($team_cards as $index => $card) {
 
 $timeline = [
     ['1999', 'timeline-1999.webp', 'Established Ningbo Yinzhou Xinya Welding Equipment Factory.'],
-    ['2003', 'timeline-2003.webp', 'Registered Ningbo Yinzhou Xinzhou Welding Equipment Co., Ltd. and established a long-term partnership with AUX Group.'],
-    ['2006', 'timeline-2006.webp', 'Relocated to a new manufacturing facility and renamed the company Ningbo Xinzhou Welding Equipment Co., Ltd.'],
+    ['2003', 'timeline-2003.webp', 'Officially registered Ningbo Yinzhou Xinzhou Welding Equipment Co., Ltd. and established a long-term strategic partnership with AUX Group.'],
+    ['2006', 'timeline-2006.webp', 'Relocated to a new manufacturing facility and officially renamed the company to Ningbo Xinzhou Welding Equipment Co., Ltd.'],
     ['2009', 'timeline-2009.webp', 'Recognized as a National High-Tech Enterprise.'],
-    ['2014', 'timeline-2014.webp', 'Acquired industrial land in Tongxiang, Zhejiang, for Zhejiang Yizhou Mechanical Technology Co., Ltd.'],
-    ['2017', 'timeline-2017.webp', 'Zhejiang Yizhou Mechanical Technology Co., Ltd. was officially established.'],
-    ['2020', 'timeline-2020.webp', 'Yizhou Phase II and Ningbo Xinzhou Phase II manufacturing facilities entered operation.'],
+    ['2014', 'timeline-2014.webp', 'Acquired 55 acres of land in Tongxiang, Zhejiang, to invest in and construct Zhejiang Yizhou Mechanical Technology Co., Ltd.'],
+    ['2017', 'timeline-2017.webp', 'Zhejiang Yizhou Mechanical Technology Co., Ltd. was officially established, with annual sales reaching 120 million RMB.'],
+    ['2020', 'timeline-2020.webp', "In July, Yizhou's Phase II new facility (66 acres) was officially put into operation. In the same year, Ningbo Xinzhou's Phase II factory (12,932 square meters) was constructed and put into use."],
 ];
 $timeline_elements = [];
 foreach ($timeline as $index => $item) {
@@ -338,6 +338,109 @@ selector .xz-native-timeline-year .elementor-heading-title{padding:18px 18px 0;c
 selector .xz-native-timeline-card .elementor-widget-text-editor{padding:0 18px 20px;color:#64748b;line-height:1.65;}
 @media(max-width:1000px){selector .xz-native-about-split,selector .xz-native-about-factory,selector .xz-native-quality{flex-direction:column!important;}selector .xz-native-about-copy,selector .xz-native-about-media,selector .xz-native-about-factory-grid,selector .xz-native-about-factory>.xz-native-about-copy,selector .xz-native-quality>.xz-native-about-copy,selector .xz-native-certificate-grid{width:100%!important;}selector .xz-native-about-card-grid,selector .xz-native-timeline-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
 @media(max-width:640px){selector .xz-native-about-hero,selector .xz-native-about-section{padding:58px 16px;}selector .xz-native-about-copy{padding:36px 0;}selector .xz-native-about-media img{min-height:0;aspect-ratio:4/3;}selector .xz-native-about-card-grid,selector .xz-native-about-factory-grid,selector .xz-native-certificate-grid,selector .xz-native-timeline-grid{grid-template-columns:1fr;}}
+CSS;
+
+$about_factory_items = [];
+foreach ($factory_cards as $index => $card) {
+    $about_factory_items[] = [
+        '_id' => 'factory' . str_pad((string) ($index + 1), 3, '0', STR_PAD_LEFT),
+        'image' => xznp_media_setting($about_asset($card[0])),
+        'title' => $card[1],
+    ];
+}
+
+$about_team_items = [];
+foreach ($team_cards as $index => $card) {
+    $about_team_items[] = [
+        '_id' => 'team' . str_pad((string) ($index + 1), 3, '0', STR_PAD_LEFT),
+        'image' => xznp_media_setting($about_asset($card[0])),
+        'title' => $card[1],
+        'description' => $card[2],
+    ];
+}
+
+$about_timeline_items = [];
+foreach ($timeline as $index => $item) {
+    $about_timeline_items[] = [
+        '_id' => 'year' . $item[0],
+        'year' => $item[0],
+        'image' => xznp_media_setting($about_asset($item[1])),
+        'description' => $item[2],
+    ];
+}
+
+$about = [
+    xznp_container('aroot002', 'xz-about-page about-main', [
+        xznp_widget('abhero01', 'xinzhou-about-hero', [
+            'breadcrumb_label' => 'About Us',
+            'title' => '28 Years of Expertise in Automated Welding Equipment.',
+            'description' => '<p>Founded in 1998, Ningbo Xinzhou Welding Equipment Co., Ltd. has been dedicated to the research, design, manufacturing and global supply of automated welding equipment and complete production lines for more than 28 years.</p><p>With extensive industry experience and continuous technological innovation, we have become one of China\'s leading manufacturers of intelligent welding equipment, serving customers in over 80 countries and regions worldwide.</p><p>From standalone machines to turnkey production lines, we provide customized automation solutions that help customers improve production efficiency, reduce labor costs and enhance product quality.</p>',
+            'image' => xznp_media_setting($about_asset('history-hero.webp')),
+            'caption_title' => 'Automated Welding Lines',
+            'caption_text' => 'Research, design, manufacturing and global supply.',
+        ]),
+        xznp_widget('abfactory01', 'xinzhou-about-factory', [
+            'label' => 'Our Factory',
+            'title' => 'Modern Manufacturing for Standard and Customized Projects',
+            'description' => '<p>We have two factories each in NINGBO and JIAXING with nearly 300 employees and 50 engineers, covering an area of 16,000 square meters.</p><p>Our modern manufacturing bases are equipped with advanced CNC machining centers, precision processing equipment, automated assembly workshops and comprehensive testing facilities.</p><p>With strict quality control throughout every production stage, we ensure every machine meets international standards before delivery.</p><p>Our production capacity allows us to efficiently complete both standard and customized projects for customers around the world.</p>',
+            'items' => $about_factory_items,
+        ]),
+        xznp_widget('abteam01', 'xinzhou-about-team', [
+            'label' => 'Our Professional Team',
+            'title' => 'Specialists for Every Stage of Your Project',
+            'items' => $about_team_items,
+        ]),
+        xznp_widget('abequipment01', 'xinzhou-about-equipment', [
+            'label' => 'Our Products',
+            'title' => 'Intelligent Welding Equipment and Turnkey Production Lines',
+            'intro' => 'Xinzhou specializes in the manufacturing of intelligent welding equipment and turnkey production lines, including:',
+            'footer' => 'We also provide complete turnkey solutions from project planning to production line installation.',
+            'hide_empty' => '',
+            'title_overrides' => [
+                ['_id' => 'product001', 'term_slug' => 'ibc-tank', 'title' => 'IBC Tank Production Line'],
+                ['_id' => 'product002', 'term_slug' => 'steel-grating', 'title' => 'Steel Grating Welding Machine'],
+                ['_id' => 'product003', 'term_slug' => 'reinforcing-mesh', 'title' => 'Reinforcing Mesh Welding Machine'],
+                ['_id' => 'product004', 'term_slug' => 'lattice-girder', 'title' => 'Lattice Girder Welding Line'],
+                ['_id' => 'product005', 'term_slug' => 'cable-tray', 'title' => 'Cable Tray Mesh Welding Machine'],
+                ['_id' => 'product006', 'term_slug' => 'fence-panel', 'title' => '3D Fence Panel Production Line'],
+                ['_id' => 'product007', 'term_slug' => 'resistance-welding', 'title' => 'Resistance Spot Welding Machine'],
+            ],
+        ]),
+        xznp_widget('abquality01', 'xinzhou-about-quality', [
+            'label' => 'Our Certifications',
+            'title' => 'Quality Is Our Commitment.',
+            'description' => '<p>Xinzhou operates under a strict quality management system and continuously improves manufacturing standards to ensure reliable performance and long service life.</p>',
+            'list_label' => 'Our certifications include:',
+            'items' => [
+                ['_id' => 'cert001', 'image' => xznp_media_setting($about_asset('certificate-iso-9001.webp')), 'title' => 'ISO 9001 Quality Management System'],
+                ['_id' => 'cert002', 'image' => xznp_media_setting($about_asset('certificate-ce.webp')), 'title' => 'CE Certification'],
+            ],
+        ]),
+        xznp_widget('abcustomers01', 'xinzhou-about-customers', [
+            'label' => 'Our Customers',
+            'title' => 'Production Lines Delivered Across Global Markets',
+            'description' => 'Over the years, Xinzhou has successfully delivered dozens of machines and production lines to customers across Europe, the Middle East, Southeast Asia, South America, North America and Africa.',
+            'image' => xznp_media_setting($about_asset('global-customers.webp')),
+            'items' => [
+                ['_id' => 'region001', 'image' => xznp_media_setting($about_asset('flags/region-europe.svg')), 'title' => 'Europe'],
+                ['_id' => 'region002', 'image' => xznp_media_setting($about_asset('flags/region-middle-east.svg')), 'title' => 'Middle East'],
+                ['_id' => 'region003', 'image' => xznp_media_setting($about_asset('flags/region-southeast-asia.svg')), 'title' => 'Southeast Asia'],
+                ['_id' => 'region004', 'image' => xznp_media_setting($about_asset('flags/region-south-america.svg')), 'title' => 'South America'],
+                ['_id' => 'region005', 'image' => xznp_media_setting($about_asset('flags/region-north-america.svg')), 'title' => 'North America'],
+                ['_id' => 'region006', 'image' => xznp_media_setting($about_asset('flags/region-africa.svg')), 'title' => 'Africa'],
+            ],
+        ]),
+        xznp_widget('abtimeline01', 'xinzhou-about-timeline', [
+            'label' => 'Development History',
+            'title' => "Key Milestones in Xinzhou's Manufacturing Growth",
+            'items' => $about_timeline_items,
+        ]),
+    ], [], false),
+];
+
+$about_css = <<<'CSS'
+selector .xz-about-page{padding:0!important;gap:0!important;}
+selector .xz-about-page>.elementor-element{width:100%;}
 CSS;
 
 $services = [
