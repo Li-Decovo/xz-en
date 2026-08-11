@@ -110,6 +110,10 @@
     min-width: 54px !important;
     height: 40px !important;
     min-height: 40px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
     padding: 0 !important;
     border: 0 !important;
     border-left: 4px solid #d84120 !important;
@@ -117,6 +121,7 @@
     background: #fff !important;
     color: #d84120 !important;
     font-size: 0 !important;
+    line-height: 1 !important;
     box-shadow: none !important;
 }
 
