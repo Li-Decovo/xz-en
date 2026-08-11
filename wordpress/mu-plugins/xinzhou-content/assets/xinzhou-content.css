@@ -578,6 +578,18 @@
     }
 }
 
+@media (min-width: 769px) {
+    .elementor-location-header .xz-el-nav .xz-mega-menu > .sub-menu::before {
+        content: "";
+        position: absolute;
+        top: -80px;
+        right: 0;
+        left: 0;
+        height: 80px;
+        background: transparent;
+    }
+}
+
 @media (min-width: 1181px) {
     .elementor-location-header .xz-el-main-inner {
         position: relative;
