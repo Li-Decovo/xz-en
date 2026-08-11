@@ -156,6 +156,45 @@ function xz_product_term_image(int $term_id): int {
     return xz_acf_image_id(get_field('category_image', 'product_category_' . $term_id));
 }
 
+add_filter('walker_nav_menu_start_el', static function ($item_output, $menu_item, $depth, $args): string {
+    $classes = array_filter((array) ($menu_item->classes ?? []));
+    $is_contact_card = in_array('xz-mega-menu-contact', $classes, true);
+    $is_product_category = ($menu_item->object ?? '') === 'product_category';
+
+    if (!$is_contact_card && !$is_product_category) {
+        return (string) $item_output;
+    }
+
+    if ($is_contact_card) {
+        $content = sprintf(
+            '<span class="xz-mega-menu-card xz-mega-menu-card--contact"><span class="xz-mega-menu-card__title">%s</span><span class="xz-mega-menu-card__description">%s</span></span>',
+            esc_html((string) $menu_item->title),
+            esc_html((string) ($menu_item->description ?: 'Share your product, output and factory requirements with Xinzhou.'))
+        );
+    } else {
+        $image_id = xz_product_term_image((int) $menu_item->object_id);
+        $image = $image_id ? wp_get_attachment_image($image_id, 'medium_large', false, [
+            'class' => 'xz-mega-menu-card__image',
+            'loading' => 'eager',
+            'decoding' => 'async',
+        ]) : '';
+        $content = sprintf(
+            '<span class="xz-mega-menu-card"><span class="xz-mega-menu-card__media">%s</span><span class="xz-mega-menu-card__title">%s</span></span>',
+            $image,
+            esc_html((string) $menu_item->title)
+        );
+    }
+
+    $output = (string) $item_output;
+    $opening_end = strpos($output, '>');
+    $closing_start = strripos($output, '</a>');
+    if ($opening_end === false || $closing_start === false || $closing_start <= $opening_end) {
+        return $output;
+    }
+
+    return substr($output, 0, $opening_end + 1) . $content . substr($output, $closing_start);
+}, 10, 4);
+
 add_action('elementor/widgets/register', static function ($widgets_manager): void {
     $widget_file = WPMU_PLUGIN_DIR . '/xinzhou-content/elementor-widgets.php';
     if (!file_exists($widget_file)) {

@@ -718,6 +718,10 @@ if (is_array($header_data)) {
         gap: 0 !important;
         padding: 0 64px 0 0 !important;
     }
+    selector .xz-el-logo img {
+        width: 201px !important;
+        max-width: 201px !important;
+    }
     selector .xz-el-nav-wrap {
         width: auto !important;
         min-width: 0 !important;
@@ -737,12 +741,387 @@ if (is_array($header_data)) {
         height: 44px !important;
     }
 }
-@media (max-width: 1180px) {
+@media (min-width: 1025px) and (max-width: 1180px) {
+    body .elementor-location-header .elementor-element-hbrand1.elementor-element,
+    body .elementor-location-header .xz-el-brand.elementor-element {
+        --width: 260px !important;
+        --flex-grow: 0 !important;
+        --flex-shrink: 0 !important;
+        width: 260px !important;
+        max-width: 260px !important;
+        min-width: 260px !important;
+        flex: 0 0 260px !important;
+    }
+    selector .xz-el-main-inner > .e-con-inner {
+        display: grid !important;
+        grid-template-columns: 260px minmax(0, 1fr) 225px !important;
+        gap: 16px !important;
+        align-items: center !important;
+    }
+    selector .xz-el-brand {
+        width: 260px !important;
+        max-width: 260px !important;
+        min-width: 260px !important;
+        flex: none !important;
+        gap: 0 !important;
+        padding: 0 64px 0 0 !important;
+    }
+    selector .xz-el-logo img {
+        width: 201px !important;
+        max-width: 201px !important;
+    }
+    selector .xz-el-nav-wrap {
+        width: auto !important;
+        min-width: 0 !important;
+        height: 88px !important;
+        gap: 0 !important;
+        padding: 0 !important;
+    }
+    selector .xz-el-action {
+        width: 225px !important;
+        min-width: 225px !important;
+        height: 44px !important;
+        gap: 14px !important;
+        padding: 0 !important;
+    }
+    selector .xz-el-cta,
+    selector .xz-el-cta .elementor-button {
+        height: 44px !important;
+    }
+}
+@media (min-width: 769px) and (max-width: 1024px) {
+    body .elementor-location-header .elementor-element-hbrand1.elementor-element,
+    body .elementor-location-header .xz-el-brand.elementor-element {
+        --width: 235px !important;
+        --flex-grow: 0 !important;
+        --flex-shrink: 0 !important;
+        width: 235px !important;
+        max-width: 235px !important;
+        min-width: 235px !important;
+        flex: 0 0 235px !important;
+    }
+    selector .xz-el-main-inner > .e-con-inner {
+        display: grid !important;
+        grid-template-columns: 235px minmax(0, 1fr) 202.5px !important;
+        gap: 16px !important;
+        align-items: center !important;
+    }
+    selector .xz-el-brand {
+        width: 235px !important;
+        max-width: 235px !important;
+        min-width: 235px !important;
+        flex: none !important;
+        gap: 0 !important;
+        padding: 0 34px 0 0 !important;
+    }
+    selector .xz-el-logo img {
+        width: 201px !important;
+        max-width: 201px !important;
+    }
+    selector .xz-el-nav-wrap {
+        display: flex !important;
+        width: auto !important;
+        min-width: 0 !important;
+        height: 88px !important;
+        gap: 0 !important;
+        padding: 0 !important;
+    }
+    selector .xz-el-nav,
+    selector .xz-el-nav .elementor-nav-menu--main {
+        display: flex !important;
+    }
+    selector .xz-el-nav .elementor-nav-menu--main > ul {
+        flex-wrap: nowrap !important;
+        overflow: visible !important;
+    }
+    selector .xz-el-nav .elementor-nav-menu--main > ul > li > .elementor-item {
+        height: 32px !important;
+        min-height: 32px !important;
+        margin: 0 5px !important;
+        padding: 0 !important;
+        font-size: 12px !important;
+        white-space: nowrap !important;
+    }
+    selector .xz-el-nav .elementor-menu-toggle,
+    selector .xz-el-nav > .elementor-nav-menu--dropdown {
+        display: none !important;
+    }
+    selector .xz-el-action {
+        display: flex !important;
+        width: 202.5px !important;
+        min-width: 202.5px !important;
+        height: 44px !important;
+        gap: 14px !important;
+        padding: 0 !important;
+    }
+    selector .xz-el-cta,
+    selector .xz-el-cta .elementor-button {
+        height: 44px !important;
+    }
+}
+@media (min-width: 769px) {
+    selector .xz-el-nav .elementor-nav-menu--main .xz-mega-menu > .sub-menu {
+        position: fixed !important;
+        top: 118px !important;
+        right: auto !important;
+        bottom: auto !important;
+        left: 50% !important;
+        z-index: 1000 !important;
+        display: none !important;
+        width: min(1850px, calc(100% - 32px)) !important;
+        max-width: 1850px !important;
+        height: auto !important;
+        max-height: none !important;
+        padding: 19px !important;
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+        gap: 12px !important;
+        overflow: visible !important;
+        background: #fff !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        box-shadow: 0 18px 44px rgba(15, 23, 42, .18) !important;
+        transform: translateX(-50%) !important;
+    }
+    selector .xz-el-nav .elementor-nav-menu--main .xz-mega-menu:hover > .sub-menu,
+    selector .xz-el-nav .elementor-nav-menu--main .xz-mega-menu:focus-within > .sub-menu {
+        display: grid !important;
+    }
+    selector .xz-el-nav .elementor-nav-menu--main .xz-mega-menu > .sub-menu > li {
+        position: relative !important;
+        display: block !important;
+        width: auto !important;
+        min-width: 0 !important;
+        height: clamp(190px, 22vw, 253px) !important;
+        min-height: 0 !important;
+        overflow: hidden !important;
+        background: #111827 !important;
+        border: 0 !important;
+    }
+    selector .xz-el-nav .elementor-nav-menu--main .xz-mega-menu > .sub-menu > li > a {
+        position: absolute !important;
+        inset: 0 !important;
+        display: block !important;
+        width: 100% !important;
+        height: 100% !important;
+        min-height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        white-space: normal !important;
+    }
+    selector .xz-el-nav .xz-mega-menu-card {
+        position: relative !important;
+        display: block !important;
+        width: 100% !important;
+        height: 100% !important;
+    }
+    selector .xz-el-nav .xz-mega-menu-card__media,
+    selector .xz-el-nav .xz-mega-menu-card__media:after {
+        position: absolute !important;
+        inset: 0 !important;
+        display: block !important;
+    }
+    selector .xz-el-nav .xz-mega-menu-card__media:after {
+        content: "" !important;
+        background: linear-gradient(180deg, transparent 35%, rgba(7, 13, 22, .82) 100%) !important;
+    }
+    selector .xz-el-nav .xz-mega-menu-card__image {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        transition: transform .35s ease !important;
+    }
+    selector .xz-el-nav .xz-mega-menu-card__title {
+        position: absolute !important;
+        right: 18px !important;
+        bottom: 18px !important;
+        left: 18px !important;
+        z-index: 1 !important;
+        display: block !important;
+        color: #fff !important;
+        font-size: 15px !important;
+        font-weight: 700 !important;
+        line-height: 1.35 !important;
+    }
+    selector .xz-el-nav .xz-mega-menu > .sub-menu > li > a:hover .xz-mega-menu-card__image {
+        transform: scale(1.04) !important;
+    }
+    selector .xz-el-nav .xz-mega-menu > .sub-menu > .xz-mega-menu-contact,
+    selector .xz-el-nav .xz-mega-menu-card--contact {
+        background: #d84120 !important;
+    }
+    selector .xz-el-nav .xz-mega-menu-card--contact {
+        padding: 24px !important;
+    }
+    selector .xz-el-nav .xz-mega-menu-card--contact .xz-mega-menu-card__title {
+        position: static !important;
+        margin-bottom: 12px !important;
+        font-size: 20px !important;
+    }
+    selector .xz-el-nav .xz-mega-menu-card__description {
+        display: block !important;
+        color: rgba(255, 255, 255, .84) !important;
+        font-size: 13px !important;
+        line-height: 1.6 !important;
+    }
+}
+@media (max-width: 768px) {
+    selector .xz-el-topbar {
+        display: none !important;
+    }
+    selector .xz-el-mainbar,
+    selector .xz-el-main-inner,
+    selector .xz-el-main-inner > .e-con-inner {
+        min-height: 88px !important;
+        height: 88px !important;
+    }
+    selector .xz-el-main-inner > .e-con-inner {
+        display: flex !important;
+        padding: 0 !important;
+    }
+    body .elementor-location-header .elementor-element-hbrand1.elementor-element,
+    body .elementor-location-header .xz-el-brand.elementor-element {
+        --width: 260px !important;
+        --flex-grow: 0 !important;
+        --flex-shrink: 0 !important;
+        width: 260px !important;
+        max-width: 260px !important;
+        min-width: 260px !important;
+        flex: 0 0 260px !important;
+        gap: 0 !important;
+        padding: 0 70px 0 0 !important;
+        height: 96px !important;
+        min-height: 96px !important;
+        margin-top: -8px !important;
+    }
+    body .elementor-location-header .xz-el-logo img {
+        width: 172px !important;
+        max-width: 172px !important;
+    }
+    selector .xz-el-nav-wrap {
+        width: 42px !important;
+        max-width: 42px !important;
+        min-width: 42px !important;
+        height: 88px !important;
+        margin-left: auto !important;
+        gap: 0 !important;
+        padding: 0 !important;
+    }
+    selector .xz-el-nav,
+    selector .xz-el-nav .elementor-menu-toggle {
+        width: 42px !important;
+        height: 42px !important;
+    }
+    selector .xz-el-action {
+        display: none !important;
+    }
+    selector .xz-el-nav > .elementor-nav-menu--dropdown {
+        position: fixed !important;
+        top: 88px !important;
+        right: 0 !important;
+        left: 0 !important;
+        z-index: 999 !important;
+        width: auto !important;
+        max-width: none !important;
+        margin: 0 !important;
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+        background: rgba(15, 23, 42, .98) !important;
+        box-shadow: 0 18px 34px rgba(0, 0, 0, .24) !important;
+    }
+    selector .xz-el-nav > .elementor-nav-menu--dropdown > ul {
+        display: grid !important;
+        gap: 2px !important;
+        justify-items: start !important;
+        width: calc(100% - 32px) !important;
+        max-width: calc(100% - 32px) !important;
+        margin: 0 16px !important;
+        padding: 18px 0 22px !important;
+        text-align: left !important;
+        grid-template-columns: minmax(0, 1fr) !important;
+        justify-content: stretch !important;
+    }
+    body .elementor-location-header .xz-el-nav > .elementor-nav-menu--dropdown > ul > li {
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        justify-self: stretch !important;
+        text-align: left !important;
+    }
+    body .elementor-location-header .xz-el-nav > .elementor-nav-menu--dropdown > ul > li > a {
+        display: inline-flex !important;
+        justify-content: flex-start !important;
+        width: auto !important;
+        min-width: 0 !important;
+        max-width: none !important;
+        justify-self: start !important;
+        min-height: 51px !important;
+        margin: 0 !important;
+        padding: 15px 0 !important;
+        color: #fff !important;
+        font-size: 14px !important;
+        line-height: 21px !important;
+    }
+    selector .xz-el-nav > .elementor-nav-menu--dropdown > ul > li > a:hover,
+    selector .xz-el-nav > .elementor-nav-menu--dropdown > ul > li > a:focus,
+    selector .xz-el-nav > .elementor-nav-menu--dropdown > ul > li.current-menu-item > a {
+        color: #f36f32 !important;
+        background: transparent !important;
+    }
+    selector .xz-el-nav .xz-mega-menu-card__media,
+    selector .xz-el-nav .xz-mega-menu-card__description {
+        display: none !important;
+    }
+    selector .xz-el-nav .xz-mega-menu-card,
+    selector .xz-el-nav .xz-mega-menu-card__title {
+        position: static !important;
+        display: inline !important;
+        color: inherit !important;
+        font: inherit !important;
+    }
     selector .xz-el-nav .elementor-menu-toggle.elementor-active + .elementor-nav-menu__container {
-        max-height: calc(100vh - 118px) !important;
+        max-height: calc(100vh - 88px) !important;
         overflow-y: auto !important;
         animation: none !important;
         transform: scaleY(1) !important;
+    }
+}
+@media (max-width: 480px) {
+    selector .xz-el-mainbar,
+    selector .xz-el-main-inner,
+    selector .xz-el-main-inner > .e-con-inner {
+        min-height: 72px !important;
+        height: 72px !important;
+    }
+    body .elementor-location-header .elementor-element-hbrand1.elementor-element,
+    body .elementor-location-header .xz-el-brand.elementor-element {
+        --width: 220px !important;
+        width: 220px !important;
+        max-width: 220px !important;
+        min-width: 220px !important;
+        flex-basis: 220px !important;
+        padding-right: 58px !important;
+        height: 84px !important;
+        min-height: 84px !important;
+        margin-top: -10px !important;
+    }
+    body .elementor-location-header .xz-el-logo img {
+        width: 153px !important;
+        max-width: 153px !important;
+    }
+    selector .xz-el-nav-wrap {
+        height: 72px !important;
+    }
+    selector .xz-el-nav .elementor-menu-toggle.elementor-active + .elementor-nav-menu__container {
+        max-height: calc(100vh - 72px) !important;
+    }
+    selector .xz-el-nav > .elementor-nav-menu--dropdown {
+        top: 72px !important;
+    }
+}
+@media (max-width: 640px) {
+    selector .xz-el-nav-wrap {
+        margin-right: 2px !important;
     }
 }
 /* XZ HEADER GRID FIX END */
