@@ -107,9 +107,19 @@ $footer_settings = [
     'modal_form_id' => 1,
 ];
 
+$prefooter_settings = $footer_settings;
+$prefooter_settings['sales_button_text'] = $footer_settings['sales_button'];
+$prefooter_settings['support_button_text'] = $footer_settings['support_button'];
+$prefooter_settings['support_button_link'] = $footer_settings['support_link'];
+$modal_settings = ['label' => $footer_settings['modal_label'], 'title' => $footer_settings['modal_title'], 'form_id' => $footer_settings['modal_form_id']];
+
+$footer_document = $document('xzpgfoot', $widget('xzpreft1', 'xinzhou-global-prefooter', $prefooter_settings));
+$footer_document[0]['elements'][] = $widget('xzmainft', 'xinzhou-global-main-footer', $footer_settings);
+$footer_document[0]['elements'][] = $widget('xzmodal1', 'xinzhou-global-inquiry-modal', $modal_settings);
+
 $documents = [
     $header_id => $document('xzpghead', $widget('xzpghdw1', 'xinzhou-global-header', $header_settings)),
-    $footer_id => $document('xzpgfoot', $widget('xzpgftw1', 'xinzhou-global-footer-page', $footer_settings)),
+    $footer_id => $footer_document,
 ];
 
 foreach ($documents as $post_id => $data) {

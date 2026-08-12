@@ -142,6 +142,61 @@ final class Global_Prefooter_Widget extends Global_Widget_Base {
     }
 }
 
+final class Global_Main_Footer_Widget extends Global_Widget_Base {
+    public function get_name(): string { return 'xinzhou-global-main-footer'; }
+    public function get_title(): string { return 'Xinzhou Global Footer'; }
+    public function get_icon(): string { return 'eicon-footer'; }
+    public function get_style_depends(): array { return ['xinzhou-page-chrome']; }
+    public function get_script_depends(): array { return ['xinzhou-content']; }
+
+    protected function register_controls(): void {
+        $this->start_controls_section('brand', ['label' => 'Company']);
+        $this->add_control('logo', ['label' => 'Logo', 'type' => Controls_Manager::MEDIA, 'default' => ['url' => home_url('/wp-content/uploads/xinzhou-home-assets/site-logo.webp')]]);
+        $this->add_control('brand_copy', ['label' => 'Company Text', 'type' => Controls_Manager::TEXTAREA, 'default' => 'Xinzhou provides automated resistance welding equipment and complete production line solutions, supported by engineering, manufacturing and global technical service.']);
+        $this->add_control('inquiry_button', ['label' => 'Inquiry Button Text', 'type' => Controls_Manager::TEXT, 'default' => 'Send an Inquiry']);
+        $this->end_controls_section();
+
+        $this->start_controls_section('navigation', ['label' => 'Navigation']);
+        $this->add_control('menu_id', ['label' => 'WordPress Menu', 'type' => Controls_Manager::SELECT, 'options' => global_menu_options(), 'default' => '']);
+        $this->add_control('menu_title', ['label' => 'Menu Heading', 'type' => Controls_Manager::TEXT, 'default' => 'Main Menu']);
+        $this->add_control('products_title', ['label' => 'Products Heading', 'type' => Controls_Manager::TEXT, 'default' => 'Product Categories']);
+        $this->end_controls_section();
+
+        $this->start_controls_section('contact', ['label' => 'Contact Information']);
+        $this->add_control('contact_title', ['label' => 'Heading', 'type' => Controls_Manager::TEXT, 'default' => 'Contact Xinzhou']);
+        $this->add_control('email', ['label' => 'Email', 'type' => Controls_Manager::TEXT, 'default' => 'xinzhou@weldercn.com']);
+        $this->add_control('phone', ['label' => 'Phone', 'type' => Controls_Manager::TEXT, 'default' => '+86 180 6723 1686']);
+        $this->add_control('address', ['label' => 'Address', 'type' => Controls_Manager::TEXTAREA, 'default' => 'Ningbo, Zhejiang, China']);
+        $this->add_control('whatsapp', ['label' => 'WhatsApp', 'type' => Controls_Manager::TEXT, 'default' => '+86 574 82566933']);
+        $this->add_control('copyright', ['label' => 'Copyright', 'type' => Controls_Manager::TEXT, 'default' => 'Copyright © Xinzhou Welding Equipment. All rights reserved.']);
+        $this->end_controls_section();
+
+        $this->start_controls_section('social', ['label' => 'Social Media']);
+        $this->add_control('linkedin', ['label' => 'LinkedIn URL', 'type' => Controls_Manager::URL, 'default' => ['url' => 'https://www.linkedin.com/']]);
+        $this->add_control('facebook', ['label' => 'Facebook URL', 'type' => Controls_Manager::URL, 'default' => ['url' => 'https://www.facebook.com/']]);
+        $this->add_control('tiktok', ['label' => 'TikTok URL', 'type' => Controls_Manager::URL, 'default' => ['url' => 'https://www.tiktok.com/@xinzhouwelder']]);
+        $this->end_controls_section();
+    }
+
+    protected function render(): void {
+        $s = $this->get_settings_for_display();
+        $items = global_menu_items((string) ($s['menu_id'] ?? ''));
+        $terms = get_terms(['taxonomy' => 'product_category', 'hide_empty' => false]);
+        if (is_wp_error($terms)) { $terms = []; }
+        usort($terms, static function (\WP_Term $a, \WP_Term $b): int { return ((int) get_term_meta($a->term_id, 'category_display_order', true)) <=> ((int) get_term_meta($b->term_id, 'category_display_order', true)); });
+        $logo_id = (int) ($s['logo']['id'] ?? 0);
+        $logo_url = $this->image_url((array) ($s['logo'] ?? []));
+        ?>
+        <section class="xz-page-footer"><div class="xz-page-footer__inner">
+            <div class="xz-page-footer__brand"><?php if ($logo_id) : echo wp_get_attachment_image($logo_id, 'full'); elseif ($logo_url) : ?><img src="<?php echo esc_url($logo_url); ?>" alt="Xinzhou Automation"><?php endif; ?><p><?php echo esc_html((string) ($s['brand_copy'] ?? '')); ?></p><button type="button" data-inquiry-open><?php echo esc_html((string) ($s['inquiry_button'] ?? 'Send an Inquiry')); ?></button></div>
+            <div><h2><?php echo esc_html((string) ($s['menu_title'] ?? '')); ?></h2><ul><?php foreach ($items as $item) : ?><li><a href="<?php echo esc_url($item->url); ?>"><?php echo esc_html($item->title); ?></a></li><?php endforeach; ?></ul></div>
+            <div><h2><?php echo esc_html((string) ($s['products_title'] ?? '')); ?></h2><ul><?php foreach ($terms as $term) : ?><li><a href="<?php echo esc_url(get_term_link($term)); ?>"><?php echo esc_html($term->name); ?></a></li><?php endforeach; ?></ul></div>
+            <div><h2><?php echo esc_html((string) ($s['contact_title'] ?? '')); ?></h2><ul class="xz-page-footer__contact"><li><?php echo esc_html((string) ($s['email'] ?? '')); ?></li><li><?php echo esc_html((string) ($s['phone'] ?? '')); ?></li><li><?php echo esc_html((string) ($s['address'] ?? '')); ?></li><li><?php echo esc_html((string) ($s['whatsapp'] ?? '')); ?></li></ul><div class="xz-page-footer__socials"><?php foreach (['linkedin', 'facebook', 'tiktok'] as $network) : $url = $this->link_url((array) ($s[$network] ?? [])); if ($url) : ?><a href="<?php echo esc_url($url); ?>" target="_blank" rel="noreferrer" aria-label="Xinzhou on <?php echo esc_attr(ucfirst($network)); ?>"><?php echo global_social_icon($network); ?></a><?php endif; endforeach; ?></div></div>
+        </div><div class="xz-page-footer__bottom"><p><?php echo esc_html((string) ($s['copyright'] ?? '')); ?></p></div></section>
+        <?php
+    }
+}
+
 final class Global_Footer_Widget extends Global_Widget_Base {
     public function get_name(): string { return 'xinzhou-global-footer-page'; }
     public function get_title(): string { return 'Xinzhou Page Footer'; }
@@ -254,6 +309,7 @@ final class Global_Inquiry_Modal_Widget extends Global_Widget_Base {
 function register_global_widgets($widgets_manager): void {
     $widgets_manager->register(new Global_Header_Widget());
     $widgets_manager->register(new Global_Prefooter_Widget());
+    $widgets_manager->register(new Global_Main_Footer_Widget());
     $widgets_manager->register(new Global_Footer_Widget());
     $widgets_manager->register(new Global_Inquiry_Modal_Widget());
 }
