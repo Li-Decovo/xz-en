@@ -401,6 +401,16 @@
 .contact-process__grid svg {
     width: 42px;
     height: 42px;
+    color: var(--xz-red);
+    fill: currentColor !important;
+}
+
+.contact-process__grid svg path {
+    fill: currentColor !important;
+}
+
+.contact-process__grid svg [stroke]:not([stroke="none"]) {
+    stroke: currentColor !important;
 }
 
 .contact-process__grid h3 {
