@@ -146,7 +146,7 @@
             visible = window.innerWidth <= 640 ? 1 : (window.innerWidth <= 900 ? Math.min(2, configuredVisible) : configuredVisible);
             visible = Math.min(visible, items.length);
             var gap = parseFloat(window.getComputedStyle(track).columnGap || window.getComputedStyle(track).gap || "0");
-            var itemWidth = (carousel.clientWidth - gap * Math.max(0, visible - 1)) / visible;
+            var itemWidth = (track.clientWidth - gap * Math.max(0, visible - 1)) / visible;
             var maxIndex = Math.max(0, items.length - visible);
             index = Math.min(index, maxIndex);
             items.forEach(function (item) { item.style.flex = "0 0 " + itemWidth + "px"; });

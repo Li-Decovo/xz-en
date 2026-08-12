@@ -243,6 +243,7 @@ final class Home_Cases_Widget extends Xinzhou_Section_Widget {
     public function get_name(): string { return 'xinzhou-home-cases'; }
     public function get_title(): string { return 'Xinzhou Case Showcase'; }
     public function get_icon(): string { return 'eicon-gallery-justified'; }
+    public function get_script_depends(): array { return ['xinzhou-content']; }
 
     protected function register_controls(): void {
         $this->start_controls_section('content', ['label' => 'Cases']);
@@ -269,14 +270,19 @@ final class Home_Cases_Widget extends Xinzhou_Section_Widget {
         if (!$query->have_posts()) {
             return;
         }
+        $posts = $query->posts;
+        $carousel = count($posts) > 3;
         ?>
-        <section class="xz-home-cases"><div class="xz-home-cases__grid">
-            <?php foreach ($query->posts as $post) : ?>
+        <section class="xz-home-cases"><div class="xz-home-cases__carousel xz-simple-carousel<?php echo $carousel ? ' is-carousel' : ''; ?>"<?php echo $carousel ? ' data-xz-simple-carousel data-visible="3"' : ''; ?>>
+            <?php if ($carousel) : ?><div class="xz-simple-carousel__controls"><button type="button" data-xz-simple-prev aria-label="Previous cases">&#8249;</button><button type="button" data-xz-simple-next aria-label="Next cases">&#8250;</button></div><?php endif; ?>
+            <div class="xz-home-cases__grid"<?php echo $carousel ? ' data-xz-simple-track' : ''; ?>>
+            <?php foreach ($posts as $post) : ?>
                 <a class="xz-home-case" href="<?php echo esc_url(get_permalink($post)); ?>">
                     <?php echo get_the_post_thumbnail($post, 'large', ['loading' => 'lazy']); ?>
                     <span class="xz-home-case__overlay"><small><?php echo esc_html((string) ($s['label'] ?? 'Case')); ?></small><strong><?php echo esc_html(get_the_title($post)); ?></strong></span>
                 </a>
             <?php endforeach; wp_reset_postdata(); ?>
+            </div>
         </div></section>
         <?php
     }
