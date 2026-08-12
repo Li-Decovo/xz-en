@@ -63,7 +63,6 @@ $replacement = [[
     'elements' => [
         $widget('xzpreft1', 'xinzhou-global-prefooter', $prefooter),
         $widget('xzmainft', 'xinzhou-global-main-footer', $main_footer),
-        $widget('xzmodal1', 'xinzhou-global-inquiry-modal', $modal),
     ],
     'isInner' => false,
 ]];

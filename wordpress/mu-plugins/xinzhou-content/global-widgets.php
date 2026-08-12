@@ -272,7 +272,6 @@ final class Global_Footer_Widget extends Global_Widget_Base {
                 <div><h2><?php echo esc_html((string) ($s['contact_title'] ?? '')); ?></h2><ul class="xz-page-footer__contact"><li><?php echo esc_html((string) ($s['email'] ?? '')); ?></li><li><?php echo esc_html((string) ($s['phone'] ?? '')); ?></li><li><?php echo esc_html((string) ($s['address'] ?? '')); ?></li><li><?php echo esc_html((string) ($s['whatsapp'] ?? '')); ?></li></ul><div class="xz-page-footer__socials"><?php foreach (['linkedin', 'facebook', 'tiktok'] as $network) : $url = $this->link_url((array) ($s[$network] ?? [])); if ($url) : ?><a href="<?php echo esc_url($url); ?>" target="_blank" rel="noreferrer" aria-label="Xinzhou on <?php echo esc_attr(ucfirst($network)); ?>"><?php echo global_social_icon($network); ?></a><?php endif; endforeach; ?></div></div>
             </div><div class="xz-page-footer__bottom"><p><?php echo esc_html((string) ($s['copyright'] ?? '')); ?></p></div></section>
         </footer>
-        <?php if (!is_page(24) && !is_page('contact')) : ?><dialog class="xz-inquiry-dialog" aria-labelledby="xz-inquiry-title"><div class="xz-inquiry-dialog__head"><p class="xz-inquiry-dialog__label"><?php echo esc_html((string) ($s['modal_label'] ?? '')); ?></p><h2 id="xz-inquiry-title"><?php echo esc_html((string) ($s['modal_title'] ?? '')); ?></h2><button class="xz-inquiry-dialog__close" type="button" aria-label="Close inquiry form" data-inquiry-close><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div><div class="xz-inquiry-dialog__form"><?php echo do_shortcode('[fluentform id="' . absint($s['modal_form_id'] ?? 1) . '"]'); ?></div></dialog><?php endif; ?>
         <?php
     }
 }
@@ -311,5 +310,4 @@ function register_global_widgets($widgets_manager): void {
     $widgets_manager->register(new Global_Prefooter_Widget());
     $widgets_manager->register(new Global_Main_Footer_Widget());
     $widgets_manager->register(new Global_Footer_Widget());
-    $widgets_manager->register(new Global_Inquiry_Modal_Widget());
 }

@@ -14,6 +14,10 @@ function xz_content_asset_version(string $relative_path): string {
     return file_exists($path) ? (string) filemtime($path) : '1.0.0';
 }
 
+function xz_inquiry_popup_id(): int {
+    return absint(get_option('xz_inquiry_popup_id', 0));
+}
+
 add_action('wp_enqueue_scripts', static function (): void {
     wp_enqueue_style(
         'xinzhou-content',
@@ -102,6 +106,16 @@ add_action('wp_enqueue_scripts', static function (): void {
     );
 
     wp_enqueue_script('xinzhou-content');
+    wp_localize_script('xinzhou-content', 'XinzhouContent', [
+        'inquiryPopupId' => xz_inquiry_popup_id(),
+    ]);
+});
+
+add_action('wp', static function (): void {
+    $popup_id = xz_inquiry_popup_id();
+    if ($popup_id && class_exists('\\ElementorPro\\Modules\\Popup\\Module')) {
+        \ElementorPro\Modules\Popup\Module::add_popup_to_location($popup_id);
+    }
 });
 
 add_action('elementor/elements/categories_registered', static function ($elements_manager): void {
