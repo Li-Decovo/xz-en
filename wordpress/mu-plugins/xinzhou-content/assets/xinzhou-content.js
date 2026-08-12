@@ -118,6 +118,49 @@
         start();
     });
 
+    document.querySelectorAll("[data-xz-simple-carousel]").forEach(function (carousel) {
+        var track = carousel.querySelector("[data-xz-simple-track]");
+        var previous = carousel.querySelector("[data-xz-simple-prev]");
+        var next = carousel.querySelector("[data-xz-simple-next]");
+        if (!track || !previous || !next) return;
+
+        var items = Array.from(track.children);
+        var configuredVisible = Math.max(1, parseInt(carousel.dataset.visible || "4", 10));
+        var index = 0;
+        var visible = configuredVisible;
+
+        function update() {
+            visible = window.innerWidth <= 640 ? 1 : (window.innerWidth <= 900 ? Math.min(2, configuredVisible) : configuredVisible);
+            visible = Math.min(visible, items.length);
+            var gap = parseFloat(window.getComputedStyle(track).columnGap || window.getComputedStyle(track).gap || "0");
+            var itemWidth = (carousel.clientWidth - gap * Math.max(0, visible - 1)) / visible;
+            var maxIndex = Math.max(0, items.length - visible);
+            index = Math.min(index, maxIndex);
+            items.forEach(function (item) { item.style.flex = "0 0 " + itemWidth + "px"; });
+            track.style.transform = "translateX(" + (-index * (itemWidth + gap)) + "px)";
+            previous.disabled = items.length <= visible;
+            next.disabled = items.length <= visible;
+        }
+
+        previous.addEventListener("click", function () {
+            var maxIndex = Math.max(0, items.length - visible);
+            index = index <= 0 ? maxIndex : index - 1;
+            update();
+        });
+        next.addEventListener("click", function () {
+            var maxIndex = Math.max(0, items.length - visible);
+            index = index >= maxIndex ? 0 : index + 1;
+            update();
+        });
+
+        var resizeTimer = null;
+        window.addEventListener("resize", function () {
+            window.clearTimeout(resizeTimer);
+            resizeTimer = window.setTimeout(update, 160);
+        });
+        update();
+    });
+
     document.querySelectorAll("[data-xz-product-gallery]").forEach(function (gallery) {
         var mainImage = gallery.querySelector("[data-xz-main-image]");
         gallery.querySelectorAll("[data-xz-gallery-thumb]").forEach(function (button) {
@@ -134,6 +177,40 @@
                 });
             });
         });
+    });
+
+    function videoEmbedUrl(url) {
+        try {
+            var parsed = new URL(url, window.location.href);
+            var host = parsed.hostname.replace(/^www\./, "");
+            var id = "";
+            if (host === "youtu.be") id = parsed.pathname.split("/").filter(Boolean)[0] || "";
+            if (host.indexOf("youtube.com") !== -1) {
+                id = parsed.searchParams.get("v") || "";
+                if (!id && parsed.pathname.indexOf("/embed/") === 0) id = parsed.pathname.split("/")[2] || "";
+                if (!id && parsed.pathname.indexOf("/shorts/") === 0) id = parsed.pathname.split("/")[2] || "";
+            }
+            return id ? "https://www.youtube-nocookie.com/embed/" + encodeURIComponent(id) + "?autoplay=1&rel=0" : "";
+        } catch (error) { return ""; }
+    }
+
+    document.querySelectorAll("[data-xz-video-open]").forEach(function (opener) {
+        var dialog = opener.closest(".xz-home-split")?.nextElementSibling;
+        if (!dialog || !dialog.matches("[data-xz-video-dialog]")) return;
+        var stage = dialog.querySelector("[data-xz-video-stage]");
+        function closeVideo() { stage.innerHTML = ""; if (dialog.open) dialog.close(); }
+        opener.addEventListener("click", function (event) {
+            event.preventDefault();
+            var url = opener.href;
+            var embed = videoEmbedUrl(url);
+            stage.innerHTML = embed
+                ? '<iframe src="' + embed + '" title="Xinzhou video" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>'
+                : '<video src="' + url.replace(/"/g, "&quot;") + '" controls autoplay playsinline></video>';
+            dialog.showModal();
+        });
+        dialog.querySelector("[data-xz-video-close]").addEventListener("click", closeVideo);
+        dialog.addEventListener("click", function (event) { if (event.target === dialog) closeVideo(); });
+        dialog.addEventListener("cancel", function (event) { event.preventDefault(); closeVideo(); });
     });
 
     document.querySelectorAll("[data-xz-product-tabs]").forEach(function (tabs) {

@@ -59,7 +59,7 @@ final class News_Archive_Hero_Widget extends News_Archive_Widget_Base {
         $title = $current instanceof \WP_Term && $current->taxonomy === 'category' ? $current->name : (string) ($s['title'] ?? 'Updates from Xinzhou');
         $description = $current instanceof \WP_Term && $current->taxonomy === 'category' && $current->description ? $current->description : (string) ($s['description'] ?? '');
         ?>
-        <section class="news-hero" aria-labelledby="news-page-title"><?php if ($image) : ?><img class="news-hero__image" src="<?php echo esc_url($image); ?>" alt="Xinzhou company and manufacturing environment"><?php endif; ?><div class="news-hero__overlay"></div><div class="xz-container news-hero__content"><nav class="news-breadcrumb" aria-label="Breadcrumb"><a href="<?php echo esc_url(home_url('/')); ?>">Home</a><span>/</span><span><?php echo esc_html($title); ?></span></nav><h1 id="news-page-title"><?php echo esc_html($title); ?></h1><?php if ($description) : ?><p><?php echo esc_html($description); ?></p><?php endif; ?></div></section>
+        <section class="news-hero" aria-labelledby="news-page-title"><?php if ($image) : ?><img class="news-hero__image" src="<?php echo esc_url($image); ?>" alt="Xinzhou company and manufacturing environment"><?php endif; ?><div class="news-hero__overlay"></div><div class="xz-container news-hero__content"><nav class="news-breadcrumb" aria-label="Breadcrumb"><a href="<?php echo esc_url(home_url('/')); ?>">Home</a><span>/</span><span><?php echo esc_html($title); ?></span></nav><h1 id="news-page-title"><?php echo esc_html($title); ?></h1><?php if ($description) : ?><p><?php echo esc_html(wp_strip_all_tags((string) $description)); ?></p><?php endif; ?></div></section>
         <?php
     }
 }

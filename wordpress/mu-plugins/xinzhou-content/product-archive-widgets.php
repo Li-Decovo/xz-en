@@ -61,14 +61,14 @@ final class Product_Worldwide_Widget extends Product_Archive_Widget_Base {
     protected function register_controls(): void {
         $this->start_controls_section('content', ['label' => 'Content']);
         $this->add_control('title', ['label' => 'Title', 'type' => Controls_Manager::TEXT, 'default' => 'Xinzhou Worldwide']);
-        $r = new Repeater(); $r->add_control('image', ['label' => 'Logo', 'type' => Controls_Manager::MEDIA]); $r->add_control('link', ['label' => 'Link', 'type' => Controls_Manager::URL]); $r->add_control('alt', ['label' => 'Alternative Text', 'type' => Controls_Manager::TEXT]);
+        $r = new Repeater(); $r->add_control('image', ['label' => 'Logo', 'type' => Controls_Manager::MEDIA]); $r->add_control('link', ['label' => 'Link', 'type' => Controls_Manager::URL]);
         $this->add_control('logos', ['label' => 'Logos', 'type' => Controls_Manager::REPEATER, 'fields' => $r->get_controls()]);
         $this->end_controls_section();
     }
 
     protected function render(): void {
         $s = $this->get_settings_for_display();
-        ?><section class="products-worldwide" aria-labelledby="products-worldwide-title"><div class="products-worldwide__container"><h2 id="products-worldwide-title"><?php echo esc_html((string) ($s['title'] ?? 'Xinzhou Worldwide')); ?></h2><div class="products-worldwide__grid"><?php foreach ((array) ($s['logos'] ?? []) as $logo) : $image = $this->image_url((array) ($logo['image'] ?? [])); ?><a href="<?php echo esc_url($this->link_url((array) ($logo['link'] ?? []))); ?>"><?php if ($image) : ?><img src="<?php echo esc_url($image); ?>" alt="<?php echo esc_attr((string) ($logo['alt'] ?? '')); ?>" loading="lazy"><?php endif; ?></a><?php endforeach; ?></div></div></section><?php
+        ?><section class="products-worldwide" aria-labelledby="products-worldwide-title"><div class="products-worldwide__container"><h2 id="products-worldwide-title"><?php echo esc_html((string) ($s['title'] ?? 'Xinzhou Worldwide')); ?></h2><div class="products-worldwide__grid"><?php foreach ((array) ($s['logos'] ?? []) as $logo) : $image_id = (int) ($logo['image']['id'] ?? 0); $image = $this->image_url((array) ($logo['image'] ?? [])); ?><a href="<?php echo esc_url($this->link_url((array) ($logo['link'] ?? []))); ?>"><?php if ($image_id) : echo wp_get_attachment_image($image_id, 'full', false, ['loading' => 'lazy']); elseif ($image) : ?><img src="<?php echo esc_url($image); ?>" alt="" loading="lazy"><?php endif; ?></a><?php endforeach; ?></div></div></section><?php
     }
 }
 

@@ -58,6 +58,29 @@ abstract class Xinzhou_Widget extends Widget_Base {
     }
 }
 
+function product_category_control_options(): array {
+    $terms = get_terms(['taxonomy' => 'product_category', 'hide_empty' => false]);
+    if (is_wp_error($terms)) { return []; }
+    $options = [];
+    foreach ($terms as $term) { $options[(int) $term->term_id] = $term->name; }
+    return $options;
+}
+
+function post_control_options(string $post_type = 'post'): array {
+    $posts = get_posts(['post_type' => $post_type, 'post_status' => 'publish', 'posts_per_page' => -1, 'orderby' => 'date', 'order' => 'DESC']);
+    $options = [];
+    foreach ($posts as $post) { $options[(int) $post->ID] = get_the_title($post); }
+    return $options;
+}
+
+function post_category_control_options(): array {
+    $terms = get_terms(['taxonomy' => 'category', 'hide_empty' => false]);
+    if (is_wp_error($terms)) { return []; }
+    $options = [];
+    foreach ($terms as $term) { $options[(int) $term->term_id] = $term->name; }
+    return $options;
+}
+
 final class Product_Categories_Widget extends Xinzhou_Widget {
     public function get_name(): string {
         return 'xinzhou-product-categories';
@@ -77,14 +100,18 @@ final class Product_Categories_Widget extends Xinzhou_Widget {
 
     protected function register_controls(): void {
         $this->start_controls_section('content', ['label' => 'Categories']);
-        $this->add_control('layout', [
-            'label' => 'Layout',
+        $this->add_control('category_source', [
+            'label' => 'Categories to Display',
             'type' => Controls_Manager::SELECT,
-            'default' => 'archive',
-            'options' => [
-                'archive' => 'Archive Navigation',
-                'homepage' => 'Homepage Tiles',
-            ],
+            'default' => 'all',
+            'options' => ['all' => 'All Categories', 'selected' => 'Selected Categories'],
+        ]);
+        $this->add_control('category_ids', [
+            'label' => 'Select Categories',
+            'type' => Controls_Manager::SELECT2,
+            'multiple' => true,
+            'options' => product_category_control_options(),
+            'condition' => ['category_source' => 'selected'],
         ]);
         $this->add_control('hide_empty', [
             'label' => 'Hide Empty Categories',
@@ -92,31 +119,21 @@ final class Product_Categories_Widget extends Xinzhou_Widget {
             'return_value' => 'yes',
             'default' => '',
         ]);
-        $this->add_control('show_description', [
-            'label' => 'Show Short Description',
-            'type' => Controls_Manager::SWITCHER,
-            'return_value' => 'yes',
-            'default' => '',
-        ]);
-        $this->add_control('image_size', [
-            'label' => 'Image Size',
-            'type' => Controls_Manager::SELECT,
-            'default' => 'large',
-            'options' => [
-                'medium_large' => 'Medium Large',
-                'large' => 'Large',
-                'full' => 'Full',
-            ],
-        ]);
         $this->end_controls_section();
     }
 
     protected function render(): void {
         $settings = $this->get_settings_for_display();
-        $terms = get_terms([
+        $term_args = [
             'taxonomy' => 'product_category',
             'hide_empty' => ($settings['hide_empty'] ?? '') === 'yes',
-        ]);
+        ];
+        if (($settings['category_source'] ?? 'all') === 'selected') {
+            $selected = array_values(array_filter(array_map('intval', (array) ($settings['category_ids'] ?? []))));
+            if (!$selected) { return; }
+            $term_args['include'] = $selected;
+        }
+        $terms = get_terms($term_args);
         if (is_wp_error($terms) || !$terms) {
             return;
         }
@@ -130,24 +147,18 @@ final class Product_Categories_Widget extends Xinzhou_Widget {
         });
 
         $current = is_tax('product_category') ? current_product_term() : null;
-        $image_size = $settings['image_size'] ?? 'large';
+        $homepage_layout = is_front_page() || (int) get_queried_object_id() === 19;
         ?>
-        <?php $archive_layout = ($settings['layout'] ?? 'archive') === 'archive'; ?>
-        <<?php echo $archive_layout ? 'section' : 'nav'; ?> class="<?php echo $archive_layout ? 'product-category-nav' : 'xz-product-category-nav xz-product-category-nav--' . esc_attr($settings['layout'] ?? 'archive'); ?>" aria-label="Product categories">
+        <?php $archive_layout = !$homepage_layout; ?>
+        <<?php echo $archive_layout ? 'section' : 'nav'; ?> class="<?php echo $archive_layout ? 'product-category-nav' : 'xz-product-category-nav xz-product-category-nav--homepage'; ?>" aria-label="Product categories">
             <div class="<?php echo $archive_layout ? 'product-category-nav__grid' : 'xz-product-category-nav__grid'; ?>">
                 <?php foreach ($terms as $term) :
                     $image_id = \xz_product_term_image((int) $term->term_id);
                     $active = $current && (int) $current->term_id === (int) $term->term_id;
-                    $short = function_exists('get_field')
-                        ? get_field('category_short_description', 'product_category_' . $term->term_id)
-                        : '';
                     ?>
                     <a class="<?php echo $archive_layout ? 'product-category-tile' : 'xz-product-category-tile'; ?><?php echo $active ? ' is-active' : ''; ?>" href="<?php echo esc_url(get_term_link($term)); ?>"<?php echo $active ? ' aria-current="page"' : ''; ?>>
-                        <?php echo $image_id ? wp_get_attachment_image($image_id, $image_size, false, ['loading' => 'lazy']) : ''; ?>
+                        <?php echo $image_id ? wp_get_attachment_image($image_id, 'large', false, ['loading' => 'lazy']) : ''; ?>
                         <span><?php echo esc_html($term->name); ?></span>
-                        <?php if (($settings['show_description'] ?? '') === 'yes' && $short) : ?>
-                            <small><?php echo esc_html($short); ?></small>
-                        <?php endif; ?>
                     </a>
                 <?php endforeach; ?>
             </div>
@@ -590,7 +601,7 @@ final class Product_Information_Widget extends Xinzhou_Widget {
                         </div>
                     <?php elseif ($key === 'workflow') : ?>
                         <div class="xz-product-workflow">
-                        <?php foreach ($workflow as $index => $item) : ?><article><span><?php echo esc_html(str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT)); ?></span><div><h3><?php echo esc_html($item['workflow_step_title'] ?? ''); ?></h3><p><?php echo esc_html($item['workflow_step_description'] ?? ''); ?></p></div></article><?php endforeach; ?>
+                        <?php foreach ($workflow as $index => $item) : ?><article><span><?php echo esc_html(str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT)); ?></span><div><h3><?php echo esc_html(wp_strip_all_tags((string) ($item['workflow_step_title'] ?? ''))); ?></h3><p><?php echo esc_html(wp_strip_all_tags((string) ($item['workflow_step_description'] ?? ''))); ?></p></div></article><?php endforeach; ?>
                         </div>
                     <?php endif; ?>
                 </div>

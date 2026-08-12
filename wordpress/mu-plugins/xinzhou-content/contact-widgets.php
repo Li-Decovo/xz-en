@@ -3,6 +3,7 @@
 namespace Xinzhou\Elementor;
 
 use Elementor\Controls_Manager;
+use Elementor\Icons_Manager;
 use Elementor\Repeater;
 
 if (!defined('ABSPATH')) { exit; }
@@ -98,20 +99,20 @@ final class Contact_Process_Widget extends Contact_Widget_Base {
         $this->add_control('eyebrow', ['label' => 'Section Label', 'type' => Controls_Manager::TEXT, 'default' => 'How We Support']);
         $this->add_control('title', ['label' => 'Title', 'type' => Controls_Manager::TEXT, 'default' => 'A Clear Start for Your Equipment Project']);
         $repeater = new Repeater();
-        $repeater->add_control('icon', ['label' => 'Icon', 'type' => Controls_Manager::SELECT, 'default' => 'file', 'options' => ['file' => 'Document', 'workflow' => 'Workflow', 'message' => 'Discussion']]);
+        $repeater->add_control('icon', ['label' => 'Icon', 'type' => Controls_Manager::ICONS, 'default' => ['value' => 'far fa-file-alt', 'library' => 'fa-regular']]);
         $repeater->add_control('title', ['label' => 'Title', 'type' => Controls_Manager::TEXT]);
         $repeater->add_control('description', ['label' => 'Description', 'type' => Controls_Manager::TEXTAREA]);
         $this->add_control('steps', ['label' => 'Steps', 'type' => Controls_Manager::REPEATER, 'fields' => $repeater->get_controls(), 'default' => [
-            ['icon' => 'file', 'title' => 'Share Your Requirement', 'description' => 'Send the finished product, specifications, target output and available factory information.'],
-            ['icon' => 'workflow', 'title' => 'Plan the Right Solution', 'description' => 'Our sales and engineering teams review machine selection, configuration and production line layout.'],
-            ['icon' => 'message', 'title' => 'Continue Technical Discussion', 'description' => 'Confirm specifications, quotation, layout and service requirements before the project moves forward.'],
+            ['icon' => ['value' => 'far fa-file-alt', 'library' => 'fa-regular'], 'title' => 'Share Your Requirement', 'description' => 'Send the finished product, specifications, target output and available factory information.'],
+            ['icon' => ['value' => 'fas fa-project-diagram', 'library' => 'fa-solid'], 'title' => 'Plan the Right Solution', 'description' => 'Our sales and engineering teams review machine selection, configuration and production line layout.'],
+            ['icon' => ['value' => 'far fa-comments', 'library' => 'fa-regular'], 'title' => 'Continue Technical Discussion', 'description' => 'Confirm specifications, quotation, layout and service requirements before the project moves forward.'],
         ]]);
         $this->end_controls_section();
     }
 
     protected function render(): void {
         $s = $this->get_settings_for_display(); ?>
-        <section class="contact-process" aria-labelledby="contact-process-title"><div class="xz-container"><div class="contact-process__head"><p class="contact-eyebrow"><?php echo esc_html((string) ($s['eyebrow'] ?? '')); ?></p><h2 id="contact-process-title"><?php echo esc_html((string) ($s['title'] ?? '')); ?></h2></div><div class="contact-process__grid"><?php foreach ((array) ($s['steps'] ?? []) as $step) : ?><article><span><?php echo contact_icon((string) ($step['icon'] ?? 'file')); ?></span><h3><?php echo esc_html((string) ($step['title'] ?? '')); ?></h3><p><?php echo esc_html((string) ($step['description'] ?? '')); ?></p></article><?php endforeach; ?></div></div></section><?php
+        <section class="contact-process" aria-labelledby="contact-process-title"><div class="xz-container"><div class="contact-process__head"><p class="contact-eyebrow"><?php echo esc_html((string) ($s['eyebrow'] ?? '')); ?></p><h2 id="contact-process-title"><?php echo esc_html((string) ($s['title'] ?? '')); ?></h2></div><div class="contact-process__grid"><?php foreach ((array) ($s['steps'] ?? []) as $step) : ?><article><span><?php if (is_array($step['icon'] ?? null)) { Icons_Manager::render_icon($step['icon'], ['aria-hidden' => 'true']); } else { echo contact_icon((string) ($step['icon'] ?? 'file')); } ?></span><h3><?php echo esc_html(wp_strip_all_tags((string) ($step['title'] ?? ''))); ?></h3><p><?php echo esc_html(wp_strip_all_tags((string) ($step['description'] ?? ''))); ?></p></article><?php endforeach; ?></div></div></section><?php
     }
 }
 

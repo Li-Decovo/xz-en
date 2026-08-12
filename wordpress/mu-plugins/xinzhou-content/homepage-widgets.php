@@ -61,7 +61,7 @@ final class Home_Split_Widget extends Xinzhou_Section_Widget {
             <div class="xz-home-split__inner">
                 <div class="xz-home-split__media">
                     <?php if ($image) : ?><img src="<?php echo esc_url($image); ?>" alt="<?php echo esc_attr(wp_strip_all_tags((string) ($s['title'] ?? ''))); ?>"><?php endif; ?>
-                    <?php if (($s['show_play'] ?? '') === 'yes') : ?><a class="xz-home-play" href="<?php echo esc_url($this->link_url((array) ($s['video_link'] ?? []))); ?>" aria-label="Play video"><span></span></a><?php endif; ?>
+                    <?php $video_url = $this->link_url((array) ($s['video_link'] ?? [])); if (($s['show_play'] ?? '') === 'yes' && $video_url) : ?><a class="xz-home-play" href="<?php echo esc_url($video_url); ?>" data-xz-video-open aria-label="Play video"><span></span></a><?php endif; ?>
                 </div>
                 <div class="xz-home-split__copy">
                     <?php if (!empty($s['eyebrow'])) : ?><div class="xz-home-eyebrow"><?php echo esc_html($s['eyebrow']); ?></div><?php endif; ?>
@@ -72,6 +72,7 @@ final class Home_Split_Widget extends Xinzhou_Section_Widget {
                 </div>
             </div>
         </section>
+        <?php if (($s['show_play'] ?? '') === 'yes' && $video_url) : ?><dialog class="xz-video-dialog" data-xz-video-dialog><button type="button" data-xz-video-close aria-label="Close video">&times;</button><div class="xz-video-dialog__stage" data-xz-video-stage></div></dialog><?php endif; ?>
         <?php
     }
 }
@@ -85,6 +86,7 @@ final class Home_Carousel_Widget extends Xinzhou_Section_Widget {
     protected function register_controls(): void {
         $this->start_controls_section('query', ['label' => 'Content Source']);
         $this->add_control('source', ['label' => 'Source', 'type' => Controls_Manager::SELECT, 'default' => 'products', 'options' => ['products' => 'Products', 'news' => 'News', 'manual' => 'Manual Cards']]);
+        $this->add_control('selected_products', ['label' => 'Select Products', 'type' => Controls_Manager::SELECT2, 'multiple' => true, 'options' => post_control_options('product'), 'description' => 'Leave empty to show the latest products.', 'condition' => ['source' => 'products']]);
         $this->add_control('count', ['label' => 'Number of Items', 'type' => Controls_Manager::NUMBER, 'default' => 6, 'min' => 4, 'max' => 20, 'condition' => ['source!' => 'manual']]);
         $this->add_control('autoplay', ['label' => 'Autoplay', 'type' => Controls_Manager::SWITCHER, 'return_value' => 'yes', 'default' => 'yes']);
         $this->add_control('autoplay_speed', ['label' => 'Autoplay Speed (ms)', 'type' => Controls_Manager::NUMBER, 'default' => 4200, 'min' => 1500, 'max' => 15000, 'condition' => ['autoplay' => 'yes']]);
@@ -125,6 +127,16 @@ final class Home_Carousel_Widget extends Xinzhou_Section_Widget {
             'posts_per_page' => max(4, (int) ($s['count'] ?? 6)),
             'orderby' => $source === 'products' ? ['menu_order' => 'ASC', 'date' => 'DESC'] : ['date' => 'DESC'],
         ];
+        if ($source === 'products') {
+            $selected = array_values(array_filter(array_map('intval', (array) ($s['selected_products'] ?? []))));
+            if ($selected) {
+                $args['post__in'] = $selected;
+                $args['posts_per_page'] = count($selected);
+                $args['orderby'] = 'post__in';
+            } else {
+                $args['orderby'] = ['date' => 'DESC'];
+            }
+        }
         if ($source === 'news') {
             $cases = get_term_by('slug', 'cases', 'category');
             if ($cases instanceof \WP_Term) {
@@ -168,7 +180,7 @@ final class Home_Carousel_Widget extends Xinzhou_Section_Widget {
                                 <div class="xz-home-carousel-card__body">
                                     <?php if ($card['category']) : ?><span class="xz-home-carousel-card__category"><?php echo esc_html($card['category']); ?></span><?php endif; ?>
                                     <h3><a href="<?php echo esc_url($card['url']); ?>"><?php echo esc_html($card['title']); ?></a></h3>
-                                    <?php if ($card['description']) : ?><p><?php echo esc_html(wp_trim_words($card['description'], 22)); ?></p><?php endif; ?>
+                                    <?php if ($card['description']) : ?><p><?php echo esc_html(wp_trim_words(wp_strip_all_tags($card['description']), 22)); ?></p><?php endif; ?>
                                     <a class="xz-home-arrow-link" href="<?php echo esc_url($card['url']); ?>"><?php echo esc_html((string) ($s['button_text'] ?? 'View More')); ?><span aria-hidden="true">&#8594;</span></a>
                                 </div>
                             </article>
@@ -234,6 +246,9 @@ final class Home_Cases_Widget extends Xinzhou_Section_Widget {
 
     protected function register_controls(): void {
         $this->start_controls_section('content', ['label' => 'Cases']);
+        $case_term = get_term_by('slug', 'cases', 'category');
+        $this->add_control('category_id', ['label' => 'Post Category', 'type' => Controls_Manager::SELECT, 'default' => $case_term instanceof \WP_Term ? (string) $case_term->term_id : '', 'options' => post_category_control_options()]);
+        $this->add_control('selected_posts', ['label' => 'Select Posts', 'type' => Controls_Manager::SELECT2, 'multiple' => true, 'options' => post_control_options('post'), 'description' => 'Leave empty to show the latest posts from the selected category.']);
         $this->add_control('count', ['label' => 'Number of Cases', 'type' => Controls_Manager::NUMBER, 'default' => 5, 'min' => 1, 'max' => 10]);
         $this->add_control('label', ['label' => 'Card Label', 'type' => Controls_Manager::TEXT, 'default' => 'Case']);
         $this->end_controls_section();
@@ -241,10 +256,14 @@ final class Home_Cases_Widget extends Xinzhou_Section_Widget {
 
     protected function render(): void {
         $s = $this->get_settings_for_display();
-        $cases = get_term_by('slug', 'cases', 'category');
-        $args = ['post_type' => 'post', 'post_status' => 'publish', 'posts_per_page' => max(1, (int) ($s['count'] ?? 5))];
-        if ($cases instanceof \WP_Term) {
-            $args['category__in'] = [(int) $cases->term_id];
+        $selected = array_values(array_filter(array_map('intval', (array) ($s['selected_posts'] ?? []))));
+        $args = ['post_type' => 'post', 'post_status' => 'publish', 'posts_per_page' => max(1, (int) ($s['count'] ?? 5)), 'orderby' => 'date', 'order' => 'DESC'];
+        if ($selected) {
+            $args['post__in'] = $selected;
+            $args['posts_per_page'] = count($selected);
+            $args['orderby'] = 'post__in';
+        } elseif (!empty($s['category_id'])) {
+            $args['category__in'] = [(int) $s['category_id']];
         }
         $query = new \WP_Query($args);
         if (!$query->have_posts()) {
@@ -267,6 +286,7 @@ final class Home_Worldwide_Widget extends Xinzhou_Section_Widget {
     public function get_name(): string { return 'xinzhou-home-worldwide'; }
     public function get_title(): string { return 'Xinzhou Worldwide Logos'; }
     public function get_icon(): string { return 'eicon-logo'; }
+    public function get_script_depends(): array { return ['xinzhou-content']; }
 
     protected function register_controls(): void {
         $this->start_controls_section('content', ['label' => 'Content']);
@@ -274,7 +294,6 @@ final class Home_Worldwide_Widget extends Xinzhou_Section_Widget {
         $repeater = new Repeater();
         $repeater->add_control('image', ['label' => 'Logo', 'type' => Controls_Manager::MEDIA]);
         $repeater->add_control('link', ['label' => 'Link', 'type' => Controls_Manager::URL]);
-        $repeater->add_control('alt', ['label' => 'Alternative Text', 'type' => Controls_Manager::TEXT]);
         $this->add_control('logos', ['label' => 'Logos', 'type' => Controls_Manager::REPEATER, 'fields' => $repeater->get_controls()]);
         $this->end_controls_section();
     }
@@ -284,10 +303,14 @@ final class Home_Worldwide_Widget extends Xinzhou_Section_Widget {
         ?>
         <section class="xz-home-worldwide"><div class="xz-home-worldwide__inner">
             <h2><?php echo esc_html((string) ($s['title'] ?? 'Xinzhou Worldwide')); ?></h2>
-            <div class="xz-home-worldwide__grid">
-                <?php foreach ((array) ($s['logos'] ?? []) as $logo) : $image = $this->image_url((array) ($logo['image'] ?? [])); ?>
-                    <a href="<?php echo esc_url($this->link_url((array) ($logo['link'] ?? []))); ?>"><?php if ($image) : ?><img src="<?php echo esc_url($image); ?>" alt="<?php echo esc_attr((string) ($logo['alt'] ?? '')); ?>" loading="lazy"><?php endif; ?></a>
+            <?php $logos = (array) ($s['logos'] ?? []); $carousel = count($logos) > 4; ?>
+            <div class="xz-simple-carousel<?php echo $carousel ? ' is-carousel' : ''; ?>"<?php echo $carousel ? ' data-xz-simple-carousel data-visible="4"' : ''; ?>>
+            <?php if ($carousel) : ?><div class="xz-simple-carousel__controls"><button type="button" data-xz-simple-prev aria-label="Previous logos">&#8249;</button><button type="button" data-xz-simple-next aria-label="Next logos">&#8250;</button></div><?php endif; ?>
+            <div class="xz-home-worldwide__grid"<?php echo $carousel ? ' data-xz-simple-track' : ''; ?>>
+                <?php foreach ($logos as $logo) : $image_id = (int) ($logo['image']['id'] ?? 0); $image = $this->image_url((array) ($logo['image'] ?? [])); ?>
+                    <a href="<?php echo esc_url($this->link_url((array) ($logo['link'] ?? []))); ?>"><?php if ($image_id) : echo wp_get_attachment_image($image_id, 'full', false, ['loading' => 'lazy']); elseif ($image) : ?><img src="<?php echo esc_url($image); ?>" alt="" loading="lazy"><?php endif; ?></a>
                 <?php endforeach; ?>
+            </div>
             </div>
         </div></section>
         <?php

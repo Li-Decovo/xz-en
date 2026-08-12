@@ -35,8 +35,6 @@ final class About_Hero_Widget extends About_Widget_Base {
         $this->end_controls_section();
         $this->start_controls_section('media', ['label' => 'Media']);
         $this->add_control('image', ['label' => 'Image', 'type' => Controls_Manager::MEDIA]);
-        $this->add_control('caption_title', ['label' => 'Caption Title', 'type' => Controls_Manager::TEXT, 'default' => 'Automated Welding Lines']);
-        $this->add_control('caption_text', ['label' => 'Caption Text', 'type' => Controls_Manager::TEXT, 'default' => 'Research, design, manufacturing and global supply.']);
         $this->end_controls_section();
     }
 
@@ -52,8 +50,7 @@ final class About_Hero_Widget extends About_Widget_Base {
                     <div class="about-history-hero__text"><?php echo wp_kses_post((string) ($s['description'] ?? '')); ?></div>
                 </div>
                 <figure class="about-history-hero__media">
-                    <?php if ($image) : ?><img src="<?php echo esc_url($image); ?>" alt="<?php echo esc_attr((string) ($s['title'] ?? '')); ?>"><?php endif; ?>
-                    <?php if (!empty($s['caption_title']) || !empty($s['caption_text'])) : ?><figcaption><strong><?php echo esc_html((string) ($s['caption_title'] ?? '')); ?></strong><span><?php echo esc_html((string) ($s['caption_text'] ?? '')); ?></span></figcaption><?php endif; ?>
+                    <?php $image_id = (int) ($s['image']['id'] ?? 0); if ($image_id) : echo wp_get_attachment_image($image_id, 'full'); elseif ($image) : ?><img src="<?php echo esc_url($image); ?>" alt=""><?php endif; ?>
                 </figure>
             </div>
         </section>
@@ -134,32 +131,27 @@ final class About_Equipment_Widget extends About_Widget_Base {
         $this->add_control('intro', ['label' => 'Introduction', 'type' => Controls_Manager::TEXTAREA, 'default' => 'Xinzhou specializes in the manufacturing of intelligent welding equipment and turnkey production lines, including:']);
         $this->add_control('footer', ['label' => 'Footer Text', 'type' => Controls_Manager::TEXTAREA, 'default' => 'We also provide complete turnkey solutions from project planning to production line installation.']);
         $this->add_control('hide_empty', ['label' => 'Hide Empty Categories', 'type' => Controls_Manager::SWITCHER, 'return_value' => 'yes', 'default' => '']);
-        $this->end_controls_section();
-        $this->start_controls_section('titles', ['label' => 'Card Title Overrides']);
-        $r = new Repeater();
-        $r->add_control('term_slug', ['label' => 'Category Slug', 'type' => Controls_Manager::TEXT]);
-        $r->add_control('title', ['label' => 'Display Title', 'type' => Controls_Manager::TEXTAREA]);
-        $this->add_control('title_overrides', ['label' => 'Overrides', 'type' => Controls_Manager::REPEATER, 'fields' => $r->get_controls(), 'title_field' => '{{{ title }}}']);
+        $this->add_control('category_source', ['label' => 'Categories to Display', 'type' => Controls_Manager::SELECT, 'default' => 'all', 'options' => ['all' => 'All Categories', 'selected' => 'Selected Categories']]);
+        $this->add_control('category_ids', ['label' => 'Select Categories', 'type' => Controls_Manager::SELECT2, 'multiple' => true, 'options' => product_category_control_options(), 'condition' => ['category_source' => 'selected']]);
         $this->end_controls_section();
     }
 
     protected function render(): void {
         $s = $this->get_settings_for_display();
-        $terms = get_terms(['taxonomy' => 'product_category', 'hide_empty' => ($s['hide_empty'] ?? '') === 'yes']);
+        $args = ['taxonomy' => 'product_category', 'hide_empty' => ($s['hide_empty'] ?? '') === 'yes'];
+        if (($s['category_source'] ?? 'all') === 'selected') {
+            $selected = array_values(array_filter(array_map('intval', (array) ($s['category_ids'] ?? []))));
+            if (!$selected) { return; }
+            $args['include'] = $selected;
+        }
+        $terms = get_terms($args);
         if (is_wp_error($terms)) { $terms = []; }
         usort($terms, static function (\WP_Term $a, \WP_Term $b): int { return ((int) get_term_meta($a->term_id, 'category_display_order', true)) <=> ((int) get_term_meta($b->term_id, 'category_display_order', true)); });
-        $title_overrides = [];
-        foreach ((array) ($s['title_overrides'] ?? []) as $override) {
-            $slug = sanitize_title((string) ($override['term_slug'] ?? ''));
-            if ($slug) {
-                $title_overrides[$slug] = (string) ($override['title'] ?? '');
-            }
-        }
         ?>
         <section class="about-equipment-section" aria-labelledby="about-equipment-title"><div class="xz-container">
             <div class="about-equipment__head"><div><p class="about-section-label"><?php echo esc_html((string) ($s['label'] ?? '')); ?></p><h2 id="about-equipment-title"><?php echo esc_html((string) ($s['title'] ?? '')); ?></h2></div><p><?php echo esc_html((string) ($s['intro'] ?? '')); ?></p></div>
             <div class="about-equipment__grid"><?php foreach ($terms as $term) : $image_id = \xz_product_term_image((int) $term->term_id); ?>
-                <article class="about-equipment-item"><a href="<?php echo esc_url(get_term_link($term)); ?>"><figure class="about-equipment-item__media"><?php echo $image_id ? wp_get_attachment_image($image_id, 'large', false, ['loading' => 'lazy']) : ''; ?></figure><div class="about-equipment-item__body"><h3><?php echo esc_html($title_overrides[$term->slug] ?? $term->name); ?></h3></div></a></article>
+                <article class="about-equipment-item"><a href="<?php echo esc_url(get_term_link($term)); ?>"><figure class="about-equipment-item__media"><?php echo $image_id ? wp_get_attachment_image($image_id, 'large', false, ['loading' => 'lazy']) : ''; ?></figure><div class="about-equipment-item__body"><h3><?php echo esc_html($term->name); ?></h3></div></a></article>
             <?php endforeach; ?></div>
             <?php if (!empty($s['footer'])) : ?><div class="about-equipment__footer"><p><?php echo esc_html($s['footer']); ?></p></div><?php endif; ?>
         </div></section>
@@ -171,6 +163,7 @@ final class About_Quality_Widget extends About_Widget_Base {
     public function get_name(): string { return 'xinzhou-about-quality'; }
     public function get_title(): string { return 'Xinzhou About Certifications'; }
     public function get_icon(): string { return 'eicon-check-circle'; }
+    public function get_script_depends(): array { return ['xinzhou-content']; }
 
     protected function register_controls(): void {
         $this->add_heading_controls('heading', 'Our Certifications', 'Quality Is Our Commitment.');
@@ -189,7 +182,7 @@ final class About_Quality_Widget extends About_Widget_Base {
         ?>
         <section class="about-quality-section" aria-labelledby="about-quality-title"><div class="xz-container about-quality__grid">
             <div class="about-quality__copy"><p class="about-section-label"><?php echo esc_html((string) ($s['label'] ?? '')); ?></p><h2 id="about-quality-title"><?php echo esc_html((string) ($s['title'] ?? '')); ?></h2><?php echo wp_kses_post((string) ($s['description'] ?? '')); ?><p class="about-quality__list-label"><?php echo esc_html((string) ($s['list_label'] ?? '')); ?></p></div>
-            <div class="about-quality__certificates"><?php foreach ((array) ($s['items'] ?? []) as $item) : $image = $this->image_url((array) ($item['image'] ?? [])); ?><article class="about-quality-certificate"><figure class="about-quality-certificate__media"><?php if ($image) : ?><img src="<?php echo esc_url($image); ?>" alt="<?php echo esc_attr((string) ($item['title'] ?? '')); ?>" loading="lazy"><?php endif; ?></figure><div class="about-quality-certificate__body"><h3><?php echo esc_html((string) ($item['title'] ?? '')); ?></h3></div></article><?php endforeach; ?></div>
+            <?php $items = (array) ($s['items'] ?? []); $carousel = count($items) > 2; ?><div class="xz-simple-carousel about-quality-carousel<?php echo $carousel ? ' is-carousel' : ''; ?>"<?php echo $carousel ? ' data-xz-simple-carousel data-visible="2"' : ''; ?>><?php if ($carousel) : ?><div class="xz-simple-carousel__controls"><button type="button" data-xz-simple-prev aria-label="Previous certificates">&#8249;</button><button type="button" data-xz-simple-next aria-label="Next certificates">&#8250;</button></div><?php endif; ?><div class="about-quality__certificates"<?php echo $carousel ? ' data-xz-simple-track' : ''; ?>><?php foreach ($items as $item) : $image_id = (int) ($item['image']['id'] ?? 0); $image = $this->image_url((array) ($item['image'] ?? [])); ?><article class="about-quality-certificate"><figure class="about-quality-certificate__media"><?php if ($image_id) : echo wp_get_attachment_image($image_id, 'large', false, ['loading' => 'lazy']); elseif ($image) : ?><img src="<?php echo esc_url($image); ?>" alt="" loading="lazy"><?php endif; ?></figure><div class="about-quality-certificate__body"><h3><?php echo esc_html(wp_strip_all_tags((string) ($item['title'] ?? ''))); ?></h3></div></article><?php endforeach; ?></div></div>
         </div></section>
         <?php
     }

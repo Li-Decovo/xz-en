@@ -76,7 +76,13 @@
 }
 
 .contact-breadcrumb a {
+    color: var(--xz-steel);
     text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.contact-breadcrumb a:hover {
+    color: var(--xz-red);
 }
 
 .contact-hero h1 {

@@ -258,12 +258,12 @@
     background: #ffffff;
 }
 
-.services-assurance__item:first-child {
+.services-assurance__item:nth-child(odd) {
     background: #ffffff;
     border-right: 0;
 }
 
-.services-assurance__item:first-child::after {
+.services-assurance__item:nth-child(odd):not(:last-child)::after {
     content: "";
     position: absolute;
     top: 50%;
@@ -421,12 +421,15 @@
         grid-template-columns: 1fr;
     }
 
-    .services-assurance__item:first-child {
+    .services-assurance__item:nth-child(odd) {
         border-right: 0;
         border-bottom: 0;
     }
 
-    .services-assurance__item:first-child::after {
+    .services-assurance__item:nth-child(odd):not(:last-child)::after,
+    .services-assurance__item:nth-child(even):not(:last-child)::after {
+        content: "";
+        position: absolute;
         top: auto;
         right: auto;
         bottom: 0;

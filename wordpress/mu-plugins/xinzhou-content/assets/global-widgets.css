@@ -54,7 +54,7 @@
 }
 
 .inquiry-strip-form {
-    width: min(100%, 270px);
+    width: min(100%, 360px);
     height: 42px;
     margin: 6px 0 23px;
     border: 1px solid rgba(15, 23, 42, 0.55);
@@ -83,7 +83,7 @@
 
 .inquiry-strip-form .ff-t-container {
     display: grid !important;
-    grid-template-columns: minmax(0, 1fr) 54px;
+    grid-template-columns: minmax(0, 1fr) auto;
     gap: 0 !important;
 }
 
@@ -106,30 +106,28 @@
 }
 
 .inquiry-strip-form .ff-btn-submit {
-    width: 54px !important;
-    min-width: 54px !important;
+    width: auto !important;
+    min-width: 108px !important;
     height: 40px !important;
     min-height: 40px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     margin: 0 !important;
-    padding: 0 !important;
+    padding: 0 14px !important;
     border: 0 !important;
     border-left: 4px solid #d84120 !important;
     border-radius: 0 !important;
     background: #fff !important;
     color: #d84120 !important;
-    font-size: 0 !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
     line-height: 1 !important;
     box-shadow: none !important;
 }
 
 .inquiry-strip-form .ff-btn-submit::before {
-    content: "\2192";
-    font-family: Arial, sans-serif;
-    font-size: 20px;
-    line-height: 1;
+    content: none;
 }
 
 .inquiry-strip-button {
