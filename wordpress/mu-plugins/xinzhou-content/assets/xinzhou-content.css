@@ -629,10 +629,13 @@
     text-transform: uppercase;
 }
 
-.xz-home-arrow-link span {
-    font-size: 24px;
-    font-style: normal;
-    line-height: 1;
+.xz-home-arrow-link::after {
+    content: "";
+    display: inline-block;
+    width: 26px;
+    height: 29px;
+    flex: 0 0 26px;
+    background: url("a-right.webp") center / contain no-repeat;
 }
 
 .xz-home-story {

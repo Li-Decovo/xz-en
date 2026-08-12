@@ -181,7 +181,7 @@ final class Home_Carousel_Widget extends Xinzhou_Section_Widget {
                                     <?php if ($card['category']) : ?><span class="xz-home-carousel-card__category"><?php echo esc_html($card['category']); ?></span><?php endif; ?>
                                     <h3><a href="<?php echo esc_url($card['url']); ?>"><?php echo esc_html($card['title']); ?></a></h3>
                                     <?php if ($card['description']) : ?><p><?php echo esc_html(wp_trim_words(wp_strip_all_tags($card['description']), 22)); ?></p><?php endif; ?>
-                                    <a class="xz-home-arrow-link" href="<?php echo esc_url($card['url']); ?>"><?php echo esc_html((string) ($s['button_text'] ?? 'View More')); ?><span aria-hidden="true">&#8594;</span></a>
+                                    <a class="xz-home-arrow-link" href="<?php echo esc_url($card['url']); ?>"><?php echo esc_html((string) ($s['button_text'] ?? 'View More')); ?></a>
                                 </div>
                             </article>
                         <?php endforeach; ?>
