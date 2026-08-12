@@ -86,8 +86,21 @@
 }
 
 .xz-home-story__media img {
-    position: absolute;
-    inset: 0;
+    position: absolute !important;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 100% !important;
+    max-height: none !important;
+    object-fit: cover !important;
+}
+
+.xz-home-story__media {
+    height: 100%;
+    align-self: stretch;
 }
 
 .xz-home-split__media:hover img,
@@ -673,9 +686,12 @@
 
 @media (max-width: 640px) {
     .xz-home-split__media,
-    .xz-home-story__media,
-    .xz-home-split__media img,
-    .xz-home-story__media img {
+    .xz-home-story__media {
+        min-height: 0;
+        aspect-ratio: 4 / 3;
+    }
+
+    .xz-home-split__media img {
         min-height: 0;
         aspect-ratio: 4 / 3;
     }
