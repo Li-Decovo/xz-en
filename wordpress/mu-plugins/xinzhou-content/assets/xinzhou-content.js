@@ -135,12 +135,37 @@
         var track = carousel.querySelector("[data-xz-simple-track]");
         var previous = carousel.querySelector("[data-xz-simple-prev]");
         var next = carousel.querySelector("[data-xz-simple-next]");
-        if (!track || !previous || !next) return;
+        var pagination = carousel.querySelector("[data-xz-simple-pagination]");
+        if (!track || ((!previous || !next) && !pagination)) return;
 
         var items = Array.from(track.children);
         var configuredVisible = Math.max(1, parseInt(carousel.dataset.visible || "4", 10));
         var index = 0;
         var visible = configuredVisible;
+
+        function updatePagination(maxIndex) {
+            if (!pagination) return;
+            if (pagination.children.length !== maxIndex + 1) {
+                pagination.replaceChildren();
+                for (var dotIndex = 0; dotIndex <= maxIndex; dotIndex += 1) {
+                    (function (targetIndex) {
+                        var dot = document.createElement("button");
+                        dot.type = "button";
+                        dot.setAttribute("aria-label", "Show case slide " + (targetIndex + 1));
+                        dot.addEventListener("click", function () {
+                            index = targetIndex;
+                            update();
+                        });
+                        pagination.appendChild(dot);
+                    }(dotIndex));
+                }
+            }
+            Array.from(pagination.children).forEach(function (dot, dotIndex) {
+                var active = dotIndex === index;
+                dot.classList.toggle("is-active", active);
+                dot.setAttribute("aria-current", active ? "true" : "false");
+            });
+        }
 
         function update() {
             visible = window.innerWidth <= 640 ? 1 : (window.innerWidth <= 900 ? Math.min(2, configuredVisible) : configuredVisible);
@@ -151,20 +176,25 @@
             index = Math.min(index, maxIndex);
             items.forEach(function (item) { item.style.flex = "0 0 " + itemWidth + "px"; });
             track.style.transform = "translateX(" + (-index * (itemWidth + gap)) + "px)";
-            previous.disabled = items.length <= visible;
-            next.disabled = items.length <= visible;
+            if (previous && next) {
+                previous.disabled = items.length <= visible;
+                next.disabled = items.length <= visible;
+            }
+            updatePagination(maxIndex);
         }
 
-        previous.addEventListener("click", function () {
-            var maxIndex = Math.max(0, items.length - visible);
-            index = index <= 0 ? maxIndex : index - 1;
-            update();
-        });
-        next.addEventListener("click", function () {
-            var maxIndex = Math.max(0, items.length - visible);
-            index = index >= maxIndex ? 0 : index + 1;
-            update();
-        });
+        if (previous && next) {
+            previous.addEventListener("click", function () {
+                var maxIndex = Math.max(0, items.length - visible);
+                index = index <= 0 ? maxIndex : index - 1;
+                update();
+            });
+            next.addEventListener("click", function () {
+                var maxIndex = Math.max(0, items.length - visible);
+                index = index >= maxIndex ? 0 : index + 1;
+                update();
+            });
+        }
 
         var resizeTimer = null;
         window.addEventListener("resize", function () {

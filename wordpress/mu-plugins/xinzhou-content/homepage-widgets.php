@@ -274,7 +274,7 @@ final class Home_Cases_Widget extends Xinzhou_Section_Widget {
         $carousel = count($posts) > 3;
         ?>
         <section class="xz-home-cases"><div class="xz-home-cases__carousel xz-simple-carousel<?php echo $carousel ? ' is-carousel' : ''; ?>"<?php echo $carousel ? ' data-xz-simple-carousel data-visible="3"' : ''; ?>>
-            <?php if ($carousel) : ?><div class="xz-simple-carousel__controls"><button type="button" data-xz-simple-prev aria-label="Previous cases">&#8249;</button><button type="button" data-xz-simple-next aria-label="Next cases">&#8250;</button></div><?php endif; ?>
+            <?php if ($carousel) : ?><div class="xz-simple-carousel__pagination" data-xz-simple-pagination aria-label="Case carousel navigation"></div><?php endif; ?>
             <div class="xz-home-cases__grid"<?php echo $carousel ? ' data-xz-simple-track' : ''; ?>>
             <?php foreach ($posts as $post) : ?>
                 <a class="xz-home-case" href="<?php echo esc_url(get_permalink($post)); ?>">
