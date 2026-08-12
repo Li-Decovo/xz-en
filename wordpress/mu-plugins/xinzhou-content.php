@@ -94,6 +94,13 @@ add_action('wp_enqueue_scripts', static function (): void {
         xz_content_asset_version('assets/global-widgets.css')
     );
 
+    wp_register_style(
+        'xinzhou-page-chrome',
+        WPMU_PLUGIN_URL . '/xinzhou-content/assets/page-chrome.css',
+        ['xinzhou-content', 'xinzhou-global-widgets'],
+        xz_content_asset_version('assets/page-chrome.css')
+    );
+
     wp_enqueue_script('xinzhou-content');
 });
 

@@ -1,4 +1,17 @@
 (function () {
+    document.querySelectorAll("[data-xz-page-menu-toggle]").forEach(function (toggle) {
+        var shell = toggle.closest(".xz-page-header-shell");
+        var menu = shell ? shell.querySelector("[data-xz-page-mobile-menu]") : null;
+        if (!menu) return;
+        function setOpen(open) {
+            menu.classList.toggle("is-open", open);
+            toggle.setAttribute("aria-expanded", open ? "true" : "false");
+        }
+        toggle.addEventListener("click", function () { setOpen(!menu.classList.contains("is-open")); });
+        menu.addEventListener("click", function (event) { if (event.target.closest("a")) setOpen(false); });
+        window.addEventListener("keydown", function (event) { if (event.key === "Escape") setOpen(false); });
+    });
+
     document.querySelectorAll("[data-xz-carousel]").forEach(function (carousel) {
         var track = carousel.querySelector("[data-xz-carousel-track]");
         var previous = carousel.querySelector("[data-xz-carousel-prev]");
