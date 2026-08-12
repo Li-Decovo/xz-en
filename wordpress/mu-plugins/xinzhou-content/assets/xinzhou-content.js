@@ -211,7 +211,21 @@
         var dialog = opener.closest(".xz-home-split")?.nextElementSibling;
         if (!dialog || !dialog.matches("[data-xz-video-dialog]")) return;
         var stage = dialog.querySelector("[data-xz-video-stage]");
-        function closeVideo() { stage.innerHTML = ""; if (dialog.open) dialog.close(); }
+        function stopVideo() {
+            var video = stage.querySelector("video");
+            var iframe = stage.querySelector("iframe");
+            if (video) {
+                video.pause();
+                video.removeAttribute("src");
+                video.load();
+            }
+            if (iframe) iframe.src = "about:blank";
+            stage.replaceChildren();
+        }
+        function closeVideo() {
+            stopVideo();
+            if (dialog.open) dialog.close();
+        }
         opener.addEventListener("click", function (event) {
             event.preventDefault();
             var url = opener.href;
@@ -224,6 +238,7 @@
         dialog.querySelector("[data-xz-video-close]").addEventListener("click", closeVideo);
         dialog.addEventListener("click", function (event) { if (event.target === dialog) closeVideo(); });
         dialog.addEventListener("cancel", function (event) { event.preventDefault(); closeVideo(); });
+        dialog.addEventListener("close", stopVideo);
     });
 
     document.querySelectorAll("[data-xz-product-tabs]").forEach(function (tabs) {

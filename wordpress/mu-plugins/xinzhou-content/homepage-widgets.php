@@ -72,7 +72,7 @@ final class Home_Split_Widget extends Xinzhou_Section_Widget {
                 </div>
             </div>
         </section>
-        <?php if (($s['show_play'] ?? '') === 'yes' && $video_url) : ?><dialog class="xz-video-dialog" data-xz-video-dialog><button type="button" data-xz-video-close aria-label="Close video">&times;</button><div class="xz-video-dialog__stage" data-xz-video-stage></div></dialog><?php endif; ?>
+        <?php if (($s['show_play'] ?? '') === 'yes' && $video_url) : ?><dialog class="xz-video-dialog" data-xz-video-dialog aria-label="Video player"><button class="xz-video-dialog__close" type="button" data-xz-video-close aria-label="Close video"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg></button><div class="xz-video-dialog__stage" data-xz-video-stage></div></dialog><?php endif; ?>
         <?php
     }
 }
