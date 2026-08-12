@@ -29,7 +29,7 @@
 
 .xz-page-header { top: 30px; z-index: 1000; height: 88px; border-bottom: 1px solid rgba(255,255,255,.1); box-shadow: 0 8px 24px rgba(0,0,0,.22); }
 .xz-page-header__inner { --brand-width: clamp(275px, 20vw, 335px); display: grid; width: min(100%, 1850px); height: 88px; grid-template-columns: var(--brand-width) minmax(0,1fr) auto; align-items: center; gap: clamp(18px,2vw,34px); margin: auto; padding: 0 24px; }
-.xz-page-header__brand { position: relative; z-index: 1; display: flex; width: 100%; height: 100%; align-items: center; padding-right: 72px; text-decoration: none; }
+.xz-page-header__brand { position: relative; z-index: 1; display: flex; width: 100%; height: 108px; margin-top: -12px; align-items: center; padding-right: 72px; text-decoration: none; }
 .xz-page-header__brand::before { content: ""; position: absolute; top: 0; right: 0; bottom: 0; left: min(-24px, calc((1850px - 100vw)/2 - 24px)); z-index: -1; background: linear-gradient(135deg,#ee6a33 0%,#d84120 50%,#a92d14 100%); clip-path: polygon(0 0,100% 0,calc(100% - 70px) 100%,0 100%); }
 .xz-page-header__brand img { display: block; width: auto; max-width: 205px; height: 43px; object-fit: contain; filter: brightness(0) invert(1); }
 .xz-page-header__nav { display: flex; min-width: 0; height: 100%; align-items: center; justify-content: center; gap: clamp(14px,1.25vw,23px); }
@@ -92,7 +92,7 @@
     .xz-page-topbar { display: none; }
     .xz-page-header { top: 0; }
     .xz-page-header__inner { display: flex; justify-content: space-between; padding: 0 16px; }
-    .xz-page-header__brand { width: 260px; padding-right: 70px; }
+    .xz-page-header__brand { width: 260px; height: 96px; margin-top: -8px; padding-right: 70px; }
     .xz-page-header__nav,.xz-page-header__cta { display: none; }
     .xz-page-header__toggle { display: grid; place-items: center; }
     .xz-page-mobile-menu { top: 88px; }
@@ -105,7 +105,7 @@
 
 @media (max-width: 480px) {
     .xz-page-header-shell,.xz-page-header,.xz-page-header__inner { height: 72px; }
-    .xz-page-header__brand { width: 220px; padding-right: 58px; }
+    .xz-page-header__brand { width: 220px; height: 84px; margin-top: -8px; padding-right: 58px; }
     .xz-page-header__brand img { max-width: 165px; height: 32px; }
     .xz-page-mobile-menu { top: 72px; }
 }
