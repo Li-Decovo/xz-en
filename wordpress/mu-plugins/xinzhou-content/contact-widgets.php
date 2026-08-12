@@ -104,7 +104,7 @@ final class Contact_Process_Widget extends Contact_Widget_Base {
         $repeater->add_control('description', ['label' => 'Description', 'type' => Controls_Manager::TEXTAREA]);
         $this->add_control('steps', ['label' => 'Steps', 'type' => Controls_Manager::REPEATER, 'fields' => $repeater->get_controls(), 'default' => [
             ['icon' => ['value' => 'far fa-file-alt', 'library' => 'fa-regular'], 'title' => 'Share Your Requirement', 'description' => 'Send the finished product, specifications, target output and available factory information.'],
-            ['icon' => ['value' => 'fas fa-project-diagram', 'library' => 'fa-solid'], 'title' => 'Plan the Right Solution', 'description' => 'Our sales and engineering teams review machine selection, configuration and production line layout.'],
+            ['icon' => ['value' => 'fas fa-sitemap', 'library' => 'fa-solid'], 'title' => 'Plan the Right Solution', 'description' => 'Our sales and engineering teams review machine selection, configuration and production line layout.'],
             ['icon' => ['value' => 'far fa-comments', 'library' => 'fa-regular'], 'title' => 'Continue Technical Discussion', 'description' => 'Confirm specifications, quotation, layout and service requirements before the project moves forward.'],
         ]]);
         $this->end_controls_section();
