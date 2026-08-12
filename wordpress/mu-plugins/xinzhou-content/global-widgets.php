@@ -52,7 +52,9 @@ final class Global_Header_Widget extends Global_Widget_Base {
         $this->start_controls_section('brand', ['label' => 'Brand & Navigation']);
         $this->add_control('logo', ['label' => 'Logo', 'type' => Controls_Manager::MEDIA, 'default' => ['url' => home_url('/wp-content/uploads/xinzhou-home-assets/site-logo.webp')]]);
         $this->add_control('menu_id', ['label' => 'WordPress Menu', 'type' => Controls_Manager::SELECT, 'options' => global_menu_options(), 'default' => '']);
-        $this->add_control('cta_text', ['label' => 'Inquiry Button', 'type' => Controls_Manager::TEXT, 'default' => 'Get Your Line Proposal']);
+        $this->end_controls_section();
+        $this->start_controls_section('header_inquiry', ['label' => 'Header Inquiry Button']);
+        $this->add_control('cta_text', ['label' => 'Button Text', 'type' => Controls_Manager::TEXT, 'default' => 'Get Your Line Proposal']);
         $this->end_controls_section();
         $this->start_controls_section('social', ['label' => 'Social Media']);
         $this->add_control('social_label', ['label' => 'Label', 'type' => Controls_Manager::TEXT, 'default' => 'Follow Xinzhou']);
