@@ -1076,6 +1076,12 @@
     overflow: hidden;
 }
 
+.xz-product-category-nav--homepage.xz-simple-carousel.is-carousel .xz-product-category-nav__grid {
+    display: flex !important;
+    grid-template-columns: none !important;
+    flex-wrap: nowrap;
+}
+
 .xz-product-category-tile {
     position: relative;
     display: block;
@@ -1736,15 +1742,5 @@
 
     .xz-wp-news-single-aside {
         position: static;
-    }
-}
-
-@media (max-width: 640px) {
-    .xz-product-category-nav--homepage .xz-product-category-nav__grid {
-        grid-template-columns: 1fr;
-    }
-
-    .xz-product-category-nav--homepage .xz-product-category-tile {
-        aspect-ratio: 16 / 10;
     }
 }
