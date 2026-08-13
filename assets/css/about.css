@@ -1960,9 +1960,12 @@
     }
 
     .about-factory__highlights,
-    .about-professional-team__grid,
     .about-customers__regions {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .about-professional-team__grid {
+        grid-template-columns: 1fr;
     }
 
     .about-professional-team__item {
