@@ -444,8 +444,16 @@
 @media (max-width: 640px) {
     .services-consultation-hero__copy,
     .services-custom__copy,
-    .services-layout__copy {
-        padding: 48px 24px;
+    .services-layout__copy,
+    .services-onsite__copy {
+        padding: 48px 8px;
+    }
+
+    .services-custom__grid,
+    .services-layout__grid,
+    .services-onsite__grid {
+        padding-right: 16px;
+        padding-left: 16px;
     }
 
     .services-consultation-hero h1,
@@ -468,6 +476,10 @@
     .services-layout__media,
     .services-onsite__media {
         aspect-ratio: 4 / 3;
+    }
+
+    .services-layout-section {
+        padding-bottom: 0;
     }
 
     .services-assurance__item {
