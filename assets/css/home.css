@@ -233,13 +233,18 @@
                 opacity: 0;
             }
         }
+        .hero-product-carousel {
+            overflow: hidden;
+        }
         .hero-product-grid {
-            display: grid;
-            grid-template-columns: repeat(7, minmax(0, 1fr));
+            display: flex;
             gap: 14px;
+            transition: transform 0.45s ease;
+            will-change: transform;
         }
         .hero-product-card {
             position: relative;
+            flex: 0 0 calc((100% - 84px) / 7);
             aspect-ratio: 1 / 1;
             overflow: hidden;
             border: 1px solid #e2e8f0;
@@ -277,22 +282,41 @@
             line-height: 1.35;
             text-transform: uppercase;
         }
-        @media (max-width: 1180px) {
-            .hero-product-grid {
-                grid-template-columns: repeat(4, minmax(0, 1fr));
-            }
+        .hero-product-dots {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 0.65rem;
+            min-height: 18px;
+            margin-top: 1.25rem;
         }
-        @media (max-width: 860px) {
-            .hero-product-grid {
-                grid-template-columns: repeat(3, minmax(0, 1fr));
+        .hero-product-dots button {
+            display: block;
+            width: 9px;
+            min-width: 9px;
+            height: 9px;
+            min-height: 9px;
+            padding: 0;
+            border: 0;
+            border-radius: 999px;
+            background: #cbd5e1;
+            transition: width 0.2s ease, background 0.2s ease;
+        }
+        .hero-product-dots button.is-active {
+            width: 24px;
+            background: #d84120;
+        }
+        @media (max-width: 1360px) {
+            .hero-product-card {
+                flex-basis: calc((100% - 56px) / 5);
+            }
+            .hero-product-dots {
+                display: flex;
             }
         }
         @media (max-width: 640px) {
-            .hero-product-grid {
-                grid-template-columns: 1fr;
-            }
             .hero-product-card {
-                aspect-ratio: 16 / 10;
+                flex-basis: calc((100% - 14px) / 2);
             }
         }
         .factory-systems-section {

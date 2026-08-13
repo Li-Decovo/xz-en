@@ -26,6 +26,69 @@
   })();
 
   (function () {
+    const carousel = document.querySelector('[data-hero-product-carousel]');
+    if (!carousel) return;
+
+    const track = carousel.querySelector('[data-hero-product-track]');
+    const dots = carousel.querySelector('[data-hero-product-dots]');
+    if (!track || !dots) return;
+
+    const items = Array.from(track.children);
+    let index = 0;
+
+    function getVisibleCount() {
+      if (window.innerWidth <= 640) return 2;
+      if (window.innerWidth <= 1360) return 5;
+      return 7;
+    }
+
+    function getStepSize() {
+      const card = items[0];
+      const styles = window.getComputedStyle(track);
+      const gap = parseFloat(styles.columnGap || styles.gap || 0);
+      return card.getBoundingClientRect().width + gap;
+    }
+
+    function renderDots(maxIndex) {
+      dots.replaceChildren();
+      if (maxIndex <= 0) return;
+      for (let dotIndex = 0; dotIndex <= maxIndex; dotIndex += 1) {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.setAttribute('aria-label', `Show product category slide ${dotIndex + 1}`);
+        dot.addEventListener('click', () => {
+          index = dotIndex;
+          update();
+        });
+        dots.appendChild(dot);
+      }
+    }
+
+    function update() {
+      const visibleCount = Math.min(getVisibleCount(), items.length);
+      const maxIndex = Math.max(0, items.length - visibleCount);
+      index = Math.min(index, maxIndex);
+      track.style.transform = `translateX(${-index * getStepSize()}px)`;
+      if (dots.children.length !== maxIndex + 1) {
+        renderDots(maxIndex);
+      }
+      Array.from(dots.children).forEach((dot, dotIndex) => {
+        const active = dotIndex === index;
+        dot.classList.toggle('is-active', active);
+        dot.setAttribute('aria-current', active ? 'true' : 'false');
+      });
+    }
+
+    let resizeTimer = null;
+    window.addEventListener('resize', () => {
+      window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(update, 160);
+    });
+
+    update();
+  })();
+
+  (function () {
     const carousel = document.querySelector('[data-case-carousel]');
     if (!carousel) return;
 
