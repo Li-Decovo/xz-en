@@ -25,29 +25,18 @@ final class Product_Archive_Grid_Widget extends Product_Archive_Widget_Base {
         $this->end_controls_section();
     }
 
-    private function current_posts(): array {
-        global $wp_query;
-        if ($wp_query instanceof \WP_Query && !empty($wp_query->posts)) {
-            return array_values(array_filter($wp_query->posts, static fn($post): bool => get_post_type($post) === 'product'));
-        }
-        return get_posts(['post_type' => 'product', 'post_status' => 'publish', 'posts_per_page' => 9, 'orderby' => 'ID', 'order' => 'ASC']);
-    }
-
     protected function render(): void {
-        global $wp_query;
         $s = $this->get_settings_for_display();
-        $posts = $this->current_posts();
+        $object = get_queried_object();
+        $term_id = $object instanceof \WP_Term && $object->taxonomy === 'product_category' ? (int) $object->term_id : 0;
+        $page = max(1, get_query_var('paged'));
+        $query = new \WP_Query(\xz_product_archive_query_args($page, 9, $term_id));
+        $show_label = ($s['show_label'] ?? '') === 'yes';
         ?>
-        <section class="product-archive" aria-labelledby="product-archive-title"><div class="xz-container"><div class="product-archive__head"><h2 id="product-archive-title"><?php echo esc_html((string) ($s['title'] ?? 'Machines in This Category')); ?></h2></div><div class="product-archive__grid" data-products-grid data-page-size="9" data-page-size-mobile="4">
-            <?php foreach ($posts as $post) :
-                $terms = wp_get_post_terms($post->ID, 'product_category');
-                $label = function_exists('get_field') ? (string) get_field('product_card_label', $post->ID) : '';
-                if (!$label && !is_wp_error($terms) && $terms) { $label = $terms[0]->name; }
-                ?>
-                <article class="product-archive-card" data-product-card><a href="<?php echo esc_url(get_permalink($post)); ?>"><figure><?php echo get_the_post_thumbnail($post, 'large', ['loading' => 'lazy']); ?><?php if (($s['show_label'] ?? '') === 'yes' && $label) : ?><span><?php echo esc_html($label); ?></span><?php endif; ?></figure><h3><?php echo esc_html(get_the_title($post)); ?></h3></a></article>
-            <?php endforeach; ?>
+        <section class="product-archive" aria-labelledby="product-archive-title" data-xz-product-archive data-term-id="<?php echo esc_attr((string) $term_id); ?>" data-show-label="<?php echo $show_label ? '1' : '0'; ?>"><div class="xz-container"><div class="product-archive__head"><h2 id="product-archive-title"><?php echo esc_html((string) ($s['title'] ?? 'Machines in This Category')); ?></h2></div><div class="product-archive__grid" data-products-grid data-xz-ajax-grid data-page-size="9" data-page-size-mobile="4" aria-live="polite">
+            <?php foreach ($query->posts as $post) { echo \xz_render_product_archive_card($post, $show_label); } ?>
         </div>
-        <nav class="product-pagination" aria-label="Product pages" data-product-pagination></nav>
+        <nav class="product-pagination" aria-label="Product pages" data-product-pagination><?php if ($query->max_num_pages > 1) { echo wp_kses_post(paginate_links(['total' => $query->max_num_pages, 'current' => $page, 'prev_text' => '&lsaquo;', 'next_text' => '&rsaquo;'])); } ?></nav>
         </div></section>
         <?php
     }

@@ -107,9 +107,112 @@ add_action('wp_enqueue_scripts', static function (): void {
 
     wp_enqueue_script('xinzhou-content');
     wp_localize_script('xinzhou-content', 'XinzhouContent', [
+        'ajaxUrl' => admin_url('admin-ajax.php'),
         'inquiryPopupId' => xz_inquiry_popup_id(),
     ]);
 });
+
+function xz_product_archive_query_args(int $page, int $per_page, int $term_id = 0): array {
+    $args = [
+        'post_type' => 'product',
+        'post_status' => 'publish',
+        'posts_per_page' => max(1, min(24, $per_page)),
+        'paged' => max(1, $page),
+        'orderby' => 'ID',
+        'order' => 'ASC',
+    ];
+    if ($term_id > 0) {
+        $args['tax_query'] = [[
+            'taxonomy' => 'product_category',
+            'field' => 'term_id',
+            'terms' => [$term_id],
+        ]];
+    }
+    return $args;
+}
+
+function xz_render_product_archive_card(WP_Post $post, bool $show_label = true): string {
+    $terms = wp_get_post_terms($post->ID, 'product_category');
+    $label = function_exists('get_field') ? (string) get_field('product_card_label', $post->ID) : '';
+    if (!$label && !is_wp_error($terms) && $terms) {
+        $label = $terms[0]->name;
+    }
+    ob_start();
+    ?>
+    <article class="product-archive-card" data-product-card><a href="<?php echo esc_url(get_permalink($post)); ?>"><figure><?php echo get_the_post_thumbnail($post, 'large', ['loading' => 'lazy']); ?><?php if ($show_label && $label) : ?><span><?php echo esc_html($label); ?></span><?php endif; ?></figure><h3><?php echo esc_html(get_the_title($post)); ?></h3></a></article>
+    <?php
+    return (string) ob_get_clean();
+}
+
+function xz_news_archive_query_args(int $page, int $per_page, int $category_id = 0, int $featured_id = 0): array {
+    $args = [
+        'post_type' => 'post',
+        'post_status' => 'publish',
+        'posts_per_page' => max(1, min(24, $per_page)),
+        'paged' => max(1, $page),
+        'orderby' => 'ID',
+        'order' => 'ASC',
+        'post__not_in' => array_filter([$featured_id]),
+    ];
+    if ($category_id > 0) {
+        $args['cat'] = $category_id;
+    } else {
+        $case = get_term_by('slug', 'cases', 'category');
+        if ($case instanceof WP_Term) {
+            $args['category__not_in'] = [(int) $case->term_id];
+        }
+    }
+    return $args;
+}
+
+function xz_render_news_archive_card(WP_Post $post, string $link_text = 'Read More'): string {
+    $post_id = $post->ID;
+    $categories = get_the_category($post_id);
+    ob_start();
+    ?>
+    <article class="news-card"><a class="news-card__media" href="<?php echo esc_url(get_permalink($post)); ?>"><?php echo get_the_post_thumbnail($post_id, 'large', ['loading' => 'lazy']); ?><?php if ($categories) : ?><span><?php echo esc_html($categories[0]->name); ?></span><?php endif; ?></a><div class="news-card__body"><time datetime="<?php echo esc_attr(get_the_date('c', $post_id)); ?>"><?php echo esc_html(get_the_date('F j, Y', $post_id)); ?></time><h3><a href="<?php echo esc_url(get_permalink($post)); ?>"><?php echo esc_html(get_the_title($post)); ?></a></h3><p><?php echo esc_html(get_the_excerpt($post)); ?></p><a class="news-read-link" href="<?php echo esc_url(get_permalink($post)); ?>"><?php echo esc_html($link_text); ?><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></a></div></article>
+    <?php
+    return (string) ob_get_clean();
+}
+
+function xz_ajax_product_archive(): void {
+    $page = max(1, absint($_POST['page'] ?? 1));
+    $per_page = max(1, min(24, absint($_POST['perPage'] ?? 9)));
+    $term_id = absint($_POST['termId'] ?? 0);
+    $show_label = !empty($_POST['showLabel']);
+    $query = new WP_Query(xz_product_archive_query_args($page, $per_page, $term_id));
+    $html = '';
+    foreach ($query->posts as $post) {
+        $html .= xz_render_product_archive_card($post, $show_label);
+    }
+    wp_send_json_success([
+        'html' => $html,
+        'page' => $page,
+        'totalPages' => (int) $query->max_num_pages,
+    ]);
+}
+add_action('wp_ajax_xz_product_archive', 'xz_ajax_product_archive');
+add_action('wp_ajax_nopriv_xz_product_archive', 'xz_ajax_product_archive');
+
+function xz_ajax_news_archive(): void {
+    $page = max(1, absint($_POST['page'] ?? 1));
+    $per_page = max(1, min(24, absint($_POST['perPage'] ?? 9)));
+    $category_id = absint($_POST['categoryId'] ?? 0);
+    $featured_id = absint($_POST['featuredId'] ?? 0);
+    $link_text = sanitize_text_field(wp_unslash($_POST['linkText'] ?? 'Read More'));
+    $query = new WP_Query(xz_news_archive_query_args($page, $per_page, $category_id, $featured_id));
+    $html = '';
+    foreach ($query->posts as $post) {
+        $html .= xz_render_news_archive_card($post, $link_text);
+    }
+    wp_send_json_success([
+        'html' => $html,
+        'page' => $page,
+        'totalPages' => (int) $query->max_num_pages,
+    ]);
+}
+add_action('wp_ajax_xz_news_archive', 'xz_ajax_news_archive');
+add_action('wp_ajax_nopriv_xz_news_archive', 'xz_ajax_news_archive');
 
 add_action('wp', static function (): void {
     $popup_id = xz_inquiry_popup_id();

@@ -119,15 +119,15 @@ final class News_Archive_Grid_Widget extends News_Archive_Widget_Base {
         $s = $this->get_settings_for_display();
         $category_id = news_widget_current_category_id();
         $featured_id = $category_id ? (int) (get_posts(['post_type' => 'post', 'post_status' => 'publish', 'posts_per_page' => 1, 'fields' => 'ids', 'orderby' => 'ID', 'order' => 'ASC', 'cat' => $category_id])[0] ?? 0) : (int) ($s['featured_post'] ?? 187);
-        $args = ['post_type' => 'post', 'post_status' => 'publish', 'posts_per_page' => (int) ($s['posts_per_page'] ?? 9), 'paged' => max(1, get_query_var('paged')), 'orderby' => 'ID', 'order' => 'ASC', 'post__not_in' => array_filter([$featured_id])];
-        if ($category_id) { $args['cat'] = $category_id; }
-        else { $case_id = news_widget_case_term_id(); if ($case_id) { $args['category__not_in'] = [$case_id]; } }
-        $query = new \WP_Query($args);
+        $per_page = (int) ($s['posts_per_page'] ?? 9);
+        $page = max(1, get_query_var('paged'));
+        $link_text = (string) ($s['link_text'] ?? 'Read More');
+        $query = new \WP_Query(\xz_news_archive_query_args($page, $per_page, $category_id, $featured_id));
         if (!$query->have_posts()) { return; }
         ?>
-        <section class="news-archive" aria-labelledby="news-archive-title"><div class="xz-container"><div class="news-archive__head"><?php if (!empty($s['eyebrow'])) : ?><p class="news-eyebrow"><?php echo esc_html((string) $s['eyebrow']); ?></p><?php endif; ?><h2 id="news-archive-title"><?php echo esc_html((string) ($s['title'] ?? 'More Xinzhou Updates')); ?></h2></div><div class="news-archive__grid">
-            <?php while ($query->have_posts()) : $query->the_post(); $post_id = get_the_ID(); $categories = get_the_category($post_id); ?><article class="news-card"><a class="news-card__media" href="<?php the_permalink(); ?>"><?php echo get_the_post_thumbnail($post_id, 'large', ['loading' => 'lazy']); ?><?php if ($categories) : ?><span><?php echo esc_html($categories[0]->name); ?></span><?php endif; ?></a><div class="news-card__body"><time datetime="<?php echo esc_attr(get_the_date('c', $post_id)); ?>"><?php echo esc_html(get_the_date('F j, Y', $post_id)); ?></time><h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3><p><?php echo esc_html(get_the_excerpt($post_id)); ?></p><a class="news-read-link" href="<?php the_permalink(); ?>"><?php echo esc_html((string) ($s['link_text'] ?? 'Read More')); ?><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></a></div></article><?php endwhile; wp_reset_postdata(); ?>
-        </div><?php if ($query->max_num_pages > 1) : ?><nav class="news-pagination" aria-label="News pages"><?php echo wp_kses_post(paginate_links(['total' => $query->max_num_pages, 'current' => max(1, get_query_var('paged')), 'prev_text' => '&lsaquo;', 'next_text' => '&rsaquo;'])); ?></nav><?php endif; ?></div></section>
+        <section class="news-archive" aria-labelledby="news-archive-title" data-xz-news-archive data-category-id="<?php echo esc_attr((string) $category_id); ?>" data-featured-id="<?php echo esc_attr((string) $featured_id); ?>" data-posts-per-page="<?php echo esc_attr((string) $per_page); ?>" data-link-text="<?php echo esc_attr($link_text); ?>"><div class="xz-container"><div class="news-archive__head"><?php if (!empty($s['eyebrow'])) : ?><p class="news-eyebrow"><?php echo esc_html((string) $s['eyebrow']); ?></p><?php endif; ?><h2 id="news-archive-title"><?php echo esc_html((string) ($s['title'] ?? 'More Xinzhou Updates')); ?></h2></div><div class="news-archive__grid" data-news-grid aria-live="polite">
+            <?php foreach ($query->posts as $post) { echo \xz_render_news_archive_card($post, $link_text); } ?>
+        </div><?php if ($query->max_num_pages > 1) : ?><nav class="news-pagination" aria-label="News pages" data-news-pagination><?php echo wp_kses_post(paginate_links(['total' => $query->max_num_pages, 'current' => $page, 'prev_text' => '&lsaquo;', 'next_text' => '&rsaquo;'])); ?></nav><?php endif; ?></div></section>
         <?php
     }
 }

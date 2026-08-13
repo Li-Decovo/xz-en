@@ -267,6 +267,11 @@
     cursor: default;
 }
 
+.product-archive.is-loading .product-archive__grid {
+    opacity: 0.48;
+    pointer-events: none;
+}
+
 .product-category-detail {
     padding: 82px 0;
     background: var(--xz-surface-soft);

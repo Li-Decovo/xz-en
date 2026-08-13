@@ -30,7 +30,7 @@
     const tabButtons = Array.from(tabs.querySelectorAll("[data-tab]"));
     const tabPanels = Array.from(tabs.querySelectorAll("[data-tab-panel]"));
     const tabList = tabs.querySelector(".product-tabs__list");
-    let dragged = false;
+    let suppressClick = false;
 
     function activateTab(name, focusButton) {
         tabButtons.forEach((button) => {
@@ -50,12 +50,15 @@
 
     if (tabList) {
         let dragging = false;
+        let hasDragged = false;
         let startX = 0;
         let startScrollLeft = 0;
+        let suppressTimer = null;
 
         tabList.addEventListener("pointerdown", (event) => {
+            if (event.pointerType === "mouse" && event.button !== 0) return;
             dragging = true;
-            dragged = false;
+            hasDragged = false;
             startX = event.clientX;
             startScrollLeft = tabList.scrollLeft;
             tabList.classList.add("is-dragging");
@@ -65,7 +68,10 @@
         tabList.addEventListener("pointermove", (event) => {
             if (!dragging) return;
             const delta = event.clientX - startX;
-            if (Math.abs(delta) > 4) dragged = true;
+            if (Math.abs(delta) > 6) {
+                hasDragged = true;
+                event.preventDefault();
+            }
             tabList.scrollLeft = startScrollLeft - delta;
         });
 
@@ -74,21 +80,26 @@
             dragging = false;
             tabList.classList.remove("is-dragging");
             if (tabList.hasPointerCapture(event.pointerId)) tabList.releasePointerCapture(event.pointerId);
+            if (hasDragged) {
+                suppressClick = true;
+                window.clearTimeout(suppressTimer);
+                suppressTimer = window.setTimeout(() => { suppressClick = false; }, 180);
+            }
         }
 
         tabList.addEventListener("pointerup", endDrag);
         tabList.addEventListener("pointercancel", endDrag);
         tabList.addEventListener("mouseleave", () => {
             dragging = false;
+            hasDragged = false;
             tabList.classList.remove("is-dragging");
         });
     }
 
     tabButtons.forEach((button, index) => {
         button.addEventListener("click", (event) => {
-            if (dragged) {
+            if (suppressClick) {
                 event.preventDefault();
-                dragged = false;
                 return;
             }
             activateTab(button.dataset.tab, false);

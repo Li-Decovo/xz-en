@@ -288,6 +288,9 @@
     cursor: grab;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
+    -webkit-user-select: none;
+    user-select: none;
+    touch-action: pan-y;
 }
 
 .product-tabs__list::-webkit-scrollbar {
@@ -312,6 +315,8 @@
     cursor: pointer;
     text-transform: uppercase;
     transition: color 0.2s ease, border-color 0.2s ease;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 .product-tabs__list button:hover,
@@ -533,7 +538,7 @@
 
 .product-faq details p {
     max-width: 980px;
-    margin: -2px 0 22px;
+    margin: 8px 0 28px;
     color: var(--xz-steel);
     font-size: 14px;
     line-height: 1.75;

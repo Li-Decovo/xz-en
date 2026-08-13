@@ -206,7 +206,7 @@
         update();
     });
 
-    document.querySelectorAll("[data-products-grid]").forEach(function (grid) {
+    document.querySelectorAll("[data-products-grid]:not([data-xz-ajax-grid])").forEach(function (grid) {
         var pagination = document.querySelector("[data-product-pagination]");
         if (!pagination) return;
 
@@ -307,6 +307,148 @@
         renderPage(false);
     });
 
+    function archivePageButton(label, page, currentPage, totalPages, labelPrefix) {
+        var button = document.createElement("button");
+        button.type = "button";
+        button.dataset.page = String(page);
+        button.textContent = label;
+        button.disabled = page < 1 || page > totalPages;
+        button.setAttribute("aria-label", labelPrefix + (label === "\u2039" ? " previous" : label === "\u203a" ? " next" : " page " + page));
+        if (page === currentPage && label !== "\u2039" && label !== "\u203a") {
+            button.classList.add("is-active");
+            button.setAttribute("aria-current", "page");
+        }
+        return button;
+    }
+
+    function renderArchivePagination(pagination, currentPage, totalPages, labelPrefix) {
+        pagination.replaceChildren();
+        if (totalPages <= 1) return;
+        pagination.appendChild(archivePageButton("\u2039", currentPage - 1, currentPage, totalPages, labelPrefix));
+        for (var page = 1; page <= totalPages; page += 1) {
+            pagination.appendChild(archivePageButton(String(page), page, currentPage, totalPages, labelPrefix));
+        }
+        pagination.appendChild(archivePageButton("\u203a", currentPage + 1, currentPage, totalPages, labelPrefix));
+    }
+
+    function requestArchive(action, values) {
+        var body = new URLSearchParams(Object.assign({ action: action }, values));
+        return window.fetch(window.XinzhouContent ? XinzhouContent.ajaxUrl : "", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8" },
+            credentials: "same-origin",
+            body: body.toString()
+        }).then(function (response) {
+            if (!response.ok) throw new Error("Archive request failed");
+            return response.json();
+        }).then(function (payload) {
+            if (!payload.success) throw new Error(payload.data && payload.data.message ? payload.data.message : "Archive request failed");
+            return payload.data;
+        });
+    }
+
+    function pageFromTarget(target) {
+        if (target.dataset.page) return Number(target.dataset.page);
+        var match = (target.getAttribute("href") || "").match(/(?:page\/|paged=)(\d+)/);
+        return match ? Number(match[1]) : 1;
+    }
+
+    document.querySelectorAll("[data-xz-product-archive]").forEach(function (archive) {
+        var grid = archive.querySelector("[data-products-grid]");
+        var pagination = archive.querySelector("[data-product-pagination]");
+        if (!grid || !pagination || !window.XinzhouContent || !XinzhouContent.ajaxUrl) return;
+
+        var desktopPageSize = Math.max(1, parseInt(grid.dataset.pageSize || "9", 10));
+        var mobilePageSize = Math.max(1, parseInt(grid.dataset.pageSizeMobile || "4", 10));
+        var currentPage = 1;
+        var currentPageSize = window.innerWidth <= 640 ? mobilePageSize : desktopPageSize;
+        var requestId = 0;
+
+        function loadPage(page, moveFocus) {
+            var id = ++requestId;
+            archive.classList.add("is-loading");
+            grid.setAttribute("aria-busy", "true");
+            requestArchive("xz_product_archive", {
+                page: page,
+                perPage: currentPageSize,
+                termId: archive.dataset.termId || "0",
+                showLabel: archive.dataset.showLabel || "0"
+            }).then(function (data) {
+                if (id !== requestId) return;
+                currentPage = Number(data.page) || page;
+                grid.innerHTML = data.html;
+                renderArchivePagination(pagination, currentPage, Number(data.totalPages) || 1, "Product");
+                if (moveFocus) archive.querySelector(".product-archive__head").scrollIntoView({ behavior: "smooth", block: "start" });
+            }).catch(function () {
+                if (id === requestId) archive.classList.add("has-load-error");
+            }).finally(function () {
+                if (id === requestId) {
+                    archive.classList.remove("is-loading");
+                    grid.removeAttribute("aria-busy");
+                }
+            });
+        }
+
+        pagination.addEventListener("click", function (event) {
+            var target = event.target.closest("button[data-page], a.page-numbers");
+            if (!target) return;
+            event.preventDefault();
+            var page = pageFromTarget(target);
+            if (page > 0 && page !== currentPage) loadPage(page, true);
+        });
+
+        var resizeTimer = null;
+        window.addEventListener("resize", function () {
+            window.clearTimeout(resizeTimer);
+            resizeTimer = window.setTimeout(function () {
+                var nextSize = window.innerWidth <= 640 ? mobilePageSize : desktopPageSize;
+                if (nextSize !== currentPageSize) {
+                    currentPageSize = nextSize;
+                    loadPage(1, false);
+                }
+            }, 180);
+        });
+
+        if (currentPageSize !== desktopPageSize) loadPage(1, false);
+    });
+
+    document.querySelectorAll("[data-xz-news-archive]").forEach(function (archive) {
+        var grid = archive.querySelector("[data-news-grid]");
+        var pagination = archive.querySelector("[data-news-pagination]");
+        if (!grid || !pagination || !window.XinzhouContent || !XinzhouContent.ajaxUrl) return;
+        var currentPage = 1;
+
+        function loadPage(page) {
+            archive.classList.add("is-loading");
+            grid.setAttribute("aria-busy", "true");
+            requestArchive("xz_news_archive", {
+                page: page,
+                perPage: archive.dataset.postsPerPage || "9",
+                categoryId: archive.dataset.categoryId || "0",
+                featuredId: archive.dataset.featuredId || "0",
+                linkText: archive.dataset.linkText || "Read More"
+            }).then(function (data) {
+                currentPage = Number(data.page) || page;
+                grid.innerHTML = data.html;
+                renderArchivePagination(pagination, currentPage, Number(data.totalPages) || 1, "News");
+                archive.querySelector(".news-archive__head").scrollIntoView({ behavior: "smooth", block: "start" });
+            }).catch(function () {
+                archive.classList.add("has-load-error");
+            }).finally(function () {
+                archive.classList.remove("is-loading");
+                grid.removeAttribute("aria-busy");
+            });
+        }
+
+        pagination.addEventListener("click", function (event) {
+            var target = event.target.closest("button[data-page], a.page-numbers");
+            if (!target) return;
+            event.preventDefault();
+            var page = pageFromTarget(target);
+            if (page > 0 && page !== currentPage) loadPage(page);
+        });
+    });
+
     document.querySelectorAll("[data-xz-product-gallery]").forEach(function (gallery) {
         var mainImage = gallery.querySelector("[data-xz-main-image]");
         gallery.querySelectorAll("[data-xz-gallery-thumb]").forEach(function (button) {
@@ -383,7 +525,7 @@
         var buttons = Array.from(tabs.querySelectorAll("[data-xz-tab]"));
         var panels = Array.from(tabs.querySelectorAll("[data-xz-tab-panel]"));
         var tabList = tabs.querySelector(".product-tabs__list");
-        var dragged = false;
+        var suppressClick = false;
 
         function activate(name) {
             buttons.forEach(function (button) {
@@ -401,12 +543,15 @@
 
         if (tabList) {
             var dragging = false;
+            var hasDragged = false;
             var startX = 0;
             var startScrollLeft = 0;
+            var suppressTimer = null;
 
             tabList.addEventListener("pointerdown", function (event) {
+                if (event.pointerType === "mouse" && event.button !== 0) return;
                 dragging = true;
-                dragged = false;
+                hasDragged = false;
                 startX = event.clientX;
                 startScrollLeft = tabList.scrollLeft;
                 tabList.classList.add("is-dragging");
@@ -416,7 +561,10 @@
             tabList.addEventListener("pointermove", function (event) {
                 if (!dragging) return;
                 var delta = event.clientX - startX;
-                if (Math.abs(delta) > 4) dragged = true;
+                if (Math.abs(delta) > 6) {
+                    hasDragged = true;
+                    event.preventDefault();
+                }
                 tabList.scrollLeft = startScrollLeft - delta;
             });
 
@@ -425,21 +573,26 @@
                 dragging = false;
                 tabList.classList.remove("is-dragging");
                 if (tabList.hasPointerCapture(event.pointerId)) tabList.releasePointerCapture(event.pointerId);
+                if (hasDragged) {
+                    suppressClick = true;
+                    window.clearTimeout(suppressTimer);
+                    suppressTimer = window.setTimeout(function () { suppressClick = false; }, 180);
+                }
             }
 
             tabList.addEventListener("pointerup", endDrag);
             tabList.addEventListener("pointercancel", endDrag);
             tabList.addEventListener("mouseleave", function () {
                 dragging = false;
+                hasDragged = false;
                 tabList.classList.remove("is-dragging");
             });
         }
 
         buttons.forEach(function (button) {
             button.addEventListener("click", function (event) {
-                if (dragged) {
+                if (suppressClick) {
                     event.preventDefault();
-                    dragged = false;
                     return;
                 }
                 activate(button.dataset.xzTab);

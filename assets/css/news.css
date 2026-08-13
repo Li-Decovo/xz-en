@@ -405,6 +405,10 @@
     .news-card__body {
         padding-top: 16px;
     }
+
+    .news-card__body > p {
+        display: none;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
