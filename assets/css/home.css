@@ -580,14 +580,19 @@
             padding: clamp(2rem, 4vw, 4.5rem) 0;
             border-bottom: 1px solid rgba(226, 232, 240, 0.95);
         }
+        .project-showcase-carousel {
+            overflow: hidden;
+        }
         .project-showcase-grid {
-            display: grid;
-            grid-template-columns: repeat(5, minmax(0, 1fr));
+            display: flex;
             gap: 18px;
+            transition: transform 0.45s ease;
+            will-change: transform;
         }
         .project-showcase-card {
             position: relative;
             display: block;
+            flex: 0 0 calc((100% - 72px) / 5);
             aspect-ratio: 4 / 3;
             overflow: hidden;
             background: #0f172a;
@@ -633,6 +638,30 @@
             line-height: 1.45;
             text-transform: uppercase;
             text-shadow: 0 2px 14px rgba(0, 0, 0, 0.45);
+        }
+        .project-showcase-dots {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 0.65rem;
+            min-height: 18px;
+            margin-top: 1.5rem;
+        }
+        .project-showcase-dots button {
+            display: block;
+            width: 9px;
+            min-width: 9px;
+            height: 9px;
+            min-height: 9px;
+            padding: 0;
+            border: 0;
+            border-radius: 999px;
+            background: #cbd5e1;
+            transition: width 0.2s ease, background 0.2s ease;
+        }
+        .project-showcase-dots button.is-active {
+            width: 24px;
+            background: #d84120;
         }
         .site-link-section {
             background: #ffffff;
@@ -707,8 +736,11 @@
             .alternating-story-copy {
                 padding: 2.5rem 1.5rem;
             }
-            .project-showcase-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
+            .project-showcase-card {
+                flex-basis: calc((100% - 36px) / 3);
+            }
+            .project-showcase-dots {
+                display: flex;
             }
             .site-link-title::before,
             .site-link-title::after {
@@ -728,8 +760,8 @@
                 padding-left: 16px;
                 padding-right: 16px;
             }
-            .project-showcase-grid {
-                grid-template-columns: 1fr;
+            .project-showcase-card {
+                flex-basis: calc((100% - 18px) / 2);
             }
             .site-link-title {
                 gap: 1rem;
