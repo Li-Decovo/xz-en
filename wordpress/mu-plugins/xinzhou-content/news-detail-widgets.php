@@ -58,8 +58,9 @@ final class News_Detail_Hero_Widget extends News_Detail_Widget_Base {
         $image = $this->image_url((array) ($s['background'] ?? []));
         $category = news_detail_category($post_id);
         $news_page = (int) get_option('page_for_posts');
+        $hero_style = $image ? ' style="--article-hero-image: url(' . esc_url($image) . ');"' : '';
         ?>
-        <section class="article-hero" aria-labelledby="article-title"><?php if ($image) : ?><img class="article-hero__image" src="<?php echo esc_url($image); ?>" alt="Xinzhou news and company updates"><?php endif; ?><div class="article-hero__overlay"></div><div class="xz-container article-hero__content"><nav class="article-breadcrumb" aria-label="Breadcrumb"><a href="<?php echo esc_url(home_url('/')); ?>">Home</a><span>/</span><a href="<?php echo esc_url($news_page ? get_permalink($news_page) : home_url('/news/')); ?>"><?php echo esc_html((string) ($s['news_label'] ?? 'News')); ?></a><?php if ($category) : ?><span>/</span><span><?php echo esc_html($category->name); ?></span><?php endif; ?></nav><h1 id="article-title"><?php echo esc_html(get_the_title($post_id)); ?></h1></div></section>
+        <section class="article-hero" aria-labelledby="article-title"<?php echo $hero_style; ?>><?php if ($image) : ?><img class="article-hero__image" src="<?php echo esc_url($image); ?>" alt="Xinzhou news and company updates"><?php endif; ?><div class="article-hero__overlay"></div><div class="xz-container article-hero__content"><nav class="article-breadcrumb" aria-label="Breadcrumb"><a href="<?php echo esc_url(home_url('/')); ?>">Home</a><span>/</span><a href="<?php echo esc_url($news_page ? get_permalink($news_page) : home_url('/news/')); ?>"><?php echo esc_html((string) ($s['news_label'] ?? 'News')); ?></a><?php if ($category) : ?><span>/</span><span><?php echo esc_html($category->name); ?></span><?php endif; ?></nav><h1 id="article-title"><?php echo esc_html(get_the_title($post_id)); ?></h1></div></section>
         <?php
     }
 }
@@ -112,7 +113,7 @@ final class News_Detail_Related_Widget extends News_Detail_Widget_Base {
         $this->add_control('eyebrow', ['label' => 'Section Label', 'type' => Controls_Manager::TEXT, 'default' => 'More Updates']);
         $this->add_control('title', ['label' => 'Title', 'type' => Controls_Manager::TEXT, 'default' => 'Related News']);
         $this->add_control('view_all_text', ['label' => 'View All Text', 'type' => Controls_Manager::TEXT, 'default' => 'View All News']);
-        $this->add_control('count', ['label' => 'Article Count', 'type' => Controls_Manager::NUMBER, 'default' => 3, 'min' => 1, 'max' => 6]);
+        $this->add_control('count', ['label' => 'Article Count', 'type' => Controls_Manager::NUMBER, 'default' => 2, 'min' => 1, 'max' => 2]);
         $this->end_controls_section();
     }
 
@@ -134,7 +135,8 @@ final class News_Detail_Related_Widget extends News_Detail_Widget_Base {
         $post_id = $this->post_id();
         if (!$post_id) { return; }
         $s = $this->get_settings_for_display();
-        $ids = $this->related_ids($post_id, (int) ($s['count'] ?? 3));
+        $count = max(1, min(2, (int) ($s['count'] ?? 2)));
+        $ids = $this->related_ids($post_id, $count);
         if (!$ids) { return; }
         $news_page = (int) get_option('page_for_posts');
         $news_url = $news_page ? get_permalink($news_page) : home_url('/news/');
