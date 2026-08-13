@@ -150,9 +150,9 @@ final class Product_Categories_Widget extends Xinzhou_Widget {
         $homepage_layout = is_front_page() || (int) get_queried_object_id() === 19;
         ?>
         <?php $archive_layout = !$homepage_layout; ?>
-        <<?php echo $archive_layout ? 'section' : 'nav'; ?> class="<?php echo $archive_layout ? 'product-category-nav' : 'xz-product-category-nav xz-product-category-nav--homepage xz-simple-carousel is-carousel'; ?>"<?php echo $archive_layout ? '' : ' data-xz-simple-carousel data-visible="7" data-visible-tablet="5" data-visible-mobile="2"'; ?> aria-label="Product categories">
-            <?php if (!$archive_layout) : ?><div class="xz-simple-carousel__controls"><button type="button" data-xz-simple-prev aria-label="Previous product categories">&#8249;</button><button type="button" data-xz-simple-next aria-label="Next product categories">&#8250;</button></div><?php endif; ?>
-            <div class="<?php echo $archive_layout ? 'product-category-nav__grid' : 'xz-product-category-nav__grid'; ?>"<?php echo $archive_layout ? '' : ' data-xz-simple-track'; ?>>
+        <<?php echo $archive_layout ? 'section' : 'nav'; ?> class="<?php echo $archive_layout ? 'product-category-nav xz-simple-carousel is-carousel' : 'xz-product-category-nav xz-product-category-nav--homepage xz-simple-carousel is-carousel'; ?>" data-xz-simple-carousel data-visible="<?php echo $archive_layout ? '7' : '7'; ?>" data-visible-tablet="5" data-visible-mobile="2" aria-label="Product categories">
+            <div class="xz-simple-carousel__controls"><button type="button" data-xz-simple-prev aria-label="Previous product categories">&#8249;</button><button type="button" data-xz-simple-next aria-label="Next product categories">&#8250;</button></div>
+            <div class="<?php echo $archive_layout ? 'product-category-nav__grid' : 'xz-product-category-nav__grid'; ?>" data-xz-simple-track>
                 <?php foreach ($terms as $term) :
                     $image_id = \xz_product_term_image((int) $term->term_id);
                     $active = $current && (int) $current->term_id === (int) $term->term_id;
