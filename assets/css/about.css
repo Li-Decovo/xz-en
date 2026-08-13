@@ -1915,7 +1915,7 @@
     }
 
     .about-professional-team__grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .about-customers__media {
@@ -1976,16 +1976,17 @@
 
     .about-professional-team__body {
         min-height: 0;
-        padding: 20px 16px 22px;
+        padding: 18px 14px 20px;
     }
 
     .about-professional-team__body h3 {
-        font-size: 18px;
+        font-size: 17px;
+        line-height: 1.25;
     }
 
     .about-professional-team__body p {
-        font-size: 13px;
-        line-height: 1.58;
+        font-size: 12px;
+        line-height: 1.52;
     }
 
     .about-equipment__head > p,
