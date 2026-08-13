@@ -38,16 +38,16 @@ final class Product_Archive_Grid_Widget extends Product_Archive_Widget_Base {
         $s = $this->get_settings_for_display();
         $posts = $this->current_posts();
         ?>
-        <section class="product-archive" aria-labelledby="product-archive-title"><div class="xz-container"><div class="product-archive__head"><h2 id="product-archive-title"><?php echo esc_html((string) ($s['title'] ?? 'Machines in This Category')); ?></h2></div><div class="product-archive__grid">
+        <section class="product-archive" aria-labelledby="product-archive-title"><div class="xz-container"><div class="product-archive__head"><h2 id="product-archive-title"><?php echo esc_html((string) ($s['title'] ?? 'Machines in This Category')); ?></h2></div><div class="product-archive__grid" data-products-grid data-page-size="9" data-page-size-mobile="3">
             <?php foreach ($posts as $post) :
                 $terms = wp_get_post_terms($post->ID, 'product_category');
                 $label = function_exists('get_field') ? (string) get_field('product_card_label', $post->ID) : '';
                 if (!$label && !is_wp_error($terms) && $terms) { $label = $terms[0]->name; }
                 ?>
-                <article class="product-archive-card"><a href="<?php echo esc_url(get_permalink($post)); ?>"><figure><?php echo get_the_post_thumbnail($post, 'large', ['loading' => 'lazy']); ?><?php if (($s['show_label'] ?? '') === 'yes' && $label) : ?><span><?php echo esc_html($label); ?></span><?php endif; ?></figure><h3><?php echo esc_html(get_the_title($post)); ?></h3></a></article>
+                <article class="product-archive-card" data-product-card><a href="<?php echo esc_url(get_permalink($post)); ?>"><figure><?php echo get_the_post_thumbnail($post, 'large', ['loading' => 'lazy']); ?><?php if (($s['show_label'] ?? '') === 'yes' && $label) : ?><span><?php echo esc_html($label); ?></span><?php endif; ?></figure><h3><?php echo esc_html(get_the_title($post)); ?></h3></a></article>
             <?php endforeach; ?>
         </div>
-        <?php if ($wp_query instanceof \WP_Query && $wp_query->max_num_pages > 1) : ?><nav class="product-pagination" aria-label="Product pages"><?php echo wp_kses_post(paginate_links(['total' => $wp_query->max_num_pages, 'current' => max(1, get_query_var('paged')), 'type' => 'plain', 'prev_text' => '&lsaquo;', 'next_text' => '&rsaquo;'])); ?></nav><?php endif; ?>
+        <nav class="product-pagination" aria-label="Product pages" data-product-pagination></nav>
         </div></section>
         <?php
     }

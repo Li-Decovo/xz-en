@@ -206,6 +206,107 @@
         update();
     });
 
+    document.querySelectorAll("[data-products-grid]").forEach(function (grid) {
+        var pagination = document.querySelector("[data-product-pagination]");
+        if (!pagination) return;
+
+        var cards = Array.from(grid.querySelectorAll("[data-product-card]"));
+        if (!cards.length) return;
+
+        var desktopPageSize = Math.max(1, parseInt(grid.dataset.pageSize || "9", 10));
+        var mobilePageSize = Math.max(1, parseInt(grid.dataset.pageSizeMobile || "3", 10));
+        var currentPage = 1;
+        var currentPageSize = desktopPageSize;
+
+        function getPageSize() {
+            return window.innerWidth <= 640 ? mobilePageSize : desktopPageSize;
+        }
+
+        function createButton(label, page, options) {
+            var button = document.createElement("button");
+            button.type = "button";
+            button.dataset.page = String(page);
+            button.setAttribute("aria-label", options.ariaLabel);
+            button.disabled = options.disabled;
+
+            if (options.active) {
+                button.classList.add("is-active");
+                button.setAttribute("aria-current", "page");
+            }
+
+            button.textContent = label;
+            return button;
+        }
+
+        function renderPagination(totalPages) {
+            pagination.replaceChildren();
+            if (totalPages <= 1) return;
+
+            pagination.appendChild(createButton("‹", currentPage - 1, {
+                ariaLabel: "Previous product page",
+                disabled: currentPage === 1,
+                active: false
+            }));
+
+            for (var page = 1; page <= totalPages; page += 1) {
+                pagination.appendChild(createButton(String(page), page, {
+                    ariaLabel: "Product page " + page,
+                    disabled: false,
+                    active: page === currentPage
+                }));
+            }
+
+            pagination.appendChild(createButton("›", currentPage + 1, {
+                ariaLabel: "Next product page",
+                disabled: currentPage === totalPages,
+                active: false
+            }));
+        }
+
+        function renderPage(moveFocus) {
+            currentPageSize = getPageSize();
+            var totalPages = Math.max(1, Math.ceil(cards.length / currentPageSize));
+            currentPage = Math.min(currentPage, totalPages);
+
+            var start = (currentPage - 1) * currentPageSize;
+            var end = start + currentPageSize;
+            cards.forEach(function (card, index) {
+                var visible = index >= start && index < end;
+                card.hidden = !visible;
+                card.setAttribute("aria-hidden", visible ? "false" : "true");
+            });
+
+            renderPagination(totalPages);
+
+            if (moveFocus) {
+                var head = document.querySelector(".product-archive__head");
+                if (head) head.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+        }
+
+        pagination.addEventListener("click", function (event) {
+            var button = event.target.closest("button[data-page]");
+            if (!button || button.disabled) return;
+            var totalPages = Math.max(1, Math.ceil(cards.length / currentPageSize));
+            var targetPage = Number(button.dataset.page);
+            if (targetPage >= 1 && targetPage <= totalPages && targetPage !== currentPage) {
+                currentPage = targetPage;
+                renderPage(true);
+            }
+        });
+
+        var resizeTimer = null;
+        window.addEventListener("resize", function () {
+            window.clearTimeout(resizeTimer);
+            resizeTimer = window.setTimeout(function () {
+                currentPage = 1;
+                renderPage(false);
+            }, 160);
+        });
+
+        renderPage(false);
+    });
+
     document.querySelectorAll("[data-xz-product-gallery]").forEach(function (gallery) {
         var mainImage = gallery.querySelector("[data-xz-main-image]");
         gallery.querySelectorAll("[data-xz-gallery-thumb]").forEach(function (button) {

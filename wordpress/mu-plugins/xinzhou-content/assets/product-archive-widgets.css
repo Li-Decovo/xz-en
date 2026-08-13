@@ -307,57 +307,7 @@
 }
 
 .products-worldwide {
-    padding: clamp(54px, 6vw, 88px) 0;
     background: var(--xz-white);
-}
-
-.products-worldwide__container {
-    width: min(100% - 48px, 1200px);
-    margin-inline: auto;
-}
-
-.products-worldwide h2 {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 32px;
-    margin-bottom: clamp(36px, 4vw, 56px);
-    color: var(--xz-navy);
-    font-family: var(--xz-font-display);
-    font-size: var(--xz-type-section);
-    font-weight: 800;
-    line-height: 1.15;
-    text-align: center;
-    white-space: nowrap;
-}
-
-.products-worldwide h2::before,
-.products-worldwide h2::after {
-    content: "";
-    flex: 1 1 0;
-    height: 1px;
-    background: rgba(148, 163, 184, 0.36);
-}
-
-.products-worldwide__grid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    align-items: center;
-    gap: clamp(24px, 4vw, 48px);
-}
-
-.products-worldwide__grid a {
-    min-height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 14px;
-}
-
-.products-worldwide__grid img {
-    width: 100%;
-    max-height: 72px;
-    object-fit: contain;
 }
 
 @media (max-width: 1180px) {
@@ -379,9 +329,6 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .products-worldwide__grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
 }
 
 @media (max-width: 640px) {
@@ -401,8 +348,10 @@
     }
 
     .product-archive__grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 20px 16px;
+        grid-template-columns: 1fr;
+        gap: 22px;
+        max-width: 320px;
+        margin-inline: auto;
     }
 
     .product-category-tile {
@@ -410,9 +359,13 @@
     }
 
     .product-archive-card h3 {
-        padding: 0 10px;
-        font-size: 16px;
-        line-height: 1.3;
+        padding: 0 14px;
+        font-size: 15px;
+        line-height: 1.35;
+    }
+
+    .product-archive-card figure span {
+        display: none;
     }
 
     .product-category-intro__inner {
@@ -424,18 +377,6 @@
         padding-left: 0;
     }
 
-    .products-worldwide__container {
-        width: min(100% - 32px, 1200px);
-    }
-
-    .products-worldwide h2 {
-        white-space: normal;
-    }
-
-    .products-worldwide h2::before,
-    .products-worldwide h2::after {
-        display: none;
-    }
 }
 
 /* WordPress/Elementor host normalization. */

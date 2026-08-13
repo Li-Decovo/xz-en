@@ -5,9 +5,11 @@
     if (!grid || !pagination) return;
 
     const cards = Array.from(grid.querySelectorAll("[data-product-card]"));
-    const pageSize = 9;
-    const totalPages = Math.ceil(cards.length / pageSize);
+    const desktopPageSize = Math.max(1, Number(grid.dataset.pageSize) || 9);
+    const mobilePageSize = Math.max(1, Number(grid.dataset.pageSizeMobile) || 3);
     const params = new URLSearchParams(window.location.search);
+    let pageSize = window.innerWidth <= 640 ? mobilePageSize : desktopPageSize;
+    let totalPages = Math.max(1, Math.ceil(cards.length / pageSize));
     let currentPage = Math.min(Math.max(Number(params.get("page")) || 1, 1), totalPages);
 
     const icons = {
@@ -39,6 +41,7 @@
 
     function renderPagination() {
         pagination.replaceChildren();
+        if (totalPages <= 1) return;
 
         pagination.appendChild(createButton("", currentPage - 1, {
             ariaLabel: "Previous product page",
@@ -64,7 +67,10 @@
     }
 
     function renderPage(page, moveFocus) {
+        pageSize = window.innerWidth <= 640 ? mobilePageSize : desktopPageSize;
+        totalPages = Math.max(1, Math.ceil(cards.length / pageSize));
         currentPage = page;
+        currentPage = Math.min(currentPage, totalPages);
         const start = (currentPage - 1) * pageSize;
         const end = start + pageSize;
 
@@ -97,6 +103,12 @@
         if (targetPage >= 1 && targetPage <= totalPages && targetPage !== currentPage) {
             renderPage(targetPage, true);
         }
+    });
+
+    let resizeTimer = null;
+    window.addEventListener("resize", () => {
+        window.clearTimeout(resizeTimer);
+        resizeTimer = window.setTimeout(() => renderPage(1, false), 160);
     });
 
     renderPage(currentPage, false);
