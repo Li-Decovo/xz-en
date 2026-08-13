@@ -726,9 +726,19 @@
     }
 
     .product-summary__block ul,
-    .product-workflow,
-    .finished-products-grid {
+    .product-workflow {
         grid-template-columns: 1fr;
+    }
+
+    .finished-products-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+    }
+
+    .finished-products-grid figcaption {
+        padding: 12px 8px;
+        font-size: 13px;
+        line-height: 1.25;
     }
 
     .related-products__grid {
