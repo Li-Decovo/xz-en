@@ -83,6 +83,7 @@
 .news-hero h1 {
     max-width: 760px;
     margin-bottom: 16px;
+    color: var(--xz-white);
     font-family: var(--xz-font-display);
     font-size: var(--xz-type-display);
     font-weight: 800;
