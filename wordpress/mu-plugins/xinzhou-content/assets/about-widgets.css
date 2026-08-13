@@ -1376,6 +1376,12 @@
     .xz-about-page .about-breadcrumb {
         margin-bottom: 22px;
     }
+
+    .xz-about-page .about-factory__layout,
+    .xz-about-page .about-quality__grid {
+        padding-right: var(--xz-gutter);
+        padding-left: var(--xz-gutter);
+    }
 }
 
 /* Current approved Factory framework. */
