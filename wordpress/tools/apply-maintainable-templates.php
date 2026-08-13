@@ -170,16 +170,16 @@ foreach (get_posts([
 
 xz_ensure_acf_field(151, [
     'key' => 'field_xz_category_archive_title',
-    'label' => 'Archive Display Title',
+    'label' => 'Products Section Heading',
     'name' => 'category_archive_title',
-    'instructions' => 'Optional heading shown above the products. Falls back to the category name.',
+    'instructions' => 'Front-end heading shown above the product list. This is not an SEO title or image alt field; use Rank Math and WordPress Media for those.',
     'menu_order' => 4,
 ]);
 xz_ensure_acf_field(151, [
     'key' => 'field_xz_category_detailed_title',
-    'label' => 'Detailed Description Title',
+    'label' => 'Detailed Description Heading',
     'name' => 'category_detailed_title',
-    'instructions' => 'Optional heading shown with the detailed category description.',
+    'instructions' => 'Front-end heading shown with the detailed category description. SEO titles/descriptions should be managed in Rank Math.',
     'menu_order' => 5,
 ]);
 xz_ensure_acf_field(124, [
