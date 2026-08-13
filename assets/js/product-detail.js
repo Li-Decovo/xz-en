@@ -29,6 +29,8 @@
 
     const tabButtons = Array.from(tabs.querySelectorAll("[data-tab]"));
     const tabPanels = Array.from(tabs.querySelectorAll("[data-tab-panel]"));
+    const tabList = tabs.querySelector(".product-tabs__list");
+    let dragged = false;
 
     function activateTab(name, focusButton) {
         tabButtons.forEach((button) => {
@@ -46,8 +48,51 @@
         });
     }
 
+    if (tabList) {
+        let dragging = false;
+        let startX = 0;
+        let startScrollLeft = 0;
+
+        tabList.addEventListener("pointerdown", (event) => {
+            dragging = true;
+            dragged = false;
+            startX = event.clientX;
+            startScrollLeft = tabList.scrollLeft;
+            tabList.classList.add("is-dragging");
+            tabList.setPointerCapture(event.pointerId);
+        });
+
+        tabList.addEventListener("pointermove", (event) => {
+            if (!dragging) return;
+            const delta = event.clientX - startX;
+            if (Math.abs(delta) > 4) dragged = true;
+            tabList.scrollLeft = startScrollLeft - delta;
+        });
+
+        function endDrag(event) {
+            if (!dragging) return;
+            dragging = false;
+            tabList.classList.remove("is-dragging");
+            if (tabList.hasPointerCapture(event.pointerId)) tabList.releasePointerCapture(event.pointerId);
+        }
+
+        tabList.addEventListener("pointerup", endDrag);
+        tabList.addEventListener("pointercancel", endDrag);
+        tabList.addEventListener("mouseleave", () => {
+            dragging = false;
+            tabList.classList.remove("is-dragging");
+        });
+    }
+
     tabButtons.forEach((button, index) => {
-        button.addEventListener("click", () => activateTab(button.dataset.tab, false));
+        button.addEventListener("click", (event) => {
+            if (dragged) {
+                event.preventDefault();
+                dragged = false;
+                return;
+            }
+            activateTab(button.dataset.tab, false);
+        });
 
         button.addEventListener("keydown", (event) => {
             let nextIndex = index;

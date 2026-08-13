@@ -285,8 +285,17 @@
     overflow-x: auto;
     overflow-y: hidden;
     border-bottom: 1px solid var(--xz-line);
-    scrollbar-width: thin;
+    cursor: grab;
+    scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
+}
+
+.product-tabs__list::-webkit-scrollbar {
+    display: none;
+}
+
+.product-tabs__list.is-dragging {
+    cursor: grabbing;
 }
 
 .product-tabs__list button {

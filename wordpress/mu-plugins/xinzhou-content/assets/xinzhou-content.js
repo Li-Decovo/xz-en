@@ -382,6 +382,8 @@
     document.querySelectorAll("[data-xz-product-tabs]").forEach(function (tabs) {
         var buttons = Array.from(tabs.querySelectorAll("[data-xz-tab]"));
         var panels = Array.from(tabs.querySelectorAll("[data-xz-tab-panel]"));
+        var tabList = tabs.querySelector(".product-tabs__list");
+        var dragged = false;
 
         function activate(name) {
             buttons.forEach(function (button) {
@@ -397,8 +399,49 @@
             });
         }
 
+        if (tabList) {
+            var dragging = false;
+            var startX = 0;
+            var startScrollLeft = 0;
+
+            tabList.addEventListener("pointerdown", function (event) {
+                dragging = true;
+                dragged = false;
+                startX = event.clientX;
+                startScrollLeft = tabList.scrollLeft;
+                tabList.classList.add("is-dragging");
+                tabList.setPointerCapture(event.pointerId);
+            });
+
+            tabList.addEventListener("pointermove", function (event) {
+                if (!dragging) return;
+                var delta = event.clientX - startX;
+                if (Math.abs(delta) > 4) dragged = true;
+                tabList.scrollLeft = startScrollLeft - delta;
+            });
+
+            function endDrag(event) {
+                if (!dragging) return;
+                dragging = false;
+                tabList.classList.remove("is-dragging");
+                if (tabList.hasPointerCapture(event.pointerId)) tabList.releasePointerCapture(event.pointerId);
+            }
+
+            tabList.addEventListener("pointerup", endDrag);
+            tabList.addEventListener("pointercancel", endDrag);
+            tabList.addEventListener("mouseleave", function () {
+                dragging = false;
+                tabList.classList.remove("is-dragging");
+            });
+        }
+
         buttons.forEach(function (button) {
-            button.addEventListener("click", function () {
+            button.addEventListener("click", function (event) {
+                if (dragged) {
+                    event.preventDefault();
+                    dragged = false;
+                    return;
+                }
                 activate(button.dataset.xzTab);
             });
             button.addEventListener("keydown", function (event) {
