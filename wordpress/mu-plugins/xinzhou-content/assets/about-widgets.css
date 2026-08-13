@@ -1363,6 +1363,19 @@
     .xz-about-page {
         --xz-gutter: 16px;
     }
+
+    .xz-about-page .about-history-hero {
+        padding-top: 0;
+        padding-bottom: 34px;
+    }
+
+    .xz-about-page .about-history-hero__copy {
+        padding: 34px 24px 38px;
+    }
+
+    .xz-about-page .about-breadcrumb {
+        margin-bottom: 22px;
+    }
 }
 
 /* Current approved Factory framework. */
