@@ -1943,10 +1943,14 @@
 
 @media (max-width: 640px) {
     .about-professional-team__head h2,
-    .about-equipment__head h2,
     .about-quality__copy h2,
     .about-customers__copy h2 {
         font-size: 34px;
+    }
+
+    .about-equipment__head h2 {
+        font-size: 28px;
+        line-height: 1.16;
     }
 
     .about-professional-team__grid,
@@ -1997,6 +2001,12 @@
 
     .about-equipment-item__body {
         min-height: 0;
+        padding: 18px 12px 20px;
+    }
+
+    .about-equipment-item__body h3 {
+        font-size: 17px;
+        line-height: 1.28;
     }
 
     .about-equipment__footer {
