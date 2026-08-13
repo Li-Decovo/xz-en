@@ -38,7 +38,7 @@ final class Product_Archive_Grid_Widget extends Product_Archive_Widget_Base {
         $s = $this->get_settings_for_display();
         $posts = $this->current_posts();
         ?>
-        <section class="product-archive" aria-labelledby="product-archive-title"><div class="xz-container"><div class="product-archive__head"><h2 id="product-archive-title"><?php echo esc_html((string) ($s['title'] ?? 'Machines in This Category')); ?></h2></div><div class="product-archive__grid" data-products-grid data-page-size="9" data-page-size-mobile="3">
+        <section class="product-archive" aria-labelledby="product-archive-title"><div class="xz-container"><div class="product-archive__head"><h2 id="product-archive-title"><?php echo esc_html((string) ($s['title'] ?? 'Machines in This Category')); ?></h2></div><div class="product-archive__grid" data-products-grid data-page-size="9" data-page-size-mobile="4">
             <?php foreach ($posts as $post) :
                 $terms = wp_get_post_terms($post->ID, 'product_category');
                 $label = function_exists('get_field') ? (string) get_field('product_card_label', $post->ID) : '';

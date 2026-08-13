@@ -347,9 +347,9 @@
     }
 
     .product-archive__grid {
-        grid-template-columns: 1fr;
-        gap: 22px;
-        max-width: 320px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px 16px;
+        max-width: 100%;
         margin-inline: auto;
     }
 
