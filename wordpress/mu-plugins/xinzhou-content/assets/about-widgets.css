@@ -1149,7 +1149,7 @@
     }
 
     .about-timeline-card {
-        flex: 0 0 calc((100% - 18px) / 2);
+        flex: 0 0 100%;
     }
 
     .about-timeline-card__year {

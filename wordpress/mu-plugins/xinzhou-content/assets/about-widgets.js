@@ -21,7 +21,7 @@
     let dragStartTranslate = 0;
 
     function getVisibleCount() {
-        if (window.innerWidth <= 640) return 2;
+        if (window.innerWidth <= 640) return 1;
         return 3;
     }
 
