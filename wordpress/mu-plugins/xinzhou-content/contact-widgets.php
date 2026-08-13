@@ -50,7 +50,7 @@ final class Contact_Hero_Widget extends Contact_Widget_Base {
 
     protected function render(): void {
         $s = $this->get_settings_for_display(); $image = $this->image_url((array) ($s['image'] ?? []));
-        ?><section class="contact-hero" aria-labelledby="contact-page-title"><div class="xz-container contact-hero__grid"><div class="contact-hero__copy"><nav class="contact-breadcrumb" aria-label="Breadcrumb"><a href="<?php echo esc_url(home_url('/')); ?>">Home</a><span>/</span><span>Contact</span></nav><h1 id="contact-page-title"><?php echo esc_html((string) ($s['title'] ?? '')); ?></h1><p><?php echo esc_html((string) ($s['description'] ?? '')); ?></p></div><?php if ($image) : ?><figure class="contact-hero__media"><img src="<?php echo esc_url($image); ?>" alt="Xinzhou welding equipment manufacturing workshop"></figure><?php endif; ?></div></section><?php
+        ?><section class="contact-hero" aria-labelledby="contact-page-title"><div class="xz-container contact-hero__grid"><div class="contact-hero__copy"><nav class="contact-breadcrumb" aria-label="Breadcrumb"><a href="<?php echo esc_url(home_url('/')); ?>">Home</a><span>/</span><span>Contact</span></nav><h1 id="contact-page-title"><?php echo esc_html((string) ($s['title'] ?? '')); ?></h1><p><?php echo esc_html((string) ($s['description'] ?? '')); ?></p></div><?php if ($image) : ?><figure class="contact-hero__media"><?php echo \xz_media_image($image); ?></figure><?php endif; ?></div></section><?php
     }
 }
 
@@ -133,7 +133,7 @@ final class Contact_Location_Widget extends Contact_Widget_Base {
 
     protected function render(): void {
         $s = $this->get_settings_for_display(); $image = $this->image_url((array) ($s['image'] ?? [])); ?>
-        <section class="contact-location" aria-labelledby="contact-location-title"><div class="contact-location__grid"><?php if ($image) : ?><figure><img src="<?php echo esc_url($image); ?>" alt="Ningbo Xinzhou Welding Equipment manufacturing base"></figure><?php endif; ?><div><p class="contact-eyebrow"><?php echo esc_html((string) ($s['eyebrow'] ?? '')); ?></p><h2 id="contact-location-title"><?php echo esc_html((string) ($s['title'] ?? '')); ?></h2><p><?php echo esc_html((string) ($s['description'] ?? '')); ?></p><address><?php echo contact_icon('location'); ?><span><?php echo esc_html((string) ($s['address'] ?? '')); ?></span></address></div></div></section><?php
+        <section class="contact-location" aria-labelledby="contact-location-title"><div class="contact-location__grid"><?php if ($image) : ?><figure><?php echo \xz_media_image($image); ?></figure><?php endif; ?><div><p class="contact-eyebrow"><?php echo esc_html((string) ($s['eyebrow'] ?? '')); ?></p><h2 id="contact-location-title"><?php echo esc_html((string) ($s['title'] ?? '')); ?></h2><p><?php echo esc_html((string) ($s['description'] ?? '')); ?></p><address><?php echo contact_icon('location'); ?><span><?php echo esc_html((string) ($s['address'] ?? '')); ?></span></address></div></div></section><?php
     }
 }
 

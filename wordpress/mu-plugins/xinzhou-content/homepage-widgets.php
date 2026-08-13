@@ -60,7 +60,7 @@ final class Home_Split_Widget extends Xinzhou_Section_Widget {
         <section class="xz-home-split<?php echo $reverse ? ' xz-home-split--reverse' : ''; ?>">
             <div class="xz-home-split__inner">
                 <div class="xz-home-split__media">
-                    <?php if ($image) : ?><img src="<?php echo esc_url($image); ?>" alt="<?php echo esc_attr(wp_strip_all_tags((string) ($s['title'] ?? ''))); ?>"><?php endif; ?>
+                    <?php if ($image) : echo \xz_media_image($image); endif; ?>
                     <?php $video_url = $this->link_url((array) ($s['video_link'] ?? [])); if (($s['show_play'] ?? '') === 'yes' && $video_url) : ?><a class="xz-home-play" href="<?php echo esc_url($video_url); ?>" data-xz-video-open aria-label="Play video"><span></span></a><?php endif; ?>
                 </div>
                 <div class="xz-home-split__copy">
@@ -125,16 +125,15 @@ final class Home_Carousel_Widget extends Xinzhou_Section_Widget {
             'post_type' => $source === 'products' ? 'product' : 'post',
             'post_status' => 'publish',
             'posts_per_page' => max(4, (int) ($s['count'] ?? 6)),
-            'orderby' => $source === 'products' ? ['menu_order' => 'ASC', 'date' => 'DESC'] : ['date' => 'DESC'],
+            'orderby' => $source === 'products' ? ['meta_value_num' => 'DESC', 'date' => 'DESC'] : ['date' => 'DESC'],
         ];
         if ($source === 'products') {
+            $args['meta_key'] = 'product_sort_order';
             $selected = array_values(array_filter(array_map('intval', (array) ($s['selected_products'] ?? []))));
             if ($selected) {
                 $args['post__in'] = $selected;
                 $args['posts_per_page'] = count($selected);
                 $args['orderby'] = 'post__in';
-            } else {
-                $args['orderby'] = ['date' => 'DESC'];
             }
         }
         if ($source === 'news') {
@@ -146,7 +145,7 @@ final class Home_Carousel_Widget extends Xinzhou_Section_Widget {
         $query = new \WP_Query($args);
         $cards = [];
         foreach ($query->posts as $post) {
-            $terms = $source === 'products' ? wp_get_post_terms($post->ID, 'product_category') : get_the_category($post->ID);
+            $terms = $source === 'products' ? array_filter([\xz_product_primary_term($post->ID)]) : get_the_category($post->ID);
             $cards[] = [
                 'image' => get_the_post_thumbnail_url($post->ID, 'large') ?: '',
                 'category' => !is_wp_error($terms) && $terms ? $terms[0]->name : '',
@@ -176,7 +175,7 @@ final class Home_Carousel_Widget extends Xinzhou_Section_Widget {
                     <div class="xz-home-carousel__track" data-xz-carousel-track>
                         <?php foreach ($cards as $card) : ?>
                             <article class="xz-home-carousel-card">
-                                <a class="xz-home-carousel-card__media" href="<?php echo esc_url($card['url']); ?>"><?php if ($card['image']) : ?><img src="<?php echo esc_url($card['image']); ?>" alt="<?php echo esc_attr($card['title']); ?>" loading="lazy"><?php endif; ?></a>
+                                <a class="xz-home-carousel-card__media" href="<?php echo esc_url($card['url']); ?>"><?php if ($card['image']) : echo \xz_media_image($card['image'], 'large', ['loading' => 'lazy']); endif; ?></a>
                                 <div class="xz-home-carousel-card__body">
                                     <?php if ($card['category']) : ?><span class="xz-home-carousel-card__category"><?php echo esc_html($card['category']); ?></span><?php endif; ?>
                                     <h3><a href="<?php echo esc_url($card['url']); ?>"><?php echo esc_html($card['title']); ?></a></h3>
@@ -223,7 +222,7 @@ final class Home_Stories_Widget extends Xinzhou_Section_Widget {
                     $image = $this->image_url((array) ($story['image'] ?? []));
                     ?>
                     <article class="xz-home-story<?php echo $reverse ? ' xz-home-story--reverse' : ''; ?>">
-                        <div class="xz-home-story__media"><?php if ($image) : ?><img src="<?php echo esc_url($image); ?>" alt="<?php echo esc_attr((string) ($story['title'] ?? '')); ?>" loading="lazy"><?php endif; ?></div>
+                        <div class="xz-home-story__media"><?php if ($image) : echo \xz_media_image($image, 'full', ['loading' => 'lazy']); endif; ?></div>
                         <div class="xz-home-story__copy">
                             <?php if (!empty($story['eyebrow'])) : ?><div class="xz-home-eyebrow"><?php echo esc_html($story['eyebrow']); ?></div><?php endif; ?>
                             <h2><?php echo esc_html((string) ($story['title'] ?? '')); ?></h2>
@@ -313,8 +312,8 @@ final class Home_Worldwide_Widget extends Xinzhou_Section_Widget {
             <div class="xz-simple-carousel<?php echo $carousel ? ' is-carousel' : ''; ?>"<?php echo $carousel ? ' data-xz-simple-carousel data-visible="4" data-visible-tablet="3" data-visible-mobile="2"' : ''; ?>>
             <?php if ($carousel) : ?><div class="xz-simple-carousel__controls"><button type="button" data-xz-simple-prev aria-label="Previous logos">&#8249;</button><button type="button" data-xz-simple-next aria-label="Next logos">&#8250;</button></div><?php endif; ?>
             <div class="xz-home-worldwide__grid"<?php echo $carousel ? ' data-xz-simple-track' : ''; ?>>
-                <?php foreach ($logos as $logo) : $image_id = (int) ($logo['image']['id'] ?? 0); $image = $this->image_url((array) ($logo['image'] ?? [])); ?>
-                    <a href="<?php echo esc_url($this->link_url((array) ($logo['link'] ?? []))); ?>"><?php if ($image_id) : echo wp_get_attachment_image($image_id, 'full', false, ['loading' => 'lazy']); elseif ($image) : ?><img src="<?php echo esc_url($image); ?>" alt="" loading="lazy"><?php endif; ?></a>
+                <?php foreach ($logos as $logo) : $image = $this->image_url((array) ($logo['image'] ?? [])); ?>
+                    <a href="<?php echo esc_url($this->link_url((array) ($logo['link'] ?? []))); ?>"><?php if ($image) : echo \xz_media_image($image, 'full', ['loading' => 'lazy']); endif; ?></a>
                 <?php endforeach; ?>
             </div>
             </div>

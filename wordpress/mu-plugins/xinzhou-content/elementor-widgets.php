@@ -34,10 +34,7 @@ function current_product_term(): ?\WP_Term {
 
     $post_id = current_content_id('product');
     if ($post_id) {
-        $terms = wp_get_post_terms($post_id, 'product_category');
-        if (!is_wp_error($terms) && $terms) {
-            return $terms[0];
-        }
+        return \xz_product_primary_term($post_id);
     }
 
     $terms = get_terms([
@@ -382,8 +379,8 @@ final class Product_Gallery_Widget extends Xinzhou_Widget {
             <?php if (count($gallery) > 1) : ?>
                 <div class="xz-product-gallery__thumbs" aria-label="Product gallery thumbnails">
                     <?php foreach ($gallery as $index => $image_id) : ?>
-                        <button type="button" class="<?php echo $index === 0 ? 'is-active' : ''; ?>" data-xz-gallery-thumb data-full-src="<?php echo esc_url(wp_get_attachment_image_url($image_id, 'full')); ?>" aria-pressed="<?php echo $index === 0 ? 'true' : 'false'; ?>">
-                            <?php echo wp_get_attachment_image($image_id, 'thumbnail', false, ['alt' => '']); ?>
+                        <button type="button" class="<?php echo $index === 0 ? 'is-active' : ''; ?>" data-xz-gallery-thumb data-full-src="<?php echo esc_url(wp_get_attachment_image_url($image_id, 'full')); ?>" data-full-alt="<?php echo esc_attr((string) get_post_meta($image_id, '_wp_attachment_image_alt', true)); ?>" data-full-title="<?php echo esc_attr((string) get_the_title($image_id)); ?>" aria-pressed="<?php echo $index === 0 ? 'true' : 'false'; ?>">
+                            <?php echo wp_get_attachment_image($image_id, 'thumbnail'); ?>
                         </button>
                     <?php endforeach; ?>
                 </div>
@@ -466,20 +463,6 @@ final class Product_Summary_Data_Widget extends Xinzhou_Widget {
 
     protected function register_controls(): void {
         $this->start_controls_section('content', ['label' => 'Content']);
-        $this->add_control('parameter_limit', [
-            'label' => 'Parameter Limit',
-            'type' => Controls_Manager::NUMBER,
-            'default' => 4,
-            'min' => 1,
-            'max' => 12,
-        ]);
-        $this->add_control('finished_limit', [
-            'label' => 'Finished Product Limit',
-            'type' => Controls_Manager::NUMBER,
-            'default' => 2,
-            'min' => 1,
-            'max' => 8,
-        ]);
         $this->end_controls_section();
     }
 
@@ -488,14 +471,13 @@ final class Product_Summary_Data_Widget extends Xinzhou_Widget {
         if (!$post_id || !function_exists('get_field')) {
             return;
         }
-        $settings = $this->get_settings_for_display();
         $parameters = (array) get_field('product_key_parameters', $post_id);
-        $finished = (array) get_field('product_finished_products', $post_id);
+        $finished = \xz_product_finished_image_ids($post_id);
         ?>
         <div class="xz-product-summary-data">
             <?php if ($parameters) : ?>
                 <dl class="xz-product-summary__facts">
-                    <?php foreach (array_slice($parameters, 0, (int) ($settings['parameter_limit'] ?? 4)) as $parameter) : ?>
+                    <?php foreach ($parameters as $parameter) : ?>
                         <div><dt><?php echo esc_html($parameter['product_parameter_label'] ?? ''); ?></dt><dd><?php echo esc_html($parameter['product_parameter_value'] ?? ''); ?></dd></div>
                     <?php endforeach; ?>
                 </dl>
@@ -504,10 +486,10 @@ final class Product_Summary_Data_Widget extends Xinzhou_Widget {
                 <div class="xz-product-summary__finished">
                     <h2>Finished Products</h2>
                     <div>
-                        <?php foreach (array_slice($finished, 0, (int) ($settings['finished_limit'] ?? 2)) as $item) : ?>
-                            <span><?php echo esc_html($item['finished_product_title'] ?? ''); ?></span>
+                        <?php foreach (array_slice($finished, 0, 2) as $image_id) : ?>
+                            <a href="#tab-finished-products" data-xz-open-tab="finished-products"><?php echo esc_html(\xz_attachment_display_title($image_id)); ?></a>
                         <?php endforeach; ?>
-                        <?php if (count($finished) > (int) ($settings['finished_limit'] ?? 2)) : ?><a href="#xz-tab-finished-products" data-xz-open-tab="finished-products">View All</a><?php endif; ?>
+                        <a href="#tab-finished-products" data-xz-open-tab="finished-products">View All</a>
                     </div>
                 </div>
             <?php endif; ?>
@@ -549,6 +531,13 @@ final class Product_Information_Widget extends Xinzhou_Widget {
             ]);
         }
         $this->end_controls_section();
+        $this->start_controls_section('workflow', ['label' => 'Configuration & Workflow']);
+        $this->add_control('workflow_content', [
+            'label' => 'Content',
+            'type' => Controls_Manager::WYSIWYG,
+            'default' => '<div class="product-workflow"><article><span>01</span><div><h3>Production Requirements</h3><p>Confirm the finished product, output target, material specifications and available factory space.</p></div></article><article><span>02</span><div><h3>Line Configuration</h3><p>Plan the welding machine, feeding, forming, cutting, discharge and stacking equipment as one coordinated system.</p></div></article><article><span>03</span><div><h3>Installation & Commissioning</h3><p>Complete installation guidance, production testing, operator training and technical handover.</p></div></article></div>',
+        ]);
+        $this->end_controls_section();
     }
 
     protected function render(): void {
@@ -557,14 +546,13 @@ final class Product_Information_Widget extends Xinzhou_Widget {
             return;
         }
         $settings = $this->get_settings_for_display();
-        $overview = get_post_field('post_content', $post_id);
-        if (!$overview && function_exists('get_field')) {
-            $overview = get_field('product_overview', $post_id);
-        }
-        $specifications = function_exists('get_field') ? (array) get_field('product_specifications', $post_id) : [];
-        $finished = function_exists('get_field') ? (array) get_field('product_finished_products', $post_id) : [];
+        $overview = function_exists('get_field') ? (string) get_field('product_overview_primary', $post_id) : '';
+        if (!$overview) { $overview = (string) get_post_field('post_content', $post_id); }
+        $overview_secondary = function_exists('get_field') ? (string) get_field('product_overview_secondary', $post_id) : '';
+        $specifications = function_exists('get_field') ? (string) get_field('product_specifications', $post_id) : '';
+        $finished = \xz_product_finished_image_ids($post_id);
         $faq = function_exists('get_field') ? (array) get_field('product_faq', $post_id) : [];
-        $workflow = function_exists('get_field') ? (array) get_field('product_configuration_workflow', $post_id) : [];
+        $workflow = (string) ($settings['workflow_content'] ?? '');
         $tabs = array_filter([
             'overview' => $overview ? ($settings['overview_label'] ?? 'Overview') : '',
             'specifications' => $specifications ? ($settings['specifications_label'] ?? 'Technical Specifications') : '',
@@ -585,15 +573,13 @@ final class Product_Information_Widget extends Xinzhou_Widget {
             <?php $index = 0; foreach ($tabs as $key => $label) : ?>
                 <div id="xz-tab-<?php echo esc_attr($key); ?>" class="xz-product-tabs__panel<?php echo $index === 0 ? ' is-active' : ''; ?>" data-xz-tab-panel="<?php echo esc_attr($key); ?>" <?php echo $index === 0 ? '' : 'hidden'; ?>>
                     <?php if ($key === 'overview') : ?>
-                        <div class="xz-product-overview"><?php echo apply_filters('the_content', $overview); ?></div>
+                        <div class="xz-product-overview"><?php echo apply_filters('the_content', $overview); ?><?php if ($overview_secondary) : ?><div class="product-overview-description"><?php echo apply_filters('the_content', $overview_secondary); ?></div><?php endif; ?></div>
                     <?php elseif ($key === 'specifications') : ?>
-                        <div class="xz-product-specifications"><table><tbody>
-                        <?php foreach ($specifications as $item) : ?><tr><th><?php echo esc_html($item['specification_parameter'] ?? ''); ?></th><td><?php echo wp_kses_post($item['specification_value'] ?? ''); ?></td></tr><?php endforeach; ?>
-                        </tbody></table></div>
+                        <div class="xz-product-specifications product-specifications"><div class="product-specifications__table-wrap"><?php echo wp_kses_post($specifications); ?></div></div>
                     <?php elseif ($key === 'finished-products') : ?>
                         <div class="xz-finished-products-grid">
-                        <?php foreach ($finished as $item) : $image_id = \xz_acf_image_id($item['finished_product_image'] ?? 0); ?>
-                            <figure><?php echo $image_id ? wp_get_attachment_image($image_id, 'large') : ''; ?><figcaption><?php echo esc_html($item['finished_product_title'] ?? ''); ?></figcaption></figure>
+                        <?php foreach ($finished as $image_id) : ?>
+                            <figure><?php echo wp_get_attachment_image($image_id, 'large'); ?><figcaption><?php echo esc_html(\xz_attachment_display_title($image_id)); ?></figcaption></figure>
                         <?php endforeach; ?>
                         </div>
                     <?php elseif ($key === 'faq') : ?>
@@ -602,7 +588,7 @@ final class Product_Information_Widget extends Xinzhou_Widget {
                         </div>
                     <?php elseif ($key === 'workflow') : ?>
                         <div class="xz-product-workflow">
-                        <?php foreach ($workflow as $index => $item) : ?><article><span><?php echo esc_html(str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT)); ?></span><div><h3><?php echo esc_html(wp_strip_all_tags((string) ($item['workflow_step_title'] ?? ''))); ?></h3><p><?php echo esc_html(wp_strip_all_tags((string) ($item['workflow_step_description'] ?? ''))); ?></p></div></article><?php endforeach; ?>
+                        <?php echo wp_kses_post($workflow); ?>
                         </div>
                     <?php endif; ?>
                 </div>

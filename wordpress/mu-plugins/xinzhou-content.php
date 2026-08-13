@@ -118,8 +118,11 @@ function xz_product_archive_query_args(int $page, int $per_page, int $term_id = 
         'post_status' => 'publish',
         'posts_per_page' => max(1, min(24, $per_page)),
         'paged' => max(1, $page),
-        'orderby' => 'ID',
-        'order' => 'ASC',
+        'meta_key' => 'product_sort_order',
+        'orderby' => [
+            'meta_value_num' => 'DESC',
+            'date' => 'DESC',
+        ],
     ];
     if ($term_id > 0) {
         $args['tax_query'] = [[
@@ -131,12 +134,105 @@ function xz_product_archive_query_args(int $page, int $per_page, int $term_id = 
     return $args;
 }
 
-function xz_render_product_archive_card(WP_Post $post, bool $show_label = true): string {
-    $terms = wp_get_post_terms($post->ID, 'product_category');
-    $label = function_exists('get_field') ? (string) get_field('product_card_label', $post->ID) : '';
-    if (!$label && !is_wp_error($terms) && $terms) {
-        $label = $terms[0]->name;
+function xz_primary_term(int $post_id, string $taxonomy): ?WP_Term {
+    $primary_id = absint(get_post_meta($post_id, 'rank_math_primary_' . $taxonomy, true));
+    if ($primary_id) {
+        $primary = get_term($primary_id, $taxonomy);
+        if ($primary instanceof WP_Term && !is_wp_error($primary)) {
+            return $primary;
+        }
     }
+
+    $terms = wp_get_post_terms($post_id, $taxonomy);
+    return !is_wp_error($terms) && $terms ? $terms[0] : null;
+}
+
+function xz_product_primary_term(int $post_id): ?WP_Term {
+    return xz_primary_term($post_id, 'product_category');
+}
+
+function xz_attachment_display_title(int $attachment_id): string {
+    $title = trim((string) get_the_title($attachment_id));
+    if ($title !== '') {
+        return $title;
+    }
+    $file = get_attached_file($attachment_id);
+    return $file ? ucwords(str_replace(['-', '_'], ' ', pathinfo($file, PATHINFO_FILENAME))) : '';
+}
+
+function xz_product_finished_image_ids(int $post_id): array {
+    $gallery = function_exists('get_field') ? get_field('product_finished_products', $post_id) : [];
+    $ids = [];
+    foreach ((array) $gallery as $image) {
+        $image_id = xz_acf_image_id($image);
+        if ($image_id) {
+            $ids[] = $image_id;
+        }
+    }
+    return array_values(array_unique($ids));
+}
+
+function xz_product_order_query_args(): array {
+    return [
+        'meta_key' => 'product_sort_order',
+        'orderby' => [
+            'meta_value_num' => 'DESC',
+            'date' => 'DESC',
+        ],
+    ];
+}
+
+add_action('save_post_product', static function (int $post_id): void {
+    if (wp_is_post_revision($post_id) || get_post_meta($post_id, 'product_sort_order', true) !== '') {
+        return;
+    }
+    update_post_meta($post_id, 'product_sort_order', 0);
+});
+
+add_filter('wp_get_attachment_image_attributes', static function (array $attr, WP_Post $attachment): array {
+    $alt = trim((string) get_post_meta($attachment->ID, '_wp_attachment_image_alt', true));
+    $title = trim((string) $attachment->post_title);
+    if ($alt !== '') {
+        $attr['alt'] = $alt;
+    } else {
+        unset($attr['alt']);
+    }
+    if ($title !== '') {
+        $attr['title'] = $title;
+    } else {
+        unset($attr['title']);
+    }
+    return $attr;
+}, 10, 2);
+
+function xz_media_image($media, string $size = 'full', array $attributes = []): string {
+    $image_id = xz_acf_image_id($media);
+    $url = is_array($media) ? (string) ($media['url'] ?? '') : (is_string($media) ? $media : '');
+    if (!$image_id && $url !== '') {
+        $image_id = attachment_url_to_postid($url);
+    }
+    if ($image_id) {
+        return wp_get_attachment_image($image_id, $size, false, $attributes);
+    }
+    if ($url === '') {
+        return '';
+    }
+
+    unset($attributes['alt'], $attributes['title']);
+    $attributes = array_merge(['src' => esc_url($url)], $attributes);
+    $html = '';
+    foreach ($attributes as $name => $value) {
+        if ($value === false || $value === null || $value === '') {
+            continue;
+        }
+        $html .= ' ' . esc_attr((string) $name) . '="' . esc_attr((string) $value) . '"';
+    }
+    return '<img' . $html . '>';
+}
+
+function xz_render_product_archive_card(WP_Post $post, bool $show_label = true): string {
+    $term = xz_product_primary_term($post->ID);
+    $label = $term ? $term->name : '';
     ob_start();
     ?>
     <article class="product-archive-card" data-product-card><a href="<?php echo esc_url(get_permalink($post)); ?>"><figure><?php echo get_the_post_thumbnail($post, 'large', ['loading' => 'lazy']); ?><?php if ($show_label && $label) : ?><span><?php echo esc_html($label); ?></span><?php endif; ?></figure><h3><?php echo esc_html(get_the_title($post)); ?></h3></a></article>
@@ -253,8 +349,9 @@ add_action('pre_get_posts', static function (WP_Query $query): void {
 
     if ($query->is_post_type_archive('product') || $query->is_tax('product_category')) {
         $query->set('posts_per_page', 9);
-        $query->set('orderby', 'ID');
-        $query->set('order', 'ASC');
+        foreach (xz_product_order_query_args() as $key => $value) {
+            $query->set($key, $value);
+        }
         return;
     }
 
@@ -357,6 +454,9 @@ add_action('elementor/query/xinzhou_related_products', static function (WP_Query
     $query->set('post_type', 'product');
     $query->set('post__not_in', [$post_id]);
     $query->set('posts_per_page', 3);
+    foreach (xz_product_order_query_args() as $key => $value) {
+        $query->set($key, $value);
+    }
     if (!is_wp_error($terms) && $terms) {
         $query->set('tax_query', [[
             'taxonomy' => 'product_category',
@@ -385,8 +485,9 @@ add_action('elementor/query/xinzhou_home_products', static function (WP_Query $q
     $query->set('post_type', 'product');
     $query->set('post_status', 'publish');
     $query->set('posts_per_page', 6);
-    $query->set('orderby', 'menu_order date');
-    $query->set('order', 'DESC');
+    foreach (xz_product_order_query_args() as $key => $value) {
+        $query->set($key, $value);
+    }
 });
 
 add_action('elementor/query/xinzhou_home_cases', static function (WP_Query $query): void {
@@ -418,9 +519,11 @@ function xz_product_gallery_ids(int $post_id): array {
             $ids[] = $image_id;
         }
     }
-    $featured = get_post_thumbnail_id($post_id);
-    if ($featured && !in_array($featured, $ids, true)) {
-        array_unshift($ids, $featured);
+    if (!$ids) {
+        $featured = get_post_thumbnail_id($post_id);
+        if ($featured) {
+            $ids[] = $featured;
+        }
     }
     return array_values(array_unique($ids));
 }

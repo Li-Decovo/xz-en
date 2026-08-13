@@ -461,6 +461,8 @@
                 if (!mainImage) return;
                 mainImage.src = button.dataset.fullSrc;
                 mainImage.alt = button.dataset.fullAlt || "";
+                if (button.dataset.fullTitle) mainImage.title = button.dataset.fullTitle;
+                else mainImage.removeAttribute("title");
                 mainImage.removeAttribute("srcset");
                 mainImage.removeAttribute("sizes");
                 gallery.querySelectorAll("[data-xz-gallery-thumb]").forEach(function (item) {
@@ -483,12 +485,19 @@
                 if (!id && parsed.pathname.indexOf("/embed/") === 0) id = parsed.pathname.split("/")[2] || "";
                 if (!id && parsed.pathname.indexOf("/shorts/") === 0) id = parsed.pathname.split("/")[2] || "";
             }
-            return id ? "https://www.youtube-nocookie.com/embed/" + encodeURIComponent(id) + "?autoplay=1&rel=0" : "";
+            if (id) return "https://www.youtube-nocookie.com/embed/" + encodeURIComponent(id) + "?autoplay=1&rel=0";
+            if (host === "vimeo.com" || host === "player.vimeo.com") {
+                var parts = parsed.pathname.split("/").filter(Boolean);
+                var vimeoId = parts.reverse().find(function (part) { return /^\d+$/.test(part); }) || "";
+                return vimeoId ? "https://player.vimeo.com/video/" + encodeURIComponent(vimeoId) + "?autoplay=1" : "";
+            }
+            return "";
         } catch (error) { return ""; }
     }
 
     document.querySelectorAll("[data-xz-video-open]").forEach(function (opener) {
-        var dialog = opener.closest(".xz-home-split")?.nextElementSibling;
+        var scope = opener.closest("[data-xz-video-scope]");
+        var dialog = scope ? scope.querySelector("[data-xz-video-dialog]") : opener.closest(".xz-home-split")?.nextElementSibling;
         if (!dialog || !dialog.matches("[data-xz-video-dialog]")) return;
         var stage = dialog.querySelector("[data-xz-video-stage]");
         function stopVideo() {

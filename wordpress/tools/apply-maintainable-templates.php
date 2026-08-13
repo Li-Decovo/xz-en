@@ -155,7 +155,6 @@ function xz_ensure_acf_field(int $group_id, array $field): void {
 $managed_acf_fields = [
     'category_archive_title',
     'category_detailed_title',
-    'product_card_label',
 ];
 foreach (get_posts([
     'post_type' => 'acf-field',
@@ -172,22 +171,15 @@ xz_ensure_acf_field(151, [
     'key' => 'field_xz_category_archive_title',
     'label' => 'Products Section Heading',
     'name' => 'category_archive_title',
-    'instructions' => 'Front-end heading shown above the product list. This is not an SEO title or image alt field; use Rank Math and WordPress Media for those.',
+    'instructions' => '',
     'menu_order' => 4,
 ]);
 xz_ensure_acf_field(151, [
     'key' => 'field_xz_category_detailed_title',
     'label' => 'Detailed Description Heading',
     'name' => 'category_detailed_title',
-    'instructions' => 'Front-end heading shown with the detailed category description. SEO titles/descriptions should be managed in Rank Math.',
+    'instructions' => '',
     'menu_order' => 5,
-]);
-xz_ensure_acf_field(124, [
-    'key' => 'field_xz_product_card_label',
-    'label' => 'Product Card Label',
-    'name' => 'product_card_label',
-    'instructions' => 'Short label displayed over the product image in archive and related-product cards.',
-    'menu_order' => 16,
 ]);
 
 $steel_grating = get_term_by('slug', 'steel-grating', 'product_category');
@@ -202,32 +194,11 @@ if ($steel_grating instanceof WP_Term && function_exists('update_field')) {
     ]), $term_context);
 }
 
-$product_card_labels = [
-    158 => 'Steel Grating Lines',
-    160 => 'Steel Grating Lines',
-    162 => 'Auxiliary Equipment',
-    164 => 'Finishing Equipment',
-    166 => 'Handling Systems',
-    168 => 'Cutting Equipment',
-    170 => 'Finishing Equipment',
-    172 => 'Material Preparation',
-    174 => 'Material Preparation',
-    176 => 'Feeding Systems',
-    178 => 'Press-Lock Grating',
-    180 => 'Turnkey Systems',
-];
-if (function_exists('update_field')) {
-    foreach ($product_card_labels as $product_id => $label) {
-        if (get_post_type($product_id) === 'product') {
-            update_field('field_xz_product_card_label', $label, $product_id);
-        }
-    }
-}
-
 $overview_image_url = wp_get_attachment_image_url(181, 'full');
 if ($overview_image_url && get_post_type(158) === 'product' && function_exists('update_field')) {
-    $overview_html = '<div class="product-overview-grid"><div><h3>Fully Integrated Steel Grating Production</h3><p>The GGV Series is Xinzhou\'s heavy-duty engineering system for the high-volume production of industrial steel gratings. It integrates flat load bars with automatically fed twisted cross bars using transformer technology and microcomputer controls.</p><p>The line is managed through an HMI + PLC system and driven by high-precision servo pulling. Standard and customized configurations are available according to grating specifications, output targets, factory layout and required automation level.</p></div><figure><img src="' . esc_url($overview_image_url) . '" alt="Complete GGV steel grating line installed in a manufacturing workshop"></figure></div><div class="product-overview-description"><h3>Performance, Feeding and Intelligent Control</h3><p>The water-cooled transformer delivers high welding current, efficient cooling and long service life. During production, a heavy-duty hydraulic correction mechanism realigns the steel grating panel to maintain a flat and uniform finished result.</p><p>Automatic servo cross bar feeding, dual-rod stocking and the load bar pre-feeding system reduce waiting time between welding cycles. HMI + PLC control provides clear visual operation, while servo pulling allows the cross bar pitch to be adjusted through the touch screen according to the required product specification.</p><p>Integrated IoT functions support remote monitoring, fault diagnosis and program updates, helping Xinzhou\'s technical team respond efficiently to overseas service requirements.</p></div>';
-    update_field('field_xz_product_overview', $overview_html, 158);
+    update_field('field_xz_product_overview_primary', '<h3>Fully Integrated Steel Grating Production</h3><p>The GGV Series is Xinzhou\'s heavy-duty engineering system for the high-volume production of industrial steel gratings. It integrates flat load bars with automatically fed twisted cross bars using transformer technology and microcomputer controls.</p><p>The line is managed through an HMI + PLC system and driven by high-precision servo pulling. Standard and customized configurations are available according to grating specifications, output targets, factory layout and required automation level.</p>', 158);
+    update_field('field_xz_product_overview_image', 181, 158);
+    update_field('field_xz_product_overview_secondary', '<h3>Performance, Feeding and Intelligent Control</h3><p>The water-cooled transformer delivers high welding current, efficient cooling and long service life. During production, a heavy-duty hydraulic correction mechanism realigns the steel grating panel to maintain a flat and uniform finished result.</p><p>Automatic servo cross bar feeding, dual-rod stocking and the load bar pre-feeding system reduce waiting time between welding cycles. HMI + PLC control provides clear visual operation, while servo pulling allows the cross bar pitch to be adjusted through the touch screen according to the required product specification.</p><p>Integrated IoT functions support remote monitoring, fault diagnosis and program updates, helping Xinzhou\'s technical team respond efficiently to overseas service requirements.</p>', 158);
 }
 
 xz_update_elementor_document(193, $product_archive, $product_archive_css, [
@@ -258,7 +229,7 @@ foreach (get_posts(['post_type' => 'product', 'post_status' => 'any', 'posts_per
         $updates['post_excerpt'] = (string) get_field('product_short_description', $product->ID);
     }
     if (!$product->post_content && function_exists('get_field')) {
-        $updates['post_content'] = (string) get_field('product_overview', $product->ID);
+        $updates['post_content'] = (string) get_field('product_overview_primary', $product->ID);
     }
     if (count($updates) > 1) {
         wp_update_post(wp_slash($updates));
