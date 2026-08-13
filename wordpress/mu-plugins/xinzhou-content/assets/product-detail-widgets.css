@@ -280,9 +280,13 @@
 
 .product-tabs__list {
     display: flex;
+    flex-wrap: nowrap;
+    max-width: 100%;
     overflow-x: auto;
+    overflow-y: hidden;
     border-bottom: 1px solid var(--xz-line);
     scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
 }
 
 .product-tabs__list button {
@@ -740,6 +744,8 @@
     }
 
     .product-tabs__list button {
+        flex: 0 0 auto;
+        white-space: nowrap;
         padding-inline: 16px;
     }
 }
