@@ -310,6 +310,11 @@
     document.querySelectorAll("[data-xz-product-gallery]").forEach(function (gallery) {
         var mainImage = gallery.querySelector("[data-xz-main-image]");
         gallery.querySelectorAll("[data-xz-gallery-thumb]").forEach(function (button) {
+            if (button.dataset.fullSrc) {
+                var preload = new Image();
+                preload.src = button.dataset.fullSrc;
+            }
+
             button.addEventListener("click", function () {
                 if (!mainImage) return;
                 mainImage.src = button.dataset.fullSrc;

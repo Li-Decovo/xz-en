@@ -6,6 +6,11 @@
         const thumbnails = Array.from(gallery.querySelectorAll("[data-gallery-thumb]"));
 
         thumbnails.forEach((thumbnail) => {
+            if (thumbnail.dataset.fullSrc) {
+                const preload = new Image();
+                preload.src = thumbnail.dataset.fullSrc;
+            }
+
             thumbnail.addEventListener("click", () => {
                 mainImage.src = thumbnail.dataset.fullSrc;
                 mainImage.alt = thumbnail.dataset.alt;
