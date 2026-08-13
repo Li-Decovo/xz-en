@@ -787,6 +787,14 @@
         flex-basis: calc((100% - 18px) / 2);
     }
 
+    .xz-simple-carousel[data-visible-tablet="3"] > [data-xz-simple-track] > * {
+        flex-basis: calc((100% - 36px) / 3);
+    }
+
+    .xz-simple-carousel[data-visible-tablet="5"] > [data-xz-simple-track] > * {
+        flex-basis: calc((100% - 56px) / 5);
+    }
+
     .xz-home-split__inner,
     .xz-home-story {
         grid-template-columns: 1fr;
@@ -818,6 +826,14 @@
 @media (max-width: 640px) {
     .xz-simple-carousel[data-xz-simple-carousel] > [data-xz-simple-track] > * {
         flex-basis: 100%;
+    }
+
+    .xz-simple-carousel[data-visible-mobile="2"] > [data-xz-simple-track] > * {
+        flex-basis: calc((100% - 18px) / 2);
+    }
+
+    .xz-simple-carousel[data-visible-mobile="3"] > [data-xz-simple-track] > * {
+        flex-basis: calc((100% - 36px) / 3);
     }
 
     .xz-home-split__media,

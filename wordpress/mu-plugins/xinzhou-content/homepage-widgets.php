@@ -271,9 +271,9 @@ final class Home_Cases_Widget extends Xinzhou_Section_Widget {
             return;
         }
         $posts = $query->posts;
-        $carousel = count($posts) > 5;
+        $carousel = count($posts) > 2;
         ?>
-        <section class="xz-home-cases"><div class="xz-home-cases__carousel xz-simple-carousel<?php echo $carousel ? ' is-carousel' : ''; ?>"<?php echo $carousel ? ' data-xz-simple-carousel data-visible="5"' : ''; ?>>
+        <section class="xz-home-cases"><div class="xz-home-cases__carousel xz-simple-carousel<?php echo $carousel ? ' is-carousel' : ''; ?>"<?php echo $carousel ? ' data-xz-simple-carousel data-visible="5" data-visible-tablet="3" data-visible-mobile="2"' : ''; ?>>
             <div class="xz-home-cases__grid"<?php echo $carousel ? ' data-xz-simple-track' : ''; ?>>
             <?php foreach ($posts as $post) : ?>
                 <a class="xz-home-case" href="<?php echo esc_url(get_permalink($post)); ?>">
@@ -309,8 +309,8 @@ final class Home_Worldwide_Widget extends Xinzhou_Section_Widget {
         ?>
         <section class="xz-home-worldwide"><div class="xz-home-worldwide__inner">
             <h2><?php echo esc_html((string) ($s['title'] ?? 'Xinzhou Worldwide')); ?></h2>
-            <?php $logos = (array) ($s['logos'] ?? []); $carousel = count($logos) > 4; ?>
-            <div class="xz-simple-carousel<?php echo $carousel ? ' is-carousel' : ''; ?>"<?php echo $carousel ? ' data-xz-simple-carousel data-visible="4"' : ''; ?>>
+            <?php $logos = (array) ($s['logos'] ?? []); $carousel = count($logos) > 2; ?>
+            <div class="xz-simple-carousel<?php echo $carousel ? ' is-carousel' : ''; ?>"<?php echo $carousel ? ' data-xz-simple-carousel data-visible="4" data-visible-tablet="3" data-visible-mobile="2"' : ''; ?>>
             <?php if ($carousel) : ?><div class="xz-simple-carousel__controls"><button type="button" data-xz-simple-prev aria-label="Previous logos">&#8249;</button><button type="button" data-xz-simple-next aria-label="Next logos">&#8250;</button></div><?php endif; ?>
             <div class="xz-home-worldwide__grid"<?php echo $carousel ? ' data-xz-simple-track' : ''; ?>>
                 <?php foreach ($logos as $logo) : $image_id = (int) ($logo['image']['id'] ?? 0); $image = $this->image_url((array) ($logo['image'] ?? [])); ?>
