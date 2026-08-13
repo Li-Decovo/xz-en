@@ -749,3 +749,9 @@
         transition: none;
     }
 }
+
+.product-tabs__list button:hover,
+.product-tabs__list button:focus-visible,
+.product-tabs__list button.is-active {
+    background: transparent !important;
+}

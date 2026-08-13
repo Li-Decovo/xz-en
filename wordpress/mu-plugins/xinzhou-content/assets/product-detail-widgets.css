@@ -787,7 +787,20 @@
 .xz-product-detail-page .product-summary__applications a { display: inline-flex; align-items: center; }
 .xz-product-detail-page .product-information__head,
 .xz-product-detail-page .related-products__head { line-height: normal; }
-.xz-product-detail-page .product-tabs__list button { font-family: inherit; }
+.xz-product-detail-page .product-tabs__list button {
+    background: transparent !important;
+    font-family: inherit;
+}
+.xz-product-detail-page .product-tabs__list button:hover,
+.xz-product-detail-page .product-tabs__list button:focus-visible {
+    background: transparent !important;
+    color: var(--xz-red);
+}
+.xz-product-detail-page .product-tabs__list button.is-active {
+    background: transparent !important;
+    border-bottom-color: var(--xz-red);
+    color: var(--xz-red);
+}
 .xz-product-detail-page .product-overview-description > :first-child { margin-top: 0; }
 .xz-product-detail-page .product-overview-description > :last-child { margin-bottom: 0; }
 .xz-product-detail-page .product-workflow article p { margin-bottom: 0; }
