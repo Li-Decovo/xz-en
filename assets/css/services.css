@@ -456,6 +456,10 @@
         padding-left: 16px;
     }
 
+    .services-custom__copy {
+        padding-bottom: 28px;
+    }
+
     .services-consultation-hero h1,
     .services-custom__copy h2,
     .services-layout__copy h2,
