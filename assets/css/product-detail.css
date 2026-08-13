@@ -109,6 +109,7 @@
 }
 
 .product-breadcrumb a {
+    color: inherit;
     text-decoration: none;
 }
 
@@ -713,9 +714,19 @@
 
     .product-summary__block ul,
     .product-workflow,
-    .finished-products-grid,
-    .related-products__grid {
+    .finished-products-grid {
         grid-template-columns: 1fr;
+    }
+
+    .related-products__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px 16px;
+    }
+
+    .related-products__grid h3 {
+        padding: 0 10px;
+        font-size: 16px;
+        line-height: 1.3;
     }
 
     .product-summary__actions {
