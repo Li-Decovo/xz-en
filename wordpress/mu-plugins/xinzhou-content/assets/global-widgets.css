@@ -314,31 +314,52 @@
 }
 
 .elementor-popup-modal:has(.xz-inquiry-popup) .dialog-widget-content {
-    overflow: hidden;
-    border-radius: 6px;
+    position: relative;
+    width: min(calc(100vw - 40px), 760px);
+    max-height: min(860px, calc(100vh - 48px));
+    overflow: hidden auto;
+    border: 1px solid rgba(148, 163, 184, 0.28);
+    border-radius: 8px;
     background: #fff;
     box-shadow: 0 28px 80px rgba(2, 6, 23, 0.34);
 }
 
 .elementor-popup-modal:has(.xz-inquiry-popup) .dialog-close-button {
-    top: 24px;
-    right: 24px;
+    position: absolute !important;
+    top: 22px !important;
+    right: 22px !important;
     z-index: 5;
-    display: grid;
-    width: 42px;
-    height: 42px;
-    place-items: center;
+    display: flex !important;
+    width: 40px !important;
+    min-width: 40px !important;
+    height: 40px !important;
+    min-height: 40px !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
     border: 1px solid rgba(255, 255, 255, 0.45);
-    border-radius: 50%;
-    background: transparent;
-    color: #fff;
-    transition: border-color 0.2s ease, background 0.2s ease;
+    border-radius: 50% !important;
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff !important;
+    line-height: 1 !important;
+    box-shadow: none !important;
+    transform: none !important;
+    transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.elementor-popup-modal:has(.xz-inquiry-popup) .dialog-close-button svg {
+    display: block !important;
+    width: 16px !important;
+    height: 16px !important;
+    margin: 0 !important;
+    fill: currentColor !important;
 }
 
 .elementor-popup-modal:has(.xz-inquiry-popup) .dialog-close-button:hover {
     border-color: #d84120;
     background: #d84120;
     color: #fff;
+    transform: rotate(90deg) !important;
 }
 
 .xz-inquiry-popup,
@@ -348,6 +369,7 @@
 
 .xz-inquiry-popup__head {
     min-height: 132px;
+    padding-right: 84px !important;
 }
 
 .xz-inquiry-popup__label .elementor-heading-title {
@@ -417,6 +439,36 @@
     color: #fff !important;
     font-weight: 800;
     text-transform: uppercase;
+}
+
+@media (max-width: 640px) {
+    .elementor-popup-modal:has(.xz-inquiry-popup) .dialog-widget-content {
+        width: calc(100vw - 24px);
+        max-height: calc(100vh - 24px);
+        border-radius: 6px;
+    }
+
+    .elementor-popup-modal:has(.xz-inquiry-popup) .dialog-close-button {
+        top: 16px !important;
+        right: 16px !important;
+        width: 36px !important;
+        min-width: 36px !important;
+        height: 36px !important;
+        min-height: 36px !important;
+    }
+
+    .xz-inquiry-popup__head {
+        min-height: 118px;
+        padding: 24px 68px 22px 22px !important;
+    }
+
+    .xz-inquiry-popup__body {
+        padding: 24px 20px 26px !important;
+    }
+
+    .xz-inquiry-popup__title .elementor-heading-title {
+        font-size: 25px;
+    }
 }
 
 @media (max-width: 900px) {
