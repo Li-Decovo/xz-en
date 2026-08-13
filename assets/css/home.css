@@ -318,6 +318,9 @@
             .hero-product-card {
                 flex-basis: calc((100% - 14px) / 2);
             }
+            .project-showcase-date {
+                display: none;
+            }
         }
         .factory-systems-section {
             background: #ffffff;
