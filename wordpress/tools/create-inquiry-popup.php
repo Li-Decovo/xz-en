@@ -33,6 +33,14 @@ $spacing = static function (int $top, int $right, int $bottom, int $left): array
     return ['unit' => 'px', 'top' => (string) $top, 'right' => (string) $right, 'bottom' => (string) $bottom, 'left' => (string) $left, 'isLinked' => false];
 };
 
+$backup_dir = trailingslashit(wp_upload_dir()['basedir']) . 'xinzhou-backups';
+wp_mkdir_p($backup_dir);
+$existing_data = (string) get_post_meta($popup_id, '_elementor_data', true);
+if ($existing_data !== '') {
+    $popup_backup = trailingslashit($backup_dir) . 'inquiry-popup-before-refresh-' . gmdate('Ymd-His') . '.json';
+    file_put_contents($popup_backup, $existing_data);
+}
+
 $data = [[
     'id' => 'xzpopup0',
     'elType' => 'container',
@@ -52,7 +60,7 @@ $data = [[
             'flex_direction' => 'column',
             'justify_content' => 'center',
             'gap' => ['unit' => 'px', 'size' => 10, 'sizes' => []],
-            'padding' => $spacing(30, 76, 26, 32),
+            'padding' => $spacing(26, 76, 22, 32),
             'background_background' => 'classic',
             'background_color' => '#0f172a',
         ], [
@@ -96,8 +104,6 @@ update_option('xz_inquiry_popup_id', $popup_id, false);
 
 $footer_id = 32;
 $footer_data = json_decode((string) get_post_meta($footer_id, '_elementor_data', true), true);
-$backup_dir = trailingslashit(wp_upload_dir()['basedir']) . 'xinzhou-backups';
-wp_mkdir_p($backup_dir);
 $backup = trailingslashit($backup_dir) . 'footer-before-native-popup-' . gmdate('Ymd-His') . '.json';
 file_put_contents($backup, wp_json_encode($footer_data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
