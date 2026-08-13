@@ -140,6 +140,8 @@
 
         var items = Array.from(track.children);
         var configuredVisible = Math.max(1, parseInt(carousel.dataset.visible || "4", 10));
+        var tabletVisible = Math.max(1, parseInt(carousel.dataset.visibleTablet || String(Math.min(2, configuredVisible)), 10));
+        var mobileVisible = Math.max(1, parseInt(carousel.dataset.visibleMobile || "1", 10));
         var index = 0;
         var visible = configuredVisible;
 
@@ -168,7 +170,7 @@
         }
 
         function update() {
-            visible = window.innerWidth <= 640 ? 1 : (window.innerWidth <= 900 ? Math.min(2, configuredVisible) : configuredVisible);
+            visible = window.innerWidth <= 640 ? mobileVisible : (window.innerWidth <= 1360 ? Math.min(tabletVisible, configuredVisible) : configuredVisible);
             visible = Math.min(visible, items.length);
             var gap = parseFloat(window.getComputedStyle(track).columnGap || window.getComputedStyle(track).gap || "0");
             var itemWidth = (track.clientWidth - gap * Math.max(0, visible - 1)) / visible;
