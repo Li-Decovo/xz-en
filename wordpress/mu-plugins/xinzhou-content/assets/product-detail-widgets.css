@@ -52,7 +52,7 @@
     display: grid;
     grid-template-columns: minmax(0, 1.07fr) minmax(0, 0.93fr);
     gap: clamp(42px, 5vw, 76px);
-    align-items: start;
+    align-items: center;
 }
 
 .product-gallery__main {
@@ -682,6 +682,7 @@
 @media (max-width: 1024px) {
     .product-detail-hero__grid {
         grid-template-columns: 1fr;
+        align-items: stretch;
     }
 
     .product-summary {
