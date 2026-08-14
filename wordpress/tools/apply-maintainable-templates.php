@@ -50,7 +50,7 @@ $product_archive = [
             'content_type' => 'short',
             'show_title' => 'yes',
             'all_products_link' => '',
-            'fallback_content' => '<p>Explore Xinzhou automated resistance welding machines and complete production lines for steel grating, reinforcing mesh, IBC tanks, lattice girders, cable trays, fence panels and custom welding applications.</p>',
+            'fallback_content' => '<p>As manufacturers pursue higher output, more consistent weld quality and lower dependence on manual handling, automated resistance welding has become central to modern metal-product production. Xinzhou designs and manufactures standalone welding machines and complete production lines for steel grating, reinforcing mesh, IBC tank cages, lattice girders, wire mesh cable trays, 3D fence panels and customized applications. Each solution combines welding process knowledge, mechanical engineering, automation and material-flow planning around the finished product, target capacity and factory conditions.</p>',
         ]),
         xz_el_widget('xpa00004', 'xinzhou-product-archive-grid', [
             'title' => 'Machines in This Category',
@@ -61,7 +61,7 @@ $product_archive = [
             'show_title' => 'yes',
             'eyebrow' => 'Category Description',
             'all_products_link' => '',
-            'fallback_content' => '<p>Xinzhou combines welding engineering, automation, tooling and production-line integration to support both standard machine configurations and customized manufacturing projects. Each system can be planned around product specifications, target output, available factory space and the required automation level.</p>',
+            'fallback_content' => '<h2>Automated Resistance Welding Equipment and Complete Production Lines</h2><p>Founded in 1998, Ningbo Xinzhou Welding Equipment Co., Ltd. focuses on the research, design and manufacture of resistance welding equipment and automated production systems. From a single welding machine to a coordinated turnkey line, every project is developed around the customer\'s finished product, raw material, required output, available floor space and operating team.</p><p>Xinzhou operates manufacturing facilities in Ningbo and Jiaxing, coordinating fabrication, precision machining, assembly, electrical integration and final testing. Our equipment has supported manufacturers in more than 80 countries and regions.</p>',
         ]),
         xz_el_widget('xpa00006', 'xinzhou-product-worldwide', [
             'title' => 'Xinzhou Worldwide',

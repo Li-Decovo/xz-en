@@ -310,6 +310,81 @@
     margin-bottom: 0;
 }
 
+.product-category-detail__copy h2,
+.product-category-detail__copy h3,
+.product-category-detail__copy h4 {
+    color: var(--xz-navy);
+    font-family: var(--xz-font-display);
+    font-weight: 800;
+    letter-spacing: 0;
+}
+
+.product-category-detail__copy h2 {
+    margin: 0 0 24px;
+    font-size: clamp(26px, 2.2vw, 34px);
+    line-height: 1.2;
+}
+
+.product-category-detail__copy h3 {
+    margin: 42px 0 16px;
+    font-size: 23px;
+    line-height: 1.28;
+}
+
+.product-category-detail__copy h4 {
+    margin: 24px 0 8px;
+    font-size: 17px;
+    line-height: 1.4;
+}
+
+.product-category-detail__copy ul {
+    display: grid;
+    gap: 11px;
+    margin: 0 0 24px;
+    padding-left: 22px;
+    color: var(--xz-steel);
+}
+
+.product-category-detail__copy li {
+    padding-left: 4px;
+    font-size: 15px;
+    line-height: 1.72;
+}
+
+.product-category-detail__copy strong {
+    color: var(--xz-navy);
+}
+
+.product-category-detail__copy table {
+    display: table;
+    width: 100%;
+    margin: 22px 0 30px;
+    border: 1px solid var(--xz-line);
+    border-collapse: collapse;
+    background: var(--xz-white);
+    color: var(--xz-steel);
+    font-size: 14px;
+    line-height: 1.55;
+}
+
+.product-category-detail__copy th,
+.product-category-detail__copy td {
+    padding: 14px 16px;
+    border: 1px solid var(--xz-line);
+    text-align: left;
+    vertical-align: top;
+}
+
+.product-category-detail__copy th {
+    color: var(--xz-white);
+    background: var(--xz-navy);
+    font-weight: 800;
+}
+
+.product-category-detail__copy tbody tr:nth-child(even) {
+    background: #f8fafc;
+}
+
 .products-worldwide {
     background: var(--xz-white);
 }
@@ -379,6 +454,38 @@
 
     .product-category-detail__copy {
         padding-left: 0;
+    }
+
+    .product-category-detail__copy h2 {
+        font-size: 25px;
+    }
+
+    .product-category-detail__copy h3 {
+        margin-top: 34px;
+        font-size: 21px;
+    }
+
+    .product-category-detail__copy h4 {
+        font-size: 16px;
+    }
+
+    .product-category-detail__copy table {
+        display: block;
+        max-width: 100%;
+        overflow-x: auto;
+        white-space: normal;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .product-category-detail__copy table::-webkit-scrollbar {
+        display: none;
+    }
+
+    .product-category-detail__copy th,
+    .product-category-detail__copy td {
+        min-width: 150px;
+        padding: 12px;
     }
 
 }
