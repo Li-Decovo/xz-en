@@ -152,17 +152,24 @@
 }
 
 .product-summary__facts div {
+    min-width: 0;
     padding: 0 16px;
     border-right: 1px solid var(--xz-line);
 }
 
-.product-summary__facts div:first-child {
+.product-summary__facts div:nth-child(3n + 1) {
     padding-left: 0;
 }
 
-.product-summary__facts div:last-child {
+.product-summary__facts div:nth-child(3n) {
     padding-right: 0;
     border-right: 0;
+}
+
+.product-summary__facts div:nth-child(n + 4) {
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid var(--xz-line);
 }
 
 .product-summary__facts dt {
@@ -732,7 +739,9 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 16px;
+        margin-top: 0;
         padding: 13px 0;
+        border-top: 0;
         border-right: 0;
         border-bottom: 1px solid var(--xz-line);
     }
