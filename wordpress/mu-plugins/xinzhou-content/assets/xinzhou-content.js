@@ -556,21 +556,23 @@
             var startX = 0;
             var startScrollLeft = 0;
             var suppressTimer = null;
+            var activePointerId = null;
 
             tabList.addEventListener("pointerdown", function (event) {
                 if (event.pointerType === "mouse" && event.button !== 0) return;
                 dragging = true;
                 hasDragged = false;
+                activePointerId = event.pointerId;
                 startX = event.clientX;
                 startScrollLeft = tabList.scrollLeft;
                 tabList.classList.add("is-dragging");
-                tabList.setPointerCapture(event.pointerId);
             });
 
             tabList.addEventListener("pointermove", function (event) {
-                if (!dragging) return;
+                if (!dragging || event.pointerId !== activePointerId) return;
                 var delta = event.clientX - startX;
                 if (Math.abs(delta) > 6) {
+                    if (!hasDragged) tabList.setPointerCapture(event.pointerId);
                     hasDragged = true;
                     event.preventDefault();
                 }
@@ -578,7 +580,7 @@
             });
 
             function endDrag(event) {
-                if (!dragging) return;
+                if (!dragging || event.pointerId !== activePointerId) return;
                 dragging = false;
                 tabList.classList.remove("is-dragging");
                 if (tabList.hasPointerCapture(event.pointerId)) tabList.releasePointerCapture(event.pointerId);
@@ -587,6 +589,7 @@
                     window.clearTimeout(suppressTimer);
                     suppressTimer = window.setTimeout(function () { suppressClick = false; }, 180);
                 }
+                activePointerId = null;
             }
 
             tabList.addEventListener("pointerup", endDrag);
@@ -594,6 +597,7 @@
             tabList.addEventListener("mouseleave", function () {
                 dragging = false;
                 hasDragged = false;
+                activePointerId = null;
                 tabList.classList.remove("is-dragging");
             });
         }
