@@ -30,10 +30,12 @@ final class Product_Archive_Grid_Widget extends Product_Archive_Widget_Base {
         $object = get_queried_object();
         $term_id = $object instanceof \WP_Term && $object->taxonomy === 'product_category' ? (int) $object->term_id : 0;
         $page = max(1, get_query_var('paged'));
-        $query = new \WP_Query(\xz_product_archive_query_args($page, 9, $term_id));
+        $desktop_page_size = 12;
+        $mobile_page_size = 4;
+        $query = new \WP_Query(\xz_product_archive_query_args($page, $desktop_page_size, $term_id));
         $show_label = ($s['show_label'] ?? '') === 'yes';
         ?>
-        <section class="product-archive" aria-labelledby="product-archive-title" data-xz-product-archive data-term-id="<?php echo esc_attr((string) $term_id); ?>" data-show-label="<?php echo $show_label ? '1' : '0'; ?>"><div class="xz-container"><div class="product-archive__head"><h2 id="product-archive-title"><?php echo esc_html((string) ($s['title'] ?? 'Machines in This Category')); ?></h2></div><div class="product-archive__grid" data-products-grid data-xz-ajax-grid data-page-size="9" data-page-size-mobile="4" aria-live="polite">
+        <section class="product-archive" aria-labelledby="product-archive-title" data-xz-product-archive data-term-id="<?php echo esc_attr((string) $term_id); ?>" data-show-label="<?php echo $show_label ? '1' : '0'; ?>"><div class="xz-container"><div class="product-archive__head"><h2 id="product-archive-title"><?php echo esc_html((string) ($s['title'] ?? 'Machines in This Category')); ?></h2></div><div class="product-archive__grid" data-products-grid data-xz-ajax-grid data-page-size="<?php echo esc_attr((string) $desktop_page_size); ?>" data-page-size-mobile="<?php echo esc_attr((string) $mobile_page_size); ?>" aria-live="polite">
             <?php foreach ($query->posts as $post) { echo \xz_render_product_archive_card($post, $show_label); } ?>
         </div>
         <nav class="product-pagination" aria-label="Product pages" data-product-pagination><?php if ($query->max_num_pages > 1) { echo wp_kses_post(paginate_links(['total' => $query->max_num_pages, 'current' => $page, 'prev_text' => '&lsaquo;', 'next_text' => '&rsaquo;'])); } ?></nav>

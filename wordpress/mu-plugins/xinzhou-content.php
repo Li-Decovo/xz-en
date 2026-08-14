@@ -273,7 +273,7 @@ function xz_render_news_archive_card(WP_Post $post, string $link_text = 'Read Mo
 
 function xz_ajax_product_archive(): void {
     $page = max(1, absint($_POST['page'] ?? 1));
-    $per_page = max(1, min(24, absint($_POST['perPage'] ?? 9)));
+    $per_page = max(1, min(24, absint($_POST['perPage'] ?? 12)));
     $term_id = absint($_POST['termId'] ?? 0);
     $show_label = !empty($_POST['showLabel']);
     $query = new WP_Query(xz_product_archive_query_args($page, $per_page, $term_id));

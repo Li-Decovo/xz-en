@@ -213,7 +213,7 @@
         var cards = Array.from(grid.querySelectorAll("[data-product-card]"));
         if (!cards.length) return;
 
-        var desktopPageSize = Math.max(1, parseInt(grid.dataset.pageSize || "9", 10));
+        var desktopPageSize = Math.max(1, parseInt(grid.dataset.pageSize || "12", 10));
         var mobilePageSize = Math.max(1, parseInt(grid.dataset.pageSizeMobile || "3", 10));
         var currentPage = 1;
         var currentPageSize = desktopPageSize;
@@ -358,7 +358,7 @@
         var pagination = archive.querySelector("[data-product-pagination]");
         if (!grid || !pagination || !window.XinzhouContent || !XinzhouContent.ajaxUrl) return;
 
-        var desktopPageSize = Math.max(1, parseInt(grid.dataset.pageSize || "9", 10));
+        var desktopPageSize = Math.max(1, parseInt(grid.dataset.pageSize || "12", 10));
         var mobilePageSize = Math.max(1, parseInt(grid.dataset.pageSizeMobile || "4", 10));
         var currentPage = 1;
         var currentPageSize = window.innerWidth <= 640 ? mobilePageSize : desktopPageSize;
