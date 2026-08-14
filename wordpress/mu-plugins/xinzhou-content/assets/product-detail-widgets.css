@@ -865,14 +865,16 @@
     font-family: inherit;
 }
 .xz-product-detail-page .product-tabs__list button:hover,
-.xz-product-detail-page .product-tabs__list button:focus-visible {
+.xz-product-detail-page .product-tabs__list button:focus,
+.xz-product-detail-page .product-tabs__list button:focus-visible,
+.xz-product-detail-page .product-tabs__list button:active {
     background: transparent !important;
-    color: var(--xz-red);
+    color: var(--xz-red) !important;
 }
 .xz-product-detail-page .product-tabs__list button.is-active {
     background: transparent !important;
     border-bottom-color: var(--xz-red);
-    color: var(--xz-red);
+    color: var(--xz-red) !important;
 }
 .xz-product-detail-page .product-overview-description > :first-child { margin-top: 0; }
 .xz-product-detail-page .product-overview-description > :last-child { margin-bottom: 0; }
