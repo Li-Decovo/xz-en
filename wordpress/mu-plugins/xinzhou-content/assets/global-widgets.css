@@ -380,18 +380,18 @@
 }
 
 .xz-inquiry-popup__label .elementor-heading-title {
-    color: #ff7b4f;
-    font-size: 11px;
-    font-weight: 800;
-    line-height: 1;
-    text-transform: uppercase;
+    color: #ff7b4f !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    line-height: 1 !important;
+    text-transform: uppercase !important;
 }
 
 .xz-inquiry-popup__title .elementor-heading-title {
-    color: #fff;
-    font-size: 30px;
-    font-weight: 800;
-    line-height: 1.15;
+    color: #fff !important;
+    font-size: 30px !important;
+    font-weight: 800 !important;
+    line-height: 1.15 !important;
 }
 
 .xz-inquiry-popup__form .ff_screen_reader_title {
@@ -406,7 +406,7 @@
     border: 0 !important;
 }
 
-.xz-inquiry-popup__form fieldset {
+.xz-inquiry-popup__form .fluentform form fieldset {
     display: grid !important;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     column-gap: 18px;
@@ -419,21 +419,25 @@
     gap: 18px !important;
 }
 
-.xz-inquiry-popup__form .ff-el-group {
+.xz-inquiry-popup__form .fluentform fieldset > .ff-el-group {
     min-width: 0;
     margin: 0 !important;
 }
 
-.xz-inquiry-popup__form .xz-form-full,
-.xz-inquiry-popup__form .ff_submit_btn_wrapper,
+.xz-inquiry-popup__form .fluentform fieldset > .xz-form-half {
+    grid-column: auto;
+}
+
+.xz-inquiry-popup__form .fluentform fieldset > .xz-form-full,
+.xz-inquiry-popup__form .fluentform fieldset > .ff_submit_btn_wrapper,
 .xz-inquiry-popup__form .ff-message-success,
 .xz-inquiry-popup__form .ff-errors-in-stack {
     grid-column: 1 / -1;
 }
 
-.xz-inquiry-popup__form .ff_submit_btn_wrapper {
-    display: flex;
-    justify-content: flex-end;
+.xz-inquiry-popup__form .fluentform fieldset > .ff_submit_btn_wrapper {
+    display: flex !important;
+    justify-content: flex-end !important;
     margin: 6px 0 0 !important;
 }
 
@@ -477,7 +481,7 @@
     outline-offset: -1px;
 }
 
-.xz-inquiry-popup__form .ff-btn-submit {
+.xz-inquiry-popup__form .fluentform .ff-btn-submit {
     display: inline-flex !important;
     min-width: 197px;
     min-height: 52px;
@@ -494,13 +498,13 @@
     text-transform: uppercase;
 }
 
-.xz-inquiry-popup__form .ff-btn-submit::before {
+.xz-inquiry-popup__form .fluentform .ff-btn-submit::before {
     content: "Prepare Inquiry";
     font-size: 12px;
     line-height: 1;
 }
 
-.xz-inquiry-popup__form .ff-btn-submit::after {
+.xz-inquiry-popup__form .fluentform .ff-btn-submit::after {
     content: "";
     width: 17px;
     height: 17px;
@@ -508,11 +512,11 @@
     mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m22 2-7 20-4-9-9-4Z'/%3E%3Cpath d='M22 2 11 13'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 
-.xz-inquiry-popup__form .ff-btn-submit:hover {
+.xz-inquiry-popup__form .fluentform .ff-btn-submit:hover {
     background: #b9341a !important;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 479px) {
     .elementor-popup-modal:has(.xz-inquiry-popup) .dialog-widget-content {
         width: calc(100vw - 24px);
         max-height: calc(100vh - 24px);
@@ -541,17 +545,17 @@
         font-size: 25px;
     }
 
-    .xz-inquiry-popup__form fieldset,
+    .xz-inquiry-popup__form .fluentform form fieldset,
     .xz-inquiry-popup__form .ff-t-container {
         grid-template-columns: minmax(0, 1fr);
     }
 
-    .xz-inquiry-popup__form .ff_submit_btn_wrapper {
-        justify-content: stretch;
+    .xz-inquiry-popup__form .fluentform fieldset > .ff_submit_btn_wrapper {
+        justify-content: stretch !important;
     }
 
-    .xz-inquiry-popup__form .ff-btn-submit {
-        width: 100%;
+    .xz-inquiry-popup__form .fluentform .ff-btn-submit {
+        width: 100% !important;
     }
 }
 
