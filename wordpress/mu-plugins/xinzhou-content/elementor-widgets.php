@@ -166,6 +166,27 @@ final class Product_Categories_Widget extends Xinzhou_Widget {
 }
 
 final class Product_Category_Content_Widget extends Xinzhou_Widget {
+    private function remove_duplicate_leading_heading(string $content, string $title): string {
+        if ($content === '' || $title === '') {
+            return $content;
+        }
+
+        if (!preg_match('/^\s*<h([1-6])\b[^>]*>(.*?)<\/h\1>\s*/is', $content, $matches)) {
+            return $content;
+        }
+
+        $normalize = static function (string $value): string {
+            $value = html_entity_decode(wp_strip_all_tags($value), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+            return trim((string) preg_replace('/\s+/u', ' ', $value));
+        };
+
+        if (strcasecmp($normalize($matches[2]), $normalize($title)) !== 0) {
+            return $content;
+        }
+
+        return (string) substr($content, strlen($matches[0]));
+    }
+
     public function get_name(): string {
         return 'xinzhou-product-category-content';
     }
@@ -242,6 +263,9 @@ final class Product_Category_Content_Widget extends Xinzhou_Widget {
         }
         if (!$content && !$is_archive) {
             $content = (string) ($settings['fallback_content'] ?? '');
+        }
+        if ($content_type === 'detailed') {
+            $content = $this->remove_duplicate_leading_heading($content, $name);
         }
         ?>
         <?php if ($content_type === 'short') : ?>
