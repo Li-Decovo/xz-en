@@ -20,7 +20,6 @@ final class Product_Archive_Grid_Widget extends Product_Archive_Widget_Base {
 
     protected function register_controls(): void {
         $this->start_controls_section('content', ['label' => 'Content']);
-        $this->add_control('title', ['label' => 'Title', 'type' => Controls_Manager::TEXT, 'default' => 'Machines in This Category']);
         $this->add_control('show_label', ['label' => 'Show Card Label', 'type' => Controls_Manager::SWITCHER, 'return_value' => 'yes', 'default' => 'yes']);
         $this->end_controls_section();
     }
@@ -33,9 +32,15 @@ final class Product_Archive_Grid_Widget extends Product_Archive_Widget_Base {
         $desktop_page_size = 12;
         $mobile_page_size = 4;
         $query = new \WP_Query(\xz_product_archive_query_args($page, $desktop_page_size, $term_id));
+        $archive_title = $object instanceof \WP_Term && $object->taxonomy === 'product_category' ? $object->name : '';
+        if ($archive_title === '' && $query->posts) {
+            $primary_term = \xz_product_primary_term((int) $query->posts[0]->ID);
+            $archive_title = $primary_term ? $primary_term->name : '';
+        }
+        if ($archive_title === '') { $archive_title = 'Products'; }
         $show_label = ($s['show_label'] ?? '') === 'yes';
         ?>
-        <section class="product-archive" aria-labelledby="product-archive-title" data-xz-product-archive data-term-id="<?php echo esc_attr((string) $term_id); ?>" data-show-label="<?php echo $show_label ? '1' : '0'; ?>"><div class="xz-container"><div class="product-archive__head"><h2 id="product-archive-title"><?php echo esc_html((string) ($s['title'] ?? 'Machines in This Category')); ?></h2></div><div class="product-archive__grid" data-products-grid data-xz-ajax-grid data-page-size="<?php echo esc_attr((string) $desktop_page_size); ?>" data-page-size-mobile="<?php echo esc_attr((string) $mobile_page_size); ?>" aria-live="polite">
+        <section class="product-archive" aria-labelledby="product-archive-title" data-xz-product-archive data-term-id="<?php echo esc_attr((string) $term_id); ?>" data-show-label="<?php echo $show_label ? '1' : '0'; ?>"><div class="xz-container"><div class="product-archive__head"><h2 id="product-archive-title"><?php echo esc_html($archive_title); ?></h2></div><div class="product-archive__grid" data-products-grid data-xz-ajax-grid data-page-size="<?php echo esc_attr((string) $desktop_page_size); ?>" data-page-size-mobile="<?php echo esc_attr((string) $mobile_page_size); ?>" aria-live="polite">
             <?php foreach ($query->posts as $post) { echo \xz_render_product_archive_card($post, $show_label); } ?>
         </div>
         <nav class="product-pagination" aria-label="Product pages" data-product-pagination><?php if ($query->max_num_pages > 1) { echo wp_kses_post(paginate_links(['total' => $query->max_num_pages, 'current' => $page, 'prev_text' => '&lsaquo;', 'next_text' => '&rsaquo;'])); } ?></nav>

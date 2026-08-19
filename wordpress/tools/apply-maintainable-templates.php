@@ -53,7 +53,6 @@ $product_archive = [
             'fallback_content' => '<p>As manufacturers pursue higher output, more consistent weld quality and lower dependence on manual handling, automated resistance welding has become central to modern metal-product production. Xinzhou designs and manufactures standalone welding machines and complete production lines for steel grating, reinforcing mesh, IBC tank cages, lattice girders, wire mesh cable trays, 3D fence panels and customized applications. Each solution combines welding process knowledge, mechanical engineering, automation and material-flow planning around the finished product, target capacity and factory conditions.</p>',
         ]),
         xz_el_widget('xpa00004', 'xinzhou-product-archive-grid', [
-            'title' => 'Machines in This Category',
             'show_label' => 'yes',
         ]),
         xz_el_widget('xpa00005', 'xinzhou-product-category-content', [

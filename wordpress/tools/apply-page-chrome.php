@@ -70,8 +70,6 @@ $header_settings = [
     'linkedin' => ['url' => 'https://www.linkedin.com/'],
     'facebook' => ['url' => 'https://www.facebook.com/'],
     'tiktok' => ['url' => 'https://www.tiktok.com/@xinzhouwelder'],
-    'mega_cta_title' => 'Discuss Your Project',
-    'mega_cta_copy' => 'Share your product, output and factory requirements with Xinzhou.',
 ];
 
 $footer_settings = [
