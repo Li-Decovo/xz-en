@@ -32,12 +32,9 @@ final class Product_Archive_Grid_Widget extends Product_Archive_Widget_Base {
         $desktop_page_size = 12;
         $mobile_page_size = 4;
         $query = new \WP_Query(\xz_product_archive_query_args($page, $desktop_page_size, $term_id));
-        $archive_title = $object instanceof \WP_Term && $object->taxonomy === 'product_category' ? $object->name : '';
-        if ($archive_title === '' && $query->posts) {
-            $primary_term = \xz_product_primary_term((int) $query->posts[0]->ID);
-            $archive_title = $primary_term ? $primary_term->name : '';
-        }
-        if ($archive_title === '') { $archive_title = 'Products'; }
+        $archive_title = $object instanceof \WP_Term && $object->taxonomy === 'product_category'
+            ? $object->name
+            : 'All Products';
         $show_label = ($s['show_label'] ?? '') === 'yes';
         ?>
         <section class="product-archive" aria-labelledby="product-archive-title" data-xz-product-archive data-term-id="<?php echo esc_attr((string) $term_id); ?>" data-show-label="<?php echo $show_label ? '1' : '0'; ?>"><div class="xz-container"><div class="product-archive__head"><h2 id="product-archive-title"><?php echo esc_html($archive_title); ?></h2></div><div class="product-archive__grid" data-products-grid data-xz-ajax-grid data-page-size="<?php echo esc_attr((string) $desktop_page_size); ?>" data-page-size-mobile="<?php echo esc_attr((string) $mobile_page_size); ?>" aria-live="polite">
