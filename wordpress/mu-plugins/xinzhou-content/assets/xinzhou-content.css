@@ -85,6 +85,15 @@
     transition: transform 0.55s ease;
 }
 
+.xz-home-split__media {
+    height: 360px;
+    min-height: 360px;
+}
+
+.xz-home-split__media img {
+    min-height: 360px;
+}
+
 .xz-home-story__media img {
     position: absolute !important;
     top: 0;
@@ -838,6 +847,7 @@
 
     .xz-home-split__media,
     .xz-home-story__media {
+        height: auto;
         min-height: 0;
         aspect-ratio: 4 / 3;
     }
