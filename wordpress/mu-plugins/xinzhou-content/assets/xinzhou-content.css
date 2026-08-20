@@ -86,12 +86,12 @@
 }
 
 .xz-home-split__media {
-    height: 390px;
-    min-height: 390px;
+    height: clamp(430px, 27.6vw, 530px);
+    min-height: 430px;
 }
 
 .xz-home-split__media img {
-    min-height: 390px;
+    min-height: 100%;
 }
 
 .xz-home-story__media img {
