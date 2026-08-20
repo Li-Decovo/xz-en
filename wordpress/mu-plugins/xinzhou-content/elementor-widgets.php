@@ -120,6 +120,10 @@ final class Product_Categories_Widget extends Xinzhou_Widget {
     }
 
     protected function render(): void {
+        if (is_post_type_archive('product')) {
+            return;
+        }
+
         $settings = $this->get_settings_for_display();
         $term_args = [
             'taxonomy' => 'product_category',
