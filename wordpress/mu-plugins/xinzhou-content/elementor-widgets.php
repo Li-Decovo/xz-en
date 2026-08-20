@@ -120,7 +120,8 @@ final class Product_Categories_Widget extends Xinzhou_Widget {
     }
 
     protected function render(): void {
-        if (is_post_type_archive('product')) {
+        $homepage_layout = is_front_page() || (int) get_queried_object_id() === 19;
+        if (!$homepage_layout) {
             return;
         }
 
@@ -148,7 +149,6 @@ final class Product_Categories_Widget extends Xinzhou_Widget {
         });
 
         $current = is_tax('product_category') ? current_product_term() : null;
-        $homepage_layout = is_front_page() || (int) get_queried_object_id() === 19;
         ?>
         <?php $archive_layout = !$homepage_layout; ?>
         <<?php echo $archive_layout ? 'section' : 'nav'; ?> class="<?php echo $archive_layout ? 'product-category-nav xz-simple-carousel is-carousel' : 'xz-product-category-nav xz-product-category-nav--homepage xz-simple-carousel is-carousel'; ?>" data-xz-simple-carousel data-visible="<?php echo $archive_layout ? '7' : '7'; ?>" data-visible-tablet="5" data-visible-mobile="2" aria-label="Product categories">
