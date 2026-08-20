@@ -299,6 +299,7 @@ HTML,
 HTML,
     ],
     'fence-panel' => [
+        'name' => '3D Fence Panel Lines',
         'archive_title' => '3D Fence Panel Production Lines',
         'detailed_title' => 'Automated 3D Fence Panel Welding Lines for Security Mesh Manufacturing',
         'short' => <<<'HTML'
@@ -430,9 +431,13 @@ foreach ($categories as $slug => $content) {
     update_field('category_short_description', $content['short'], $context);
     update_field('category_detailed_title', $content['detailed_title'], $context);
     update_field('category_long_description', $content['long'], $context);
-    wp_update_term($term->term_id, 'product_category', [
+    $term_updates = [
         'description' => wp_strip_all_tags($content['short']),
-    ]);
+    ];
+    if (!empty($content['name'])) {
+        $term_updates['name'] = $content['name'];
+    }
+    wp_update_term($term->term_id, 'product_category', $term_updates);
 }
 
 $generic_short = <<<'HTML'
