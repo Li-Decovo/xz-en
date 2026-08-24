@@ -242,6 +242,32 @@ final class Product_Category_Content_Widget extends Xinzhou_Widget {
             'default' => 'Automated resistance welding machines and complete production lines engineered around real manufacturing requirements.',
         ]);
         $this->end_controls_section();
+
+        $this->start_controls_section('inquiry_sidebar', [
+            'label' => 'Inquiry Sidebar',
+            'condition' => ['content_type' => 'detailed'],
+        ]);
+        $this->add_control('inquiry_label', [
+            'label' => 'Label',
+            'type' => Controls_Manager::TEXT,
+            'default' => 'Project Inquiry',
+        ]);
+        $this->add_control('inquiry_title', [
+            'label' => 'Title',
+            'type' => Controls_Manager::TEXT,
+            'default' => 'Plan Your Production Line',
+        ]);
+        $this->add_control('inquiry_copy', [
+            'label' => 'Description',
+            'type' => Controls_Manager::TEXTAREA,
+            'default' => 'Share your finished product, material specifications, target output and factory layout. Xinzhou will prepare a practical equipment proposal.',
+        ]);
+        $this->add_control('inquiry_button', [
+            'label' => 'Button Text',
+            'type' => Controls_Manager::TEXT,
+            'default' => 'Get a Line Proposal',
+        ]);
+        $this->end_controls_section();
     }
 
     protected function render(): void {
@@ -281,7 +307,15 @@ final class Product_Category_Content_Widget extends Xinzhou_Widget {
         <?php else : ?>
             <section class="product-category-detail" aria-labelledby="category-detail-title"><div class="xz-container product-category-detail__grid">
                 <div><?php if (!empty($settings['eyebrow'])) : ?><p class="products-eyebrow"><?php echo esc_html($settings['eyebrow']); ?></p><?php endif; ?><?php if ($name) : ?><h2 id="category-detail-title"><?php echo esc_html($name); ?></h2><?php endif; ?></div>
-                <?php if ($content) : ?><div class="product-category-detail__copy"><?php echo wp_kses_post(wpautop($content)); ?></div><?php endif; ?>
+                <div class="product-category-detail__body">
+                    <?php if ($content) : ?><div class="product-category-detail__copy"><?php echo wp_kses_post(wpautop($content)); ?></div><?php endif; ?>
+                    <aside class="product-category-inquiry" aria-label="Product line inquiry">
+                        <?php if (!empty($settings['inquiry_label'])) : ?><p class="product-category-inquiry__label"><?php echo esc_html((string) $settings['inquiry_label']); ?></p><?php endif; ?>
+                        <?php if (!empty($settings['inquiry_title'])) : ?><h3><?php echo esc_html((string) $settings['inquiry_title']); ?></h3><?php endif; ?>
+                        <?php if (!empty($settings['inquiry_copy'])) : ?><p><?php echo esc_html((string) $settings['inquiry_copy']); ?></p><?php endif; ?>
+                        <a class="product-category-inquiry__button" href="#inquiry" data-inquiry-open><?php echo esc_html((string) ($settings['inquiry_button'] ?? 'Get a Line Proposal')); ?><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></a>
+                    </aside>
+                </div>
             </div></section>
         <?php endif; ?>
         <?php
