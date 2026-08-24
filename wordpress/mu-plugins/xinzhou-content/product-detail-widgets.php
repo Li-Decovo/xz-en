@@ -54,7 +54,6 @@ final class Product_Detail_Hero_Widget extends Product_Detail_Widget_Base {
             </div>
             <div class="product-summary">
                 <nav class="product-breadcrumb" aria-label="Breadcrumb"><a href="<?php echo esc_url(home_url('/')); ?>">Home</a><span>/</span><a href="<?php echo esc_url(get_post_type_archive_link('product')); ?>">Products</a><?php if ($term) : ?><span>/</span><a href="<?php echo esc_url(get_term_link($term)); ?>"><?php echo esc_html($category_title); ?></a><?php endif; ?></nav>
-                <?php if ($category_title) : ?><p class="product-summary__category"><?php echo esc_html($category_title); ?></p><?php endif; ?>
                 <h1 id="product-title"><?php echo esc_html(get_the_title($post_id)); ?></h1>
                 <?php if ($description) : ?><div class="product-summary__description"><?php echo wp_kses_post($description); ?></div><?php endif; ?>
                 <?php if ($parameters) : ?><dl class="product-summary__facts"><?php foreach ($parameters as $parameter) : ?><div><dt><?php echo esc_html($parameter['product_parameter_label'] ?? ''); ?></dt><dd><?php echo wp_kses_post((string) ($parameter['product_parameter_value'] ?? '')); ?></dd></div><?php endforeach; ?></dl><?php endif; ?>
