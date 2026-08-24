@@ -72,14 +72,16 @@ final class Product_Detail_Information_Widget extends Product_Detail_Widget_Base
     public function get_icon(): string { return 'eicon-tabs'; }
 
     protected function register_controls(): void {
-        $this->start_controls_section('head', ['label' => 'Heading']);
-        $this->add_control('eyebrow', ['label' => 'Section Label', 'type' => Controls_Manager::TEXT, 'default' => 'Product Information']);
-        $this->add_control('title', ['label' => 'Title', 'type' => Controls_Manager::TEXT, 'default' => 'Engineering Details']);
-        $this->end_controls_section();
         $this->start_controls_section('tabs', ['label' => 'Tab Labels']);
         foreach (['overview_label' => 'Overview', 'specifications_label' => 'Technical Specifications', 'finished_label' => 'Finished Products', 'workflow_label' => 'Configuration & Workflow', 'faq_label' => 'FAQ'] as $key => $label) {
             $this->add_control($key, ['label' => $label, 'type' => Controls_Manager::TEXT, 'default' => $label]);
         }
+        $this->end_controls_section();
+        $this->start_controls_section('inquiry', ['label' => 'Inquiry Sidebar']);
+        $this->add_control('inquiry_label', ['label' => 'Label', 'type' => Controls_Manager::TEXT, 'default' => 'Project Inquiry']);
+        $this->add_control('inquiry_title', ['label' => 'Title', 'type' => Controls_Manager::TEXT, 'default' => 'Plan Your Production Line']);
+        $this->add_control('inquiry_copy', ['label' => 'Description', 'type' => Controls_Manager::TEXTAREA, 'default' => 'Share your finished product, material specifications, target output and factory layout. Xinzhou will prepare a practical equipment proposal.']);
+        $this->add_control('inquiry_button', ['label' => 'Button Text', 'type' => Controls_Manager::TEXT, 'default' => 'Get a Line Proposal']);
         $this->end_controls_section();
         $this->start_controls_section('workflow', ['label' => 'Configuration & Workflow']);
         $this->add_control('workflow_content', [
@@ -114,9 +116,8 @@ final class Product_Detail_Information_Widget extends Product_Detail_Widget_Base
         ]);
         if (!$tabs) { return; }
         ?>
-        <section class="product-information" id="product-information" aria-labelledby="product-information-title"><div class="xz-container">
-            <div class="product-information__head"><?php if (!empty($s['eyebrow'])) : ?><p class="product-detail-eyebrow"><?php echo esc_html((string) $s['eyebrow']); ?></p><?php endif; ?><h2 id="product-information-title"><?php echo esc_html((string) ($s['title'] ?? 'Engineering Details')); ?></h2></div>
-            <div class="product-tabs" data-xz-product-tabs><div class="product-tabs__list" role="tablist" aria-label="Product information tabs">
+        <section class="product-information" id="product-information" aria-label="Product information"><div class="xz-container product-information__layout">
+            <div class="product-information__main"><div class="product-tabs" data-xz-product-tabs><div class="product-tabs__list" role="tablist" aria-label="Product information tabs">
                 <?php $index = 0; foreach ($tabs as $key => $label) : ?><button class="<?php echo $index === 0 ? 'is-active' : ''; ?>" type="button" role="tab" aria-selected="<?php echo $index === 0 ? 'true' : 'false'; ?>" aria-controls="tab-<?php echo esc_attr($key); ?>" id="tab-button-<?php echo esc_attr($key); ?>" data-xz-tab="<?php echo esc_attr($key); ?>"><?php echo esc_html($label); ?></button><?php $index++; endforeach; ?>
             </div>
             <?php $index = 0; foreach ($tabs as $key => $label) : ?><div class="product-tabs__panel<?php echo $index === 0 ? ' is-active' : ''; ?>" id="tab-<?php echo esc_attr($key); ?>" role="tabpanel" aria-labelledby="tab-button-<?php echo esc_attr($key); ?>" data-xz-tab-panel="<?php echo esc_attr($key); ?>"<?php echo $index === 0 ? '' : ' hidden'; ?>>
@@ -125,7 +126,13 @@ final class Product_Detail_Information_Widget extends Product_Detail_Widget_Base
                 <?php elseif ($key === 'finished-products') : ?><div class="finished-products-grid"><?php foreach ($finished as $image_id) : ?><figure><?php echo wp_get_attachment_image($image_id, 'large'); ?><figcaption><?php echo esc_html(\xz_attachment_display_title($image_id)); ?></figcaption></figure><?php endforeach; ?></div>
                 <?php elseif ($key === 'workflow') : ?><div class="product-workflow-content"><?php echo wp_kses_post($workflow); ?></div>
                 <?php elseif ($key === 'faq') : ?><div class="product-faq"><?php foreach ($faq as $faq_index => $item) : ?><details<?php echo $faq_index === 0 ? ' open' : ''; ?>><summary><?php echo esc_html($item['faq_question'] ?? ''); ?></summary><div class="product-faq__answer"><?php echo wp_kses_post((string) ($item['faq_answer'] ?? '')); ?></div></details><?php endforeach; ?></div><?php endif; ?>
-            </div><?php $index++; endforeach; ?></div>
+            </div><?php $index++; endforeach; ?></div></div>
+            <aside class="product-information__inquiry" aria-label="Project inquiry">
+                <?php if (!empty($s['inquiry_label'])) : ?><p class="product-information__inquiry-label"><?php echo esc_html((string) $s['inquiry_label']); ?></p><?php endif; ?>
+                <?php if (!empty($s['inquiry_title'])) : ?><h2><?php echo esc_html((string) $s['inquiry_title']); ?></h2><?php endif; ?>
+                <?php if (!empty($s['inquiry_copy'])) : ?><p class="product-information__inquiry-copy"><?php echo esc_html((string) $s['inquiry_copy']); ?></p><?php endif; ?>
+                <button class="product-information__inquiry-button" type="button" data-inquiry-open><?php echo esc_html((string) ($s['inquiry_button'] ?? 'Get a Line Proposal')); ?><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+            </aside>
         </div></section>
         <?php
     }
