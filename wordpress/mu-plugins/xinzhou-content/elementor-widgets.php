@@ -313,7 +313,7 @@ final class Product_Category_Content_Widget extends Xinzhou_Widget {
                         <?php if (!empty($settings['inquiry_label'])) : ?><p class="product-category-inquiry__label"><?php echo esc_html((string) $settings['inquiry_label']); ?></p><?php endif; ?>
                         <?php if (!empty($settings['inquiry_title'])) : ?><h3><?php echo esc_html((string) $settings['inquiry_title']); ?></h3><?php endif; ?>
                         <?php if (!empty($settings['inquiry_copy'])) : ?><p><?php echo esc_html((string) $settings['inquiry_copy']); ?></p><?php endif; ?>
-                        <a class="product-category-inquiry__button" href="#inquiry" data-inquiry-open><?php echo esc_html((string) ($settings['inquiry_button'] ?? 'Get a Line Proposal')); ?><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></a>
+                        <button class="product-category-inquiry__button" type="button" data-inquiry-open><?php echo esc_html((string) ($settings['inquiry_button'] ?? 'Get a Line Proposal')); ?><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
                     </aside>
                 </div>
             </div></section>
