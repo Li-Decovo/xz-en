@@ -187,16 +187,6 @@
     transform: scale(1.18);
 }
 
-.product-archive-card:hover img,
-.product-archive-card a:focus-visible img {
-    transform: scale(1.035);
-}
-
-.product-archive-card:hover img.product-archive-card__image--zoom,
-.product-archive-card a:focus-visible img.product-archive-card__image--zoom {
-    transform: scale(1.23);
-}
-
 .product-archive-card figure span {
     position: absolute;
     top: 14px;
