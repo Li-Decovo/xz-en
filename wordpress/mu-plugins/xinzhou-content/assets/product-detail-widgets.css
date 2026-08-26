@@ -495,8 +495,7 @@
     overflow-x: auto;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
-    background: var(--xz-white);
-    border: 1px solid var(--xz-line);
+    background: transparent;
 }
 
 .product-specifications__table-wrap::-webkit-scrollbar {
@@ -506,7 +505,9 @@
 .product-specifications table {
     width: 100%;
     min-width: 920px;
+    border: 1px solid var(--xz-line);
     border-collapse: collapse;
+    background: var(--xz-white);
 }
 
 .product-specifications table p {
@@ -735,7 +736,7 @@
     color: var(--xz-white);
     font-size: 11px;
     font-weight: 800;
-    text-transform: uppercase;
+    text-transform: none;
 }
 
 .related-products__grid h3 {
