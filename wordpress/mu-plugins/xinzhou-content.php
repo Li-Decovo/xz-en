@@ -233,6 +233,33 @@ function xz_media_image($media, string $size = 'full', array $attributes = []): 
 function xz_render_product_archive_card(WP_Post $post, bool $show_label = true): string {
     $term = xz_product_primary_term($post->ID);
     $label = $term ? $term->name : '';
+    $card_finished_image = function_exists('get_field') ? xz_acf_image_id(get_field('product_card_finished_image', $post->ID)) : 0;
+    if ($card_finished_image) {
+        $finished_products = array_slice(xz_product_finished_image_ids($post->ID), 0, 3);
+        ob_start();
+        ?>
+        <article class="product-archive-card product-archive-card--feature" data-product-card>
+            <a href="<?php echo esc_url(get_permalink($post)); ?>">
+                <div class="product-feature-card__top">
+                    <div class="product-feature-card__copy">
+                        <h3><?php echo esc_html(get_the_title($post)); ?></h3>
+                        <?php if ($finished_products) : ?>
+                            <ul>
+                                <?php foreach ($finished_products as $finished_product) : ?>
+                                    <li><?php echo esc_html(xz_attachment_display_title($finished_product)); ?></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        <?php endif; ?>
+                        <span class="product-feature-card__button">View Details <span aria-hidden="true">&#8594;</span></span>
+                    </div>
+                    <figure class="product-feature-card__finished"><?php echo wp_get_attachment_image($card_finished_image, 'medium_large', false, ['loading' => 'lazy']); ?></figure>
+                </div>
+                <figure class="product-feature-card__machine"><?php echo get_the_post_thumbnail($post, 'large', ['loading' => 'lazy']); ?></figure>
+            </a>
+        </article>
+        <?php
+        return (string) ob_get_clean();
+    }
     ob_start();
     ?>
     <article class="product-archive-card" data-product-card><a href="<?php echo esc_url(get_permalink($post)); ?>"><figure><?php echo get_the_post_thumbnail($post, 'large', ['loading' => 'lazy']); ?><?php if ($show_label && $label) : ?><span><?php echo esc_html($label); ?></span><?php endif; ?></figure><h3><?php echo esc_html(get_the_title($post)); ?></h3></a></article>
